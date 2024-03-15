@@ -81,7 +81,7 @@
         label {
             font-weight: bold;
         }
-        input[type="text"] {
+        input[type="text"], .textarea-wrapper {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
@@ -91,13 +91,37 @@
             background-color: #f0f0f0;
             clear: both;
         }
-        .textarea {
+        .textarea-wrapper {
             position: fixed;
             left: 220px;
             bottom: 0px;
+            margin-bottom: 10px;
             width: calc(100% - 260px)!important;
             margin-left: 20px;
             resize: none;
+            appearance: none;
+            max-height: 120px;
+            overflow: hidden;
+            overflow-y: auto;
+            height: auto;
+            cursor: text;
+        }
+        .textarea-wrapper .textarea {
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            height: 100%;
+            width: 100%;
+            outline: none;
+            resize: none;
+            border: none;
+            border-radius: 0;
+            background-color: transparent;
+            margin-left: 1px;
+            appearance: none; /* For Chrome and Edge */
+            -moz-appearance: none; /* For Firefox */
+            -webkit-appearance: none;
         }
         button {
             padding: 10px 20px;
@@ -129,7 +153,7 @@
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
         }
-        .dark-mode input {
+        .dark-mode input, .dark-mode .textarea-wrapper, .dark-mode .textarea-wrapper textarea {
             background-color: #333;
             color: #eee;
         }
@@ -341,6 +365,8 @@
             background-color: #666;
             color: #eee;
         }
+
+
     </style>
 </head>
 <body class="dark-mode">
@@ -360,9 +386,9 @@
     <div class="container">
         <h2>InstantChat</h2>
         <div id="chat" aria-live="assertive"></div>
-        <form id="chatForm">
-            <input class="textarea" type="text" id="message" name="message" placeholder="Enter your message"></input>
-        </form>
+        <div class="textarea-wrapper" onclick="document.getElementById('message').focus();">
+            <textarea class="textarea" type="text" id="message" name="message" placeholder="Enter your message" rows="1"></textarea>
+        </div>
         <!-- Light-Dark Switcher -->
         <div class="switch-container">
             <a id="themeSwitch" class="switch-label" aria-label="theme-switch">
@@ -378,14 +404,30 @@
         var messageHistory = [];
         const switchInput = document.getElementById('switch');
 
-        document.getElementById('chatForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var message = document.getElementById('message').value.trim();
-            if (message === '') return;
+        const tx = document.getElementsByTagName("textarea");
+            for (let i = 0; i < tx.length; i++) {
+                tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+                tx[i].addEventListener("input", OnInput, false);
+        }
 
-            sendMessage(message);
-            document.getElementById('message').value = '';
+        function OnInput() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + "px";
+        }
+
+        document.getElementById('message').addEventListener('keypress', function(event) {
+            if (event.code === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                var message = document.getElementById('message').value;
+                if (message === '') return;
+                sendMessage(message);
+                nxm = document.getElementById('message');
+                nxm.value = '';
+                nxm.style.height = 'auto';
+                nxm.style.height = (this.scrollHeight) + "px";
+            }
         });
+
         document.getElementById('toggleSidebar').addEventListener('click', function() {
             document.getElementById('chatListContainer').classList.toggle('collapsed');
         });
@@ -479,7 +521,42 @@
             messageDiv.classList.add('message');
             if (role === 'user') {
                 messageDiv.classList.add('user-message');
-                messageDiv.textContent = 'You: ' + message;
+                message = marked.parse(message).replaceAll("\n","<br>");
+                messageDiv.innerHTML = 'You: ' + message;
+                messageDiv.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightBlock(block);
+                    var lang = block.className.split(' ')[0];
+                    var title = document.createElement('div');
+                    title.classList.add('code-title');
+                    if (lang.toLowerCase() == "hljs") {
+                        lang = "plain";
+                    }
+                    title.textContent = lang.toLowerCase().replace("language-","");
+                    block.parentNode.insertBefore(title, block)
+                });
+                // Check if the message contains code blocks
+                var codeBlocks = messageDiv.querySelectorAll('pre code');
+                codeBlocks.forEach((block) => {
+                    // Create a copy button for each code block
+                    var copyButton = document.createElement('a');
+                    copyButton.classList.add('copy-button');
+                    copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>';
+                    copyButton.addEventListener('click', function() {
+                        copyToClipboard(block.innerText);
+                        showCopiedMessage(copyButton);
+                    });
+                    block.appendChild(copyButton, block.nextSibling);
+                });
+                var copyButton = document.createElement('a');
+                copyButton.textContent = 'Copy';
+                copyButton.classList.add('copy-button');
+                copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>'
+                copyButton.addEventListener('click', function() {
+                    // Copy message content in markdown format
+                    copyToClipboard(message);
+                    showCopiedMessage(copyButton);
+                });
+                messageDiv.appendChild(copyButton);
             } else if (role === 'assistant') {
                 messageDiv.classList.add('assistant-message');
                 // Parse markdown and highlight code
