@@ -1,707 +1,701 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Instant Chat</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <meta name="og:title" content="Instant Chat">
-    <meta name="og:description" content="A link only - free api - instant chat bot">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+    <meta name="og:title" content="Instant Chat" />
+    <meta name="og:description" content="A link only - free api - instant chat bot" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333; /* Default text color */
-            transition: background-color 0.3s, color 0.3s;
-            overflow: hidden;
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333; /* Default text color */
+        transition: background-color 0.3s, color 0.3s;
+        overflow: hidden;
+      }
+      #chatListContainer {
+        width: 200px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #333;
+        border-right: 1px solid #ccc;
+        padding: 10px;
+        transition: left 0.3s;
+        z-index: 999;
+        overflow-y: auto;
+        overflow-x: visible;
+        padding-bottom: 90px;
+        z-index: 3;
+      }
+      #chatListContainer::-webkit-scrollbar {
+        display: none;
+      }
+      #chatList {
+        list-style-type: none;
+        padding: 0;
+      }
+      #chatList li {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+        color: white;
+      }
+      #chatList li.active {
+        background-color: #555;
+      }
+      #chatList li:hover {
+        background-color: #444;
+      }
+      .container {
+        margin-left: 220px;
+        padding: 20px;
+        height: 100vh;
+        transition: margin-left 0.3s;
+      }
+      .message {
+        margin-bottom: 10px;
+        overflow: auto;
+        width: calc(100% - 20px);
+      }
+      .user-message {
+        background-color: #e6f2ff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        float: left;
+        clear: both;
+      }
+      .assistant-message {
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        border-radius: 5px;
+        float: right;
+        clear: both;
+      }
+      label {
+        font-weight: bold;
+      }
+      input[type="text"],
+      .textarea-wrapper {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #f0f0f0;
+        clear: both;
+      }
+      .textarea-wrapper {
+        position: fixed;
+        left: 220px;
+        bottom: 0px;
+        margin-bottom: 10px;
+        width: calc(100% - 260px) !important;
+        margin-left: 20px;
+        resize: none;
+        appearance: none;
+        max-height: 120px;
+        overflow: hidden;
+        overflow-y: auto;
+        height: auto;
+        cursor: text;
+      }
+      .textarea-wrapper .textarea {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        height: 100%;
+        width: 100%;
+        outline: none;
+        resize: none;
+        border: none;
+        border-radius: 0;
+        background-color: transparent;
+        margin-left: 1px;
+        appearance: none; /* For Chrome and Edge */
+        -moz-appearance: none; /* For Firefox */
+        -webkit-appearance: none;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: left;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      pre code {
+        display: block;
+        padding: 0.5em;
+        overflow-x: auto;
+        border-radius: 5px;
+        position: relative;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+      }
+      .code-title {
+        display: block;
+        background-color: #282c34;
+        color: #eee;
+        border-bottom: #eee 1px solid;
+        text-align: center;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .dark-mode input,
+      .dark-mode .textarea-wrapper,
+      .dark-mode .textarea-wrapper textarea {
+        background-color: #333;
+        color: #eee;
+      }
+      /* Dark mode styles */
+      .dark-mode body {
+        background-color: #333;
+        color: #fff;
+      }
+      .dark-mode .container {
+        background-color: #444;
+      }
+      .dark-mode .user-message {
+        background-color: #222;
+        color: #fff;
+      }
+      .dark-mode .assistant-message {
+        background-color: #555;
+        color: #fff;
+      }
+      .switch-container {
+        display: block;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+      }
+      #chat {
+        height: calc(100vh - 145px);
+        overflow: auto;
+        clear: both;
+      }
+      button {
+        width: 100%;
+      }
+      .dark-mode h2 {
+        color: #ccc;
+      }
+      /* Scrollbar Styles */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #333;
+        border-radius: 5px;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #666;
+        border-radius: 5px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #888;
+      }
+      .small {
+        position: absolute;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #eee;
+        border-radius: 5px;
+        padding: 2px;
+        font-size: 14px;
+      }
+      .copy-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+      }
+      .copied-message {
+        width: 200px;
+        text-align: center;
+        position: fixed;
+        bottom: 30px;
+        left: calc(50% - 100px);
+        background-color: #333;
+        color: #eee;
+        padding: 13px;
+        border-radius: 12px;
+      }
+      .dark-mode .copied-message {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #333;
+      }
+      .dark-mode #themeIcon {
+        color: #eee;
+      }
+      #chatListContainer.collapsed {
+        left: -220px;
+      }
+      #buttons {
+        transition: margin-left 0.3s;
+      }
+      #chatListContainer.collapsed #buttons {
+        margin-left: -220px;
+      }
+
+      #toggleSidebar {
+        position: fixed;
+        top: 10px;
+        right: 100vw; /* Initially hidden */
+        background-color: rgba(0, 0, 0, 0.3);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: right 0.3s;
+        z-index: -1;
+      }
+
+      #toggleSidebar:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .dark-mode #toggleSidebar {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+      .dark-mode #toggleSidebar:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Adjust padding for message content */
+      .message {
+        position: relative;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 99999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
+      .modal-content {
+        background-color: #3e3e3e;
+        margin: 5% auto;
+        padding: 20px;
+        padding-top: 8px;
+        border: none;
+        width: 60%;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      .close {
+        margin-top: -14px;
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      /* Show the toggle button only on small screens */
+      @media screen and (max-width: 768px) {
+        #toggleSidebar {
+          left: 200px;
+          right: 0px;
+          transition: margin-left 0.3s;
         }
-        #chatListContainer {
-            width: 200px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            background-color: #333;
-            border-right: 1px solid #ccc;
-            padding: 10px;
-            transition: left 0.3s;
-            z-index: 999;
-            overflow-y: auto;
-            overflow-x:visible;
-            padding-bottom: 90px;
-            z-index:3;
-        }
-        #chatListContainer::-webkit-scrollbar {
-            display: none;
-        }
-        #chatList {
-            list-style-type: none;
-            padding: 0;
-        }
-        #chatList li {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-            color: white;
-        }
-        #chatList li.active {
-            background-color: #555;
-        }
-        #chatList li:hover {
-            background-color: #444;
+        #chatListContainer.collapsed #toggleSidebar {
+          margin-left: -220px;
         }
         .container {
-            margin-left: 220px;
-            padding: 20px;
-            height: 100vh;
-            transition: margin-left 0.3s;
+          margin-left: 0px;
         }
-        .message {
-            margin-bottom: 10px;
-            overflow: auto;
-            width: calc(100% - 20px);
-        }
-        .user-message {
-            background-color: #e6f2ff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            float: left;
-            clear: both;
-        }
-        .assistant-message {
-            background-color: #f0f0f0;
-            padding: 5px 10px;
-            border-radius: 5px;
-            float: right;
-            clear: both;
-        }
-        label {
-            font-weight: bold;
-        }
-        input[type="text"], .textarea-wrapper {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: #f0f0f0;
-            clear: both;
-        }
-        .textarea-wrapper {
-            position: fixed;
-            left: 220px;
-            bottom: 0px;
-            margin-bottom: 10px;
-            width: calc(100% - 260px)!important;
-            margin-left: 20px;
-            resize: none;
-            appearance: none;
-            max-height: 120px;
-            overflow: hidden;
-            overflow-y: auto;
-            height: auto;
-            cursor: text;
-        }
-        .textarea-wrapper .textarea {
-            padding-top: 0;
-            padding-bottom: 0;
-            margin-top: 0;
-            margin-bottom: 0;
-            height: 100%;
-            width: 100%;
-            outline: none;
-            resize: none;
-            border: none;
-            border-radius: 0;
-            background-color: transparent;
-            margin-left: 1px;
-            appearance: none; /* For Chrome and Edge */
-            -moz-appearance: none; /* For Firefox */
-            -webkit-appearance: none;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            float: left;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        pre code {
-            display: block;
-            padding: 0.5em;
-            overflow-x: auto;
-            border-radius: 5px;
-            position: relative;
-            border-top-left-radius: 0px;
-            border-top-right-radius: 0px;
-        }
-        .code-title {
-            display: block;
-            background-color: #282c34;
-            color: #eee;
-            border-bottom: #eee 1px solid;
-            text-align: center;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-        }
-        .dark-mode input, .dark-mode .textarea-wrapper, .dark-mode .textarea-wrapper textarea {
-            background-color: #333;
-            color: #eee;
-        }
-        /* Dark mode styles */
-        .dark-mode body {
-            background-color: #333;
-            color: #fff;
-        }
-        .dark-mode .container {
-            background-color: #444;
-        }
-        .dark-mode .user-message {
-            background-color: #222;
-            color: #fff;
-        }
-        .dark-mode .assistant-message {
-            background-color: #555;
-            color: #fff;
-        }
-        .switch-container {
-            display: block;
-            position: fixed;
-            top: 10px;
-            right: 10px;
-        }
-        #chat {
-            height: calc(100vh - 145px);
-            overflow: auto;
-            clear: both;
-        }
-        button {
-            width: 100%;
-        }
-        .dark-mode h2{
-            color: #ccc;
-        }
-        /* Scrollbar Styles */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-            background: #333;
-            border-radius: 5px;
-        }
-
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: #666;
-            border-radius: 5px;
-        }
-
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-            background: #888;
-        }
-        .small {
-            position: absolute;
-            right: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #eee;
-            border-radius: 5px;
-            padding: 2px;
-            font-size: 14px;
-        }
-        .copy-button {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            cursor: pointer;
-        }
-        .copied-message {
-            width: 200px;
-            text-align: center;
-            position: fixed;
-            bottom: 30px;
-            left: calc(50% - 100px);
-            background-color: #333;
-            color: #eee;
-            padding: 13px;
-            border-radius: 12px;
-        }
-        .dark-mode .copied-message {
-            background-color: rgba(255, 255, 255, 0.8);
-            color: #333;
-
-        }
-        .dark-mode #themeIcon {
-            color: #eee;
-        }
-        #chatListContainer.collapsed {
-            left: -220px;
-        }
-        #buttons {
-            transition: margin-left 0.3s;
-        }
-        #chatListContainer.collapsed #buttons {
-            margin-left: -220px;
-        }
-
-        #toggleSidebar {
-            position: fixed;
-            top: 10px;
-            right: 100vw; /* Initially hidden */
-            background-color: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: right 0.3s;
-            z-index: -1;
-        }
-
-        #toggleSidebar:hover {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .dark-mode #toggleSidebar {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-        .dark-mode #toggleSidebar:hover {
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Adjust padding for message content */
-        .message {
-            position: relative;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 99999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
+        .textarea {
+          left: 0px;
+          width: calc(100% - 40px) !important;
         }
         .modal-content {
-            background-color: #3e3e3e;
-            margin: 5% auto;
-            padding: 20px;
-            padding-top: 8px;
-            border: none;
-            width: 60%;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+          width: 90%; /* Adjust width for smaller screens */
         }
-        .close {
-            margin-top: -14px;
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-    
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Show the toggle button only on small screens */
-        @media screen and (max-width: 768px) {
-            #toggleSidebar {
-                left:200px;
-                right: 0px;
-                transition: margin-left 0.3s;
-            }
-            #chatListContainer.collapsed #toggleSidebar {
-                margin-left: -220px;
-            }
-            .container {
-                margin-left: 0px;
-            }
-            .textarea {
-                left: 0px;
-                width: calc(100% - 40px)!important;
-            }
-            .modal-content {
-                width: 90%; /* Adjust width for smaller screens */
-            }
-
-        }
-        select {
-            background: none;
-            border: none;
-            font-family: Arial, sans-serif;
-            width: 200px;
-            margin-bottom: -8px;
-            font-size: 18px;
-            height: 40px;
-            text-align: center;
-            outline: none;
-            color: #eee;
-            display: grid;
-            appearance: none;
-            scroll-behavior: smooth;
-        }
-        select option {
-            background-color: #666;
-            color: #eee;
-        }
-
-
+      }
+      select {
+        background: none;
+        border: none;
+        font-family: Arial, sans-serif;
+        width: 200px;
+        margin-bottom: -8px;
+        font-size: 18px;
+        height: 40px;
+        text-align: center;
+        outline: none;
+        color: #eee;
+        display: grid;
+        appearance: none;
+        scroll-behavior: smooth;
+      }
+      select option {
+        background-color: #666;
+        color: #eee;
+      }
     </style>
-</head>
-<body class="dark-mode">
-    
+  </head>
+  <body class="dark-mode">
     <div id="chatListContainer">
-        <div style="position: relative; overflow: visible; height:0px;width:0px;top:0px;left:0px;">
-            <button id="toggleSidebar" class="collapsed" >
-                <i class="bi bi-list"></i>
-            </button>
-        </div>
-        <div style="background-color:#333; width: 100%; padding-right: 10px;"><input type="text" id="newChatName" placeholder="New Chat Name">
-        <button id="createChat">Create Chat</button><br><br>
-        <ul id="chatList"></ul></div>
-        <!-- Toggle button inside the sidebar container -->
+      <div style="position: relative; overflow: visible; height: 0px; width: 0px; top: 0px; left: 0px">
+        <button id="toggleSidebar" class="collapsed">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+      <div style="background-color: #333; width: 100%; padding-right: 10px">
+        <input type="text" id="newChatName" placeholder="New Chat Name" /> <button id="createChat">Create Chat</button><br /><br />
+        <ul id="chatList"></ul>
+      </div>
+      <!-- Toggle button inside the sidebar container -->
     </div>
-    
+
     <div class="container">
-        <h2>InstantChat</h2>
-        <div id="chat" aria-live="assertive"></div>
-        <div class="textarea-wrapper" onclick="document.getElementById('message').focus();">
-            <textarea class="textarea" type="text" id="message" name="message" placeholder="Enter your message" rows="1"></textarea>
-        </div>
-        <!-- Light-Dark Switcher -->
-        <div class="switch-container">
-            <a id="themeSwitch" class="switch-label" aria-label="theme-switch">
-                <i id="themeIcon" class="bi bi-sun"></i>
-            </a>
-        </div>
+      <h2>InstantChat</h2>
+      <div id="chat" aria-live="assertive"></div>
+      <div class="textarea-wrapper" onclick="document.getElementById('message').focus();">
+        <textarea class="textarea" type="text" id="message" name="message" placeholder="Enter your message" rows="1"></textarea>
+      </div>
+      <!-- Light-Dark Switcher -->
+      <div class="switch-container">
+        <a id="themeSwitch" class="switch-label" aria-label="theme-switch">
+          <i id="themeIcon" class="bi bi-sun"></i>
+        </a>
+      </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script>
-        var selectedModel = "";
-        var currentChatName = 'main';
-        var messageHistory = [];
-        const switchInput = document.getElementById('switch');
+      var selectedModel = "";
+      var currentChatName = "main";
+      var messageHistory = [];
+      const switchInput = document.getElementById("switch");
 
-        const tx = document.getElementsByTagName("textarea");
-            for (let i = 0; i < tx.length; i++) {
-                tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
-                tx[i].addEventListener("input", OnInput, false);
+      const tx = document.getElementsByTagName("textarea");
+      for (let i = 0; i < tx.length; i++) {
+        tx[i].setAttribute("style", "height:" + tx[i].scrollHeight + "px;overflow-y:hidden;");
+        tx[i].addEventListener("input", OnInput, false);
+      }
+
+      function OnInput() {
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
+      }
+
+      document.getElementById("message").addEventListener("keypress", function (event) {
+        if (event.code === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          var message = document.getElementById("message").value;
+          if (message === "") return;
+          sendMessage(message);
+          nxm = document.getElementById("message");
+          nxm.value = "";
+          nxm.style.height = "auto";
+          nxm.style.height = this.scrollHeight + "px";
         }
+      });
 
-        function OnInput() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + "px";
+      document.getElementById("toggleSidebar").addEventListener("click", function () {
+        document.getElementById("chatListContainer").classList.toggle("collapsed");
+      });
+      window.addEventListener("resize", function () {
+        if (window.innerWidth <= 768) {
+          document.getElementById("chatListContainer").classList.add("collapsed");
+        } else {
+          document.getElementById("chatListContainer").classList.remove("collapsed");
         }
-
-        document.getElementById('message').addEventListener('keypress', function(event) {
-            if (event.code === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                var message = document.getElementById('message').value;
-                if (message === '') return;
-                sendMessage(message);
-                nxm = document.getElementById('message');
-                nxm.value = '';
-                nxm.style.height = 'auto';
-                nxm.style.height = (this.scrollHeight) + "px";
-            }
-        });
-
-        document.getElementById('toggleSidebar').addEventListener('click', function() {
-            document.getElementById('chatListContainer').classList.toggle('collapsed');
-        });
-        window.addEventListener('resize', function() {
-            if (window.innerWidth <= 768) {
-                document.getElementById('chatListContainer').classList.add('collapsed');
-            } else {
-                document.getElementById('chatListContainer').classList.remove('collapsed');
-            }
-        });
-        function toggleDarkMode() {
-            const body = document.body;
-            body.classList.toggle('dark-mode');
-            const themeIcon = document.getElementById('themeIcon');
-            if (body.classList.contains('dark-mode')) {
-                themeIcon.classList.remove('bi-moon'); // Moon icon
-                themeIcon.classList.add('bi-sun'); // Sun icon
-                localStorage.setItem('theme', 'dark'); // Save theme in local storage
-            } else {
-                themeIcon.classList.remove('bi-sun'); // Sun icon
-                themeIcon.classList.add('bi-moon'); // Moon icon
-                localStorage.setItem('theme', 'light'); // Save theme in local storage
-            }
+      });
+      function toggleDarkMode() {
+        const body = document.body;
+        body.classList.toggle("dark-mode");
+        const themeIcon = document.getElementById("themeIcon");
+        if (body.classList.contains("dark-mode")) {
+          themeIcon.classList.remove("bi-moon"); // Moon icon
+          themeIcon.classList.add("bi-sun"); // Sun icon
+          localStorage.setItem("theme", "dark"); // Save theme in local storage
+        } else {
+          themeIcon.classList.remove("bi-sun"); // Sun icon
+          themeIcon.classList.add("bi-moon"); // Moon icon
+          localStorage.setItem("theme", "light"); // Save theme in local storage
         }
-        window.onload = function() {
-            const theme = localStorage.getItem('theme');
-            if (theme === 'light') {
-                toggleDarkMode();
-            }
-            if (window.innerWidth <= 768) {
-                document.getElementById('chatListContainer').classList.add('collapsed');
-            } else {
-                document.getElementById('chatListContainer').classList.remove('collapsed');
-            }
-            selectedModel = localStorage.getItem('selectedModel');
-            if (!selectedModel) {
-                selectedModel = "{{defaultmodel}}"
-                
-            }
-            document.getElementById("selectedModel").value=selectedModel;
+      }
+      window.onload = function () {
+        const theme = localStorage.getItem("theme");
+        if (theme === "light") {
+          toggleDarkMode();
+        }
+        if (window.innerWidth <= 768) {
+          document.getElementById("chatListContainer").classList.add("collapsed");
+        } else {
+          document.getElementById("chatListContainer").classList.remove("collapsed");
+        }
+        selectedModel = localStorage.getItem("selectedModel");
+        if (!selectedModel) {
+          selectedModel = "{{defaultmodel}}";
+        }
+        document.getElementById("selectedModel").value = selectedModel;
+      };
+      function changeSelectedModel() {
+        selectedModel = document.getElementById("selectedModel").value;
+        localStorage.setItem("selectedModel", selectedModel);
+      }
+      document.getElementById("themeSwitch").addEventListener("click", toggleDarkMode);
+      document.getElementById("createChat").addEventListener("click", function () {
+        var chatName = document.getElementById("newChatName").value.trim();
+        if (chatName) {
+          var chats = JSON.parse(localStorage.getItem("chats")) || {};
+          if (!chats[chatName]) {
+            chats[chatName] = [];
+            localStorage.setItem("chats", JSON.stringify(chats));
+            loadChats();
+            loadChatMessages(chatName);
+          }
+          document.getElementById("newChatName").value = ""; // Clear input
+        }
+      });
+      function sendMessage(message) {
+        document.getElementById("message").disabled = true;
+        var userMessage = { role: "user", content: message };
+        messageHistory.push(userMessage);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://corsproxy.io/?https%3A%2F%2Fchat.discord.rocks%2Freply");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            var assistantMessage = xhr.responseText;
+            messageHistory.push({ role: "assistant", content: assistantMessage });
+            displayMessage(assistantMessage, "assistant");
+            saveChat(currentChatName); // Save after assistant reply
+            document.getElementById("message").disabled = false;
+            document.getElementById("message").focus();
+          } else {
+            var errorMessage = "Error: " + xhr.responseText;
+            messageHistory.push({ role: "assistant", content: errorMessage });
+            displayMessage(errorMessage, "assistant");
+            document.getElementById("message").disabled = false;
+            document.getElementById("message").focus();
+          }
         };
-        function changeSelectedModel() {
-            selectedModel = document.getElementById("selectedModel").value;
-            localStorage.setItem('selectedModel', selectedModel);
-        }
-        document.getElementById('themeSwitch').addEventListener('click', toggleDarkMode);
-        document.getElementById('createChat').addEventListener('click', function() {
-            var chatName = document.getElementById('newChatName').value.trim();
-            if (chatName) {
-                var chats = JSON.parse(localStorage.getItem('chats')) || {};
-                if (!chats[chatName]) {
-                    chats[chatName] = [];
-                    localStorage.setItem('chats', JSON.stringify(chats));
-                    loadChats();
-                    loadChatMessages(chatName);
-                }
-                document.getElementById('newChatName').value = ''; // Clear input
+        xhr.send(JSON.stringify({ messages: messageHistory, model: "gemma-7b-instant" }));
+        displayMessage(message, "user");
+      }
+
+      function displayMessage(message, role) {
+        var chatDiv = document.getElementById("chat");
+        var messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+        if (role === "user") {
+          messageDiv.classList.add("user-message");
+          message = marked.parse(message).replaceAll("\n", "<br>");
+          messageDiv.innerHTML = "You: " + message;
+          messageDiv.querySelectorAll("pre code").forEach((block) => {
+            hljs.highlightBlock(block);
+            var lang = block.className.split(" ")[0];
+            var title = document.createElement("div");
+            title.classList.add("code-title");
+            if (lang.toLowerCase() == "hljs") {
+              lang = "plain";
             }
+            title.textContent = lang.toLowerCase().replace("language-", "");
+            block.parentNode.insertBefore(title, block);
+          });
+          // Check if the message contains code blocks
+          var codeBlocks = messageDiv.querySelectorAll("pre code");
+          codeBlocks.forEach((block) => {
+            // Create a copy button for each code block
+            var copyButton = document.createElement("a");
+            copyButton.classList.add("copy-button");
+            copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>';
+            copyButton.addEventListener("click", function () {
+              copyToClipboard(block.innerText);
+              showCopiedMessage(copyButton);
+            });
+            block.appendChild(copyButton, block.nextSibling);
+          });
+          var copyButton = document.createElement("a");
+          copyButton.textContent = "Copy";
+          copyButton.classList.add("copy-button");
+          copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>';
+          copyButton.addEventListener("click", function () {
+            // Copy message content in markdown format
+            copyToClipboard(message);
+            showCopiedMessage(copyButton);
+          });
+          messageDiv.appendChild(copyButton);
+        } else if (role === "assistant") {
+          messageDiv.classList.add("assistant-message");
+          // Parse markdown and highlight code
+          messageDiv.innerHTML = marked.parse(message);
+          messageDiv.querySelectorAll("pre code").forEach((block) => {
+            hljs.highlightBlock(block);
+            var lang = block.className.split(" ")[0];
+            var title = document.createElement("div");
+            title.classList.add("code-title");
+            if (lang.toLowerCase() == "hljs") {
+              lang = "plain";
+            }
+            title.textContent = lang.toLowerCase().replace("language-", "");
+            block.parentNode.insertBefore(title, block);
+          });
+          messageDiv.innerHTML = "Bot: " + messageDiv.innerHTML;
+          // Check if the message contains code blocks
+          var codeBlocks = messageDiv.querySelectorAll("pre code");
+          codeBlocks.forEach((block) => {
+            // Create a copy button for each code block
+            var copyButton = document.createElement("a");
+            copyButton.classList.add("copy-button");
+            copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>';
+            copyButton.addEventListener("click", function () {
+              copyToClipboard(block.innerText);
+              showCopiedMessage(copyButton);
+            });
+            block.appendChild(copyButton, block.nextSibling);
+          });
+          var copyButton = document.createElement("a");
+          copyButton.textContent = "Copy";
+          copyButton.classList.add("copy-button");
+          copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>';
+          copyButton.addEventListener("click", function () {
+            // Copy message content in markdown format
+            copyToClipboard(message);
+            showCopiedMessage(copyButton);
+          });
+          messageDiv.appendChild(copyButton);
+        }
+        chatDiv.appendChild(messageDiv);
+        chatDiv.scrollTop = chatDiv.scrollHeight; // Scroll to the bottom
+      }
+      function copyToClipboard(text) {
+        var dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+      }
+
+      function showCopiedMessage(button) {
+        var message = document.createElement("div");
+        message.classList.add("copied-message");
+        message.textContent = "Copied to clipboard";
+        document.body.appendChild(message);
+        setTimeout(function () {
+          message.remove();
+        }, 2000);
+      }
+      function loadChats() {
+        var chats = JSON.parse(localStorage.getItem("chats")) || {};
+        var chatList = document.getElementById("chatList");
+        chatList.innerHTML =
+          '_<div style="position: fixed; bottom: 0px; width: 220px; left: 0px; height: 180px; background-color: #333; padding-top: 10px;" id="buttons"><li style="text-decoration: none; margin: auto; text-align: center; border-bottom: none;"><select id = "selectedModel" onchange="changeSelectedModel()">{% for model in modelnames %}<option value="{{model}}">{{model}}</option>{% endfor %}</select></li></a><hr><div style="margin: auto; text-align: center;"><select onchange="window.location.href=this.value" style="display: inline-block;"><option selected disabled hidden>More</option><option value="https://chat.discord.rocks/how">How this works</option><option value="https://chat.discord.rocks/docs">API Documentation</option></select></div><hr><a href="https://discord.gg/vmb2g2rpnP" style="text-decoration: none; margin: auto; text-align: center;"><li style=" border-bottom: 0px;">Join our Discord</li></a>'; // Clear existing list
+        var hash = window.location.hash.slice(1); // Get the URL hash without '#'
+        Object.keys(chats).forEach(function (chatName) {
+          var li = document.createElement("li");
+          li.textContent = chatName;
+          var deleteButton = document.createElement("a");
+          deleteButton.className = "small";
+          deleteButton.textContent = "Delete";
+          deleteButton.onclick = function (event) {
+            event.stopPropagation(); // Prevent li onclick from triggering
+            deleteChat(chatName);
+            loadChatMessages("");
+          };
+          li.appendChild(deleteButton);
+          li.onclick = function () {
+            loadChatMessages(chatName);
+            window.location.hash = "#" + chatName; // Modify the window location hash
+          };
+          chatList.insertBefore(li, chatList.firstChild); // Prepend the new chat
+
+          // Check if the chatName matches the hash
+          if (hash && chatName === hash) {
+            loadChatMessages(chatName);
+          }
         });
-        function sendMessage(message) {
-            document.getElementById('message').disabled = true;
-            var userMessage = { role: 'user', content: message };
-            messageHistory.push(userMessage);
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/reply');
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var assistantMessage = xhr.responseText;
-                    messageHistory.push({ role: 'assistant', content: assistantMessage });
-                    displayMessage(assistantMessage, 'assistant');
-                    saveChat(currentChatName); // Save after assistant reply
-                    document.getElementById('message').disabled = false;
-                    document.getElementById('message').focus()
-                } else {
-                    var errorMessage = 'Error: ' + xhr.responseText;
-                    messageHistory.push({ role: 'assistant', content: errorMessage });
-                    displayMessage(errorMessage, 'assistant');
-                    document.getElementById('message').disabled = false;
-                    document.getElementById('message').focus()
-                }
-            };
-            xhr.send(JSON.stringify({ "messages": messageHistory, "model": selectedModel}));
-            displayMessage(message, 'user');
+        // If hash is provided but not found in chats, default to main chat
+        if (hash && !chats[hash]) {
+          loadChatMessages("main");
         }
+      }
 
-        function displayMessage(message, role) {
-            var chatDiv = document.getElementById('chat');
-            var messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            if (role === 'user') {
-                messageDiv.classList.add('user-message');
-                message = marked.parse(message).replaceAll("\n","<br>");
-                messageDiv.innerHTML = 'You: ' + message;
-                messageDiv.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightBlock(block);
-                    var lang = block.className.split(' ')[0];
-                    var title = document.createElement('div');
-                    title.classList.add('code-title');
-                    if (lang.toLowerCase() == "hljs") {
-                        lang = "plain";
-                    }
-                    title.textContent = lang.toLowerCase().replace("language-","");
-                    block.parentNode.insertBefore(title, block)
-                });
-                // Check if the message contains code blocks
-                var codeBlocks = messageDiv.querySelectorAll('pre code');
-                codeBlocks.forEach((block) => {
-                    // Create a copy button for each code block
-                    var copyButton = document.createElement('a');
-                    copyButton.classList.add('copy-button');
-                    copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>';
-                    copyButton.addEventListener('click', function() {
-                        copyToClipboard(block.innerText);
-                        showCopiedMessage(copyButton);
-                    });
-                    block.appendChild(copyButton, block.nextSibling);
-                });
-                var copyButton = document.createElement('a');
-                copyButton.textContent = 'Copy';
-                copyButton.classList.add('copy-button');
-                copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>'
-                copyButton.addEventListener('click', function() {
-                    // Copy message content in markdown format
-                    copyToClipboard(message);
-                    showCopiedMessage(copyButton);
-                });
-                messageDiv.appendChild(copyButton);
-            } else if (role === 'assistant') {
-                messageDiv.classList.add('assistant-message');
-                // Parse markdown and highlight code
-                messageDiv.innerHTML = marked.parse(message);
-                messageDiv.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightBlock(block);
-                    var lang = block.className.split(' ')[0];
-                    var title = document.createElement('div');
-                    title.classList.add('code-title');
-                    if (lang.toLowerCase() == "hljs") {
-                        lang = "plain";
-                    }
-                    title.textContent = lang.toLowerCase().replace("language-","");
-                    block.parentNode.insertBefore(title, block)
-                });
-                messageDiv.innerHTML = 'Bot: ' + messageDiv.innerHTML;
-                // Check if the message contains code blocks
-                var codeBlocks = messageDiv.querySelectorAll('pre code');
-                codeBlocks.forEach((block) => {
-                    // Create a copy button for each code block
-                    var copyButton = document.createElement('a');
-                    copyButton.classList.add('copy-button');
-                    copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>';
-                    copyButton.addEventListener('click', function() {
-                        copyToClipboard(block.innerText);
-                        showCopiedMessage(copyButton);
-                    });
-                    block.appendChild(copyButton, block.nextSibling);
-                });
-                var copyButton = document.createElement('a');
-                copyButton.textContent = 'Copy';
-                copyButton.classList.add('copy-button');
-                copyButton.innerHTML = '<i class="bi bi-clipboard" title="Copy to Clipboard"></i>'
-                copyButton.addEventListener('click', function() {
-                    // Copy message content in markdown format
-                    copyToClipboard(message);
-                    showCopiedMessage(copyButton);
-                });
-                messageDiv.appendChild(copyButton);
+      // Load messages for a specific chat
+      function loadChatMessages(chatName) {
+        lastChatName = currentChatName;
+        currentChatName = chatName;
+        if (currentChatName == "") {
+          currentChatName = "main";
+        }
+        var chats = JSON.parse(localStorage.getItem("chats")) || {};
+        messageHistory = chats[chatName] || [];
+        var chatDiv = document.getElementById("chat");
+        chatDiv.innerHTML = ""; // Clear chat
+        messageHistory.forEach(function (message) {
+          displayMessage(message.content, message.role);
+        });
+        // Highlight the active chat
+        document.querySelectorAll("#chatList li").forEach(function (li) {
+          if (lastChatName != chatName) {
+            if (li.textContent.replace("Delete", "") === chatName) {
+              li.classList.toggle("active");
+            } else if (li.className.includes("active")) {
+              li.classList.toggle("active");
             }
-            chatDiv.appendChild(messageDiv);
-            chatDiv.scrollTop = chatDiv.scrollHeight; // Scroll to the bottom
-        }
-        function copyToClipboard(text) {
-            var dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-        }
+          }
+        });
+      }
 
-        function showCopiedMessage(button) {
-            var message = document.createElement('div');
-            message.classList.add('copied-message');
-            message.textContent = 'Copied to clipboard';
-            document.body.appendChild(message);
-            setTimeout(function() {
-                message.remove();
-            }, 2000);
-        }
-        function loadChats() {
-            var chats = JSON.parse(localStorage.getItem('chats')) || {};
-            var chatList = document.getElementById('chatList');
-            chatList.innerHTML = '_<div style="position: fixed; bottom: 0px; width: 220px; left: 0px; height: 180px; background-color: #333; padding-top: 10px;" id="buttons"><li style="text-decoration: none; margin: auto; text-align: center; border-bottom: none;"><select id = "selectedModel" onchange="changeSelectedModel()">{% for model in modelnames %}<option value="{{model}}">{{model}}</option>{% endfor %}</select></li></a><hr><div style="margin: auto; text-align: center;"><select onchange="window.location.href=this.value" style="display: inline-block;"><option selected disabled hidden>More</option><option value="https://chat.discord.rocks/how">How this works</option><option value="https://chat.discord.rocks/docs">API Documentation</option></select></div><hr><a href="https://discord.gg/vmb2g2rpnP" style="text-decoration: none; margin: auto; text-align: center;"><li style=" border-bottom: 0px;">Join our Discord</li></a>'; // Clear existing list
-            var hash = window.location.hash.slice(1); // Get the URL hash without '#'
-            Object.keys(chats).forEach(function(chatName) {
-                var li = document.createElement('li');
-                li.textContent = chatName;
-                var deleteButton = document.createElement('a');
-                deleteButton.className = "small"
-                deleteButton.textContent = 'Delete';
-                deleteButton.onclick = function(event) {
-                    event.stopPropagation(); // Prevent li onclick from triggering
-                    deleteChat(chatName);
-                    loadChatMessages("");
-                };
-                li.appendChild(deleteButton);
-                li.onclick = function() {
-                    loadChatMessages(chatName);
-                    window.location.hash = '#' + chatName; // Modify the window location hash
-                };
-                chatList.insertBefore(li, chatList.firstChild); // Prepend the new chat
-                
-                // Check if the chatName matches the hash
-                if (hash && chatName === hash) {
-                    loadChatMessages(chatName);
-                }
-            });
-            
-            // If hash is provided but not found in chats, default to main chat
-            if (hash && !chats[hash]) {
-                loadChatMessages('main');
-            }
-        }
+      // Save chat to local storage
+      function saveChat(chatName) {
+        var chats = JSON.parse(localStorage.getItem("chats")) || {};
+        chats[chatName] = messageHistory;
+        localStorage.setItem("chats", JSON.stringify(chats));
+        loadChats(); // Refresh the chat list
+      }
 
+      // Delete a chat
+      function deleteChat(chatName) {
+        var chats = JSON.parse(localStorage.getItem("chats")) || {};
+        delete chats[chatName];
+        localStorage.setItem("chats", JSON.stringify(chats));
+        loadChats(); // Refresh the chat list
+      }
 
-
-        // Load messages for a specific chat
-        function loadChatMessages(chatName) {
-            lastChatName = currentChatName;
-            currentChatName = chatName;
-            if (currentChatName == "") {
-                currentChatName = "main";
-            }
-            var chats = JSON.parse(localStorage.getItem('chats')) || {};
-            messageHistory = chats[chatName] || [];
-            var chatDiv = document.getElementById('chat');
-            chatDiv.innerHTML = ''; // Clear chat
-            messageHistory.forEach(function(message) {
-                displayMessage(message.content, message.role);
-            });
-            // Highlight the active chat
-            document.querySelectorAll('#chatList li').forEach(function(li) {
-                if (lastChatName != chatName) {
-                    if (li.textContent.replace("Delete","") === chatName) {
-                        li.classList.toggle('active');
-                    }
-                    else if (li.className.includes("active")) {
-                        li.classList.toggle('active');
-
-                    }
-                }
-            });
-        }
-
-        // Save chat to local storage
-        function saveChat(chatName) {
-            var chats = JSON.parse(localStorage.getItem('chats')) || {};
-            chats[chatName] = messageHistory;
-            localStorage.setItem('chats', JSON.stringify(chats));
-            loadChats(); // Refresh the chat list
-        }
-
-        // Delete a chat
-        function deleteChat(chatName) {
-            var chats = JSON.parse(localStorage.getItem('chats')) || {};
-            delete chats[chatName];
-            localStorage.setItem('chats', JSON.stringify(chats));
-            loadChats(); // Refresh the chat list
-        }
-
-        // Call loadChats on page load
-        loadChats();
-        loadChatMessages(currentChatName);
+      // Call loadChats on page load
+      loadChats();
+      loadChatMessages(currentChatName);
     </script>
-</body>
+  </body>
 </html>
