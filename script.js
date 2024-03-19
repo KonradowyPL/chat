@@ -90,26 +90,30 @@ function sendMessage(message) {
   var userMessage = { role: "user", content: message };
   messageHistory.push(userMessage);
 
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://corsproxy.io/?https%3A%2F%2Fchat.discord.rocks%2Freply");
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      var assistantMessage = xhr.responseText;
+  const conversation = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages: messageHistory, model: "mixtral-8x7b-instant-pro" }),
+  };
+
+  fetch("https://corsproxy.io/?https%3A%2F%2Fchat.discord.rocks%2Freply", conversation)
+    .then((response) => {
+      if (response.ok) return response.text();
+      else throw new Error("Error: " + response.text());
+    })
+    .then((assistantMessage) => {
       messageHistory.push({ role: "assistant", content: assistantMessage });
       displayMessage(assistantMessage, "assistant");
       saveChat(currentChatName); // Save after assistant reply
       document.getElementById("message").disabled = false;
       document.getElementById("message").focus();
-    } else {
-      var errorMessage = "Error: " + xhr.responseText;
+    })
+    .catch((errorMessage) => {
       messageHistory.push({ role: "assistant", content: errorMessage });
       displayMessage(errorMessage, "assistant");
       document.getElementById("message").disabled = false;
       document.getElementById("message").focus();
-    }
-  };
-  xhr.send(JSON.stringify({ messages: messageHistory, model: "gemma-7b-instant" }));
+    });
   displayMessage(message, "user");
 }
 
