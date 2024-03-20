@@ -4,41 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Instant Chat</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
-    <meta name="og:title" content="Instant Chat" />
-    <meta name="og:description" content="A link only - free api - instant chat bot" />
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script src="./script.js" defer></script>
   </head>
-  <body class="dark-mode">
-    <div id="chatListContainer">
-      <div style="position: relative; overflow: visible; height: 0px; width: 0px; top: 0px; left: 0px">
-        <button id="toggleSidebar" class="collapsed">
-          <i class="bi bi-list"></i>
-        </button>
-      </div>
-      <div style="background-color: #333; width: 100%; padding-right: 10px">
-        <input type="text" id="newChatName" placeholder="New Chat Name" /> <button id="createChat">Create Chat</button><br /><br />
-        <ul id="chatList"></ul>
-      </div>
-      <!-- Toggle button inside the sidebar container -->
-    </div>
-
-    <div class="container">
-      <h2>InstantChat</h2>
-      <div id="chat" aria-live="assertive"></div>
-      <div class="textarea-wrapper" onclick="document.getElementById('message').focus();">
-        <textarea class="textarea" type="text" id="message" name="message" placeholder="Enter your message" rows="1"></textarea>
-      </div>
-      <!-- Light-Dark Switcher -->
-      <div class="switch-container">
-        <a id="themeSwitch" class="switch-label" aria-label="theme-switch">
-          <i id="themeIcon" class="bi bi-sun"></i>
-        </a>
-      </div>
+  <body>
+    <div class="chatArea">
+      <ul id="messages"></ul>
+      <textarea name="" id="message" cols="30" rows="5" autofocus placeholder="Your message here..."></textarea>
     </div>
   </body>
 </html>
