@@ -5,6 +5,7 @@ html {
 body {
   height: 100vh;
   margin: 0;
+  display: flex;
 }
 
 .chatArea {
@@ -13,15 +14,24 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  /* width: 100%; */
-  height: 100%;
+  width: auto;
+  flex-grow: 1;
 }
 
 #messages {
   max-height: 100%;
   overflow-y: scroll;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 #message {
   min-height: 150px;
+}
+
+#navbar {
+  width: 999fr;
+  max-width: 200px;
+  flex-grow: 1;
 }
