@@ -5,6 +5,22 @@ const newChat = document.getElementById("newChat");
 const newChatForm = document.getElementById("newChatForm");
 const chatsEle = document.getElementById("chats");
 
+const renderer = new marked.Renderer();
+renderer.code = function (code, language) {
+  console.log("pared!");
+  // Check if the language is valid for highlight.js
+  const validLanguage = !!(language && hljs.getLanguage(language));
+  // Highlight the code
+  const highlighted = validLanguage
+    ? hljs.highlight(code, { language, ignoreIllegals: false }).value
+    : hljs.highlight(code, { language: "js", ignoreIllegals: false }).value;
+  // Return the highlighted code wrapped in a <code> tag
+  return `<code class="hljs ${language}">${highlighted}<span class="bi copy bi-copy"/></code>`;
+};
+
+// Set the renderer to marked
+marked.use({ renderer });
+
 var conversation = [];
 var chatName = "main";
 var locked = false;
@@ -79,9 +95,21 @@ function addMessage(message) {
 
 function createMessage(message) {
   const li = document.createElement("li");
-  parsedMessage = marked.parseInline(message.content).trim().replaceAll("\n", "<br>");
+  marked.use({ renderer });
+
+  let parsedMessage = marked
+    .parse(message.content)
+    .trim()
+    .replaceAll("\n", "<br>")
+    .replace(/^<p>/, "")
+    .replace(/<\/p>$/, "");
   li.append(bootStrapIcon(message.role == "user" ? "bi-person" : "bi-robot"), Object.assign(document.createElement("div"), { innerHTML: parsedMessage }));
   li.classList = message.role == "user" ? "person" : "robot";
+  li.querySelectorAll(".copy.bi.bi-copy").forEach((ele) => {
+    ele.onclick = (e) => {
+      navigator.clipboard.writeText(ele.parentNode.innerText);
+    };
+  });
   chat.append(li);
   chat.scrollTop = chat.scrollHeight;
 }
