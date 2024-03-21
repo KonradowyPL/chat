@@ -9,13 +9,22 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script src="./script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   </head>
   <body>
     <div id="navbar">
-      <form action="" id="newChatForm">
+      <form action="" id="newChatForm" maxlength="10">
         <input type="text" name="" id="newChat" placeholder="Create new chat" />
+        <div class="modelSelect">
+          <input type="radio" name="model" id="mixtral-8x7b-instant-pro" checked />
+          <label for="mixtral-8x7b-instant-pro">mixtral-8x7b-instant-pro</label>
+          <input type="radio" name="model" id="mixtral-8x7b-instant" />
+          <label for="mixtral-8x7b-instant">mixtral-8x7b-instant</label>
+          <input type="radio" name="model" id="gemma-7b-instant" />
+          <label for="gemma-7b-instant">gemma-7b-instant</label>
+        </div>
       </form>
-      <ul id="chats"></ul>
+      <div id="chats"></div>
     </div>
     <div class="chatArea">
       <div id="chatName"></div>

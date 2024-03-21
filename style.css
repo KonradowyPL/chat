@@ -27,7 +27,6 @@ body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   gap: 5px;
   padding-right: 5px;
 }
@@ -35,6 +34,7 @@ body {
 #navbar {
   width: 200px;
   min-width: 200px;
+  border-right: 1px solid white;
 }
 
 #chats li {
@@ -67,4 +67,11 @@ body {
 #messages li i {
   padding-right: 5px;
   padding-top: 5px;
+}
+
+.modelSelect {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-bottom: 20px;
 }
