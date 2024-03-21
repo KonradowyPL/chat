@@ -62,12 +62,17 @@ function addMessage(message) {
 
 function createMessage(message) {
   const li = document.createElement("li");
-  li.innerText = `${message.role == "user" ? "You" : "Bot"}: ${message.content}`;
+  li.append(bootStrapIcon(message.role == "user" ? "bi-person" : "bi-robot"), Object.assign(document.createElement("div"), { innerText: message.content }));
+  li.classList = message.role == "user" ? "person" : "robot";
   chat.append(li);
   chat.scrollTop = chat.scrollHeight;
 }
 
 function loadChats() {
+  while (chatsEle.firstChild) {
+    chatsEle.removeChild(chatsEle.firstChild);
+  }
+
   const chats = Object.keys(localStorage)
     .filter((key) => key.startsWith("CHAT:"))
     .map((key) => key.slice("CHAT:".length));
@@ -75,7 +80,7 @@ function loadChats() {
   chatsEle.append(
     ...chats.map((ele) => {
       const li = document.createElement("li");
-      li.innerText = ele;
+      li.append(bootStrapIcon("bi-chat"), document.createTextNode(ele));
 
       li.onclick = () => {
         chatName = ele;
@@ -90,9 +95,14 @@ function loadChats() {
 newChatForm.onsubmit = (e) => {
   e.preventDefault();
   chatName = newChat.value;
+  localStorage.setItem(`CHAT:${chatName}`, "[]");
   loadConversation();
   loadChats();
 };
+
+function bootStrapIcon(name) {
+  return Object.assign(document.createElement("i"), { className: `bi ${name}` });
+}
 
 loadConversation();
 loadChats();
