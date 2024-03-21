@@ -80,7 +80,11 @@ body {
 }
 
 .modelSelect input {
-  margin-left: 0;
+  margin: 0;
+  aspect-ratio: 1;
+  height: 0.8rem;
+  position: relative;
+  translate: 5px 5px;
 }
 
 code.hljs {
@@ -98,4 +102,17 @@ code .copy {
   top: 5px;
   right: 5px;
   cursor: pointer;
+}
+
+.newSelector {
+  display: flex;
+  width: 100%;
+}
+
+.newSelector input {
+  min-width: 0;
+}
+
+.newSelector button {
+  aspect-ratio: 1;
 }

@@ -140,7 +140,16 @@ function loadChats() {
 
 newChatForm.onsubmit = (e) => {
   e.preventDefault();
-  chatName = newChat.value;
+  chatName =
+    newChat.value ||
+    `Unnamed ${
+      +Object.keys(localStorage)
+        .filter((key) => key.startsWith("CHAT:Unnamed "))
+        .map((key) => key.slice("CHAT:Unnamed ".length))
+        .sort()
+        .reverse()[0] + 1 || 0
+    }`;
+
   model = document.querySelector("input[type=radio][name=model]:checked").id;
   localStorage.setItem(`CHAT:${chatName}`, "[]");
   loadConversation();
