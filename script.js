@@ -19,7 +19,11 @@ renderer.code = function (code, language) {
 };
 
 // Set the renderer to marked
-marked.use({ renderer });
+marked.use({
+  renderer,
+  breaks: false,
+  gfm: true,
+});
 
 var conversation = [];
 var chatName = "main";
@@ -60,13 +64,13 @@ function writeMessage(message) {
       locked = false;
       if (response.ok) {
         return response.text();
-      } else throw new Error("Error: " + response.text());
+      } else return response.text();
     })
     .then((assistantMessage) => {
       addMessage({ role: "assistant", content: assistantMessage });
     })
     .catch((errorMessage) => {
-      addMessage({ role: "assistant", content: JSON.stringify(errorMessage) });
+      addMessage({ role: "assistant", content: `Error`, error: String(errorMessage) });
     });
 }
 
@@ -97,13 +101,18 @@ function createMessage(message) {
   const li = document.createElement("li");
   marked.use({ renderer });
 
-  let parsedMessage = marked
-    .parse(message.content)
-    .trim()
-    .replaceAll("\n", "<br>")
-    .replace(/^<p>/, "")
-    .replace(/<\/p>$/, "");
-  li.append(bootStrapIcon(message.role == "user" ? "bi-person" : "bi-robot"), Object.assign(document.createElement("div"), { innerHTML: parsedMessage }));
+  let parsedMessage = !message.error
+    ? marked
+        .parse(message.content)
+        .trim()
+        .replaceAll("\n", "<br>")
+        .replace(/^<p>/, "")
+        .replace(/<\/p>$/, "")
+    : message.error;
+  li.append(
+    bootStrapIcon(message.role == "user" ? "bi-person" : "bi-robot"),
+    Object.assign(document.createElement("div"), { innerHTML: parsedMessage, classList: `message ${message.error ? "error" : ""}` })
+  );
   li.classList = message.role == "user" ? "person" : "robot";
   li.querySelectorAll(".copy.bi.bi-copy").forEach((ele) => {
     ele.onclick = (e) => {

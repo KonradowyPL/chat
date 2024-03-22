@@ -12,13 +12,13 @@ body {
 }
 
 .chatArea {
-  padding: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   width: auto;
   flex-grow: 1;
+  padding-right: 0;
 }
 
 #messages {
@@ -28,7 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding-right: 5px;
+  padding-left: 10px;
 }
 
 #navbar {
@@ -49,7 +49,7 @@ body {
   padding-right: 5px;
 }
 
-#messages li {
+#messages > li {
   list-style-type: none;
   display: flex;
 }
@@ -57,11 +57,11 @@ body {
   min-height: 20px;
 }
 
-#messages li.robot div {
+#messages li.robot .message {
   background-color: rgb(82, 81, 81);
 }
 
-#messages li div {
+#messages li .message {
   background-color: rgb(58, 58, 58);
   padding: 10px;
   border-radius: 10px;
@@ -115,4 +115,30 @@ code .copy {
 
 .newSelector button {
   aspect-ratio: 1;
+}
+
+#messages p:empty {
+  display: none;
+}
+
+#messages ul {
+  list-style-type: disc;
+}
+
+code + code {
+  margin-top: 20px;
+}
+
+code br {
+  display: unset !important;
+}
+
+:is(p, hr, ul, br, h1, h2, h3, h4, h5, h6, blockquote) + br,
+ul > br,
+blockquote br:first-child {
+  display: none;
+}
+
+.message.error {
+  background-color: rgb(120, 34, 34) !important;
 }
