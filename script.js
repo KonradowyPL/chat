@@ -1,9 +1,13 @@
 const textArea = document.getElementById("message");
 const chat = document.getElementById("messages");
 const chatNameEle = document.getElementById("chatName");
+const chatModelEle = document.getElementById("chatModel");
 const newChat = document.getElementById("newChat");
 const newChatForm = document.getElementById("newChatForm");
 const chatsEle = document.getElementById("chats");
+const chatSettings = document.getElementById("chatSettings");
+const settingsBox = document.getElementById("settingsBox");
+const renameChatEle = document.getElementById("renameChat");
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -32,8 +36,8 @@ var chatName;
 var locked = false;
 var model = "mixtral-8x7b-instant-pro";
 var chats = [];
-var chatHistory = {};
-var chatNames = {};
+var chatHistory = JSON.parse(localStorage.getItem("chatHistory"));
+var chatNames = JSON.parse(localStorage.getItem("chatNames"));
 
 const rockModel = (name) => {
   return (messages) => {
@@ -74,19 +78,37 @@ newChatForm.onsubmit = (e) => {
   chatName =
     newChat.value ||
     `Unnamed ${
-      +Object.keys(localStorage)
-        .filter((key) => key.startsWith("CHAT:Unnamed "))
-        .map((key) => +key.slice("CHAT:Unnamed ".length) || 0)
+      +Object.values(chatNames)
+        .filter((key) => key.startsWith("Unnamed "))
+        .map((key) => +key.slice("Unnamed ".length) || 0)
         .sort((a, b) => a - b)
         .reverse()[0] + 1 || 1
     }`;
 
+  chatNames[chatId] = chatName;
+
   model = document.querySelector("input[type=radio][name=model]:checked").id;
-  saveConversation();
-  console.log(chatName);
   loadConversation();
+  saveConversation();
   loadChats();
 };
+
+renameChatEle.addEventListener("input", (e) => {
+  console.log("e");
+  renameChat(chatId, renameChatEle.value || "Unnamed");
+});
+
+chatSettings.addEventListener("click", (e) => {
+  if (settingsBox.classList.contains("hidden")) {
+    settingsBox.classList.remove("hidden");
+    chatSettings.classList.remove("bi-three-dots-vertical");
+    chatSettings.classList.add("bi-x-lg");
+  } else {
+    settingsBox.classList.add("hidden");
+    chatSettings.classList.add("bi-three-dots-vertical");
+    chatSettings.classList.remove("bi-x-lg");
+  }
+});
 
 function writeMessage(message) {
   addMessage({ role: "user", content: message });
@@ -131,13 +153,18 @@ function loadConversation() {
   history.replaceState({}, "", "?" + urlParams.toString());
 
   chatData = JSON.parse(localStorage.getItem(`CHAT:${chatId}`)) || {};
-  console.log(chatData);
   conversation = chatData.messages || [];
   model = chatData.model || model;
-  chatName = chatNames[chatId] || "Unnamed";
-  chatNameEle.innerText = `${chatName} ᛫ ${model}`;
+  chatName = chatNames[chatId];
+  renameChatEle.value = chatName;
 
+  loadConversationMeta();
   conversation.forEach(createMessage);
+}
+
+function loadConversationMeta() {
+  chatNameEle.innerText = chatName;
+  chatModelEle.innerText = model;
 }
 
 function addMessage(message) {
@@ -145,6 +172,7 @@ function addMessage(message) {
   chatHistory[chatId] = Date.now();
   createMessage(message);
   saveConversation();
+  loadChats();
 }
 
 function createMessage(message) {
@@ -184,15 +212,17 @@ function loadChats() {
   chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "{}");
   chatNames = JSON.parse(localStorage.getItem("chatNames") || "{}");
 
-  chats.sort((a, b) => chatHistory[b] || 0 - chatHistory[a] || 0);
+  chats.sort((a, b) => (chatHistory[b] || 0) - (chatHistory[a] || 0));
 
   chatsEle.append(
     ...chats.map((ele) => {
       const li = document.createElement("li");
-      li.append(bootStrapIcon("bi-chat"), document.createTextNode(chatNames[ele] || ele));
+      li.append(bootStrapIcon("bi-chat"), document.createTextNode(chatNames[ele]));
+      li.setAttribute("data-id", ele);
 
       li.onclick = () => {
         chatId = ele;
+        settingsBox.classList.add("hidden");
         loadConversation();
       };
 
@@ -203,4 +233,14 @@ function loadChats() {
 
 function bootStrapIcon(name) {
   return Object.assign(document.createElement("i"), { className: `bi ${name}` });
+}
+
+function renameChat(id, name) {
+  chatNames[id] = name;
+  localStorage.setItem("chatNames", JSON.stringify(chatNames));
+  loadChats();
+  if (id == chatId) {
+    chatName = name;
+    loadConversationMeta();
+  }
 }

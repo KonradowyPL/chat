@@ -14,6 +14,7 @@ body {
 .chatArea {
   box-sizing: border-box;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: flex-end;
   width: auto;
@@ -140,4 +141,40 @@ blockquote br:first-child {
 
 .message.error {
   background-color: rgb(120, 34, 34) !important;
+}
+
+#chatModel {
+  color: rgb(155, 155, 155);
+}
+
+#chatMeta {
+  padding: 5px;
+  padding-right: 2px;
+  display: flex;
+  height: 20px;
+}
+
+#chatSettings {
+  cursor: pointer;
+  aspect-ratio: 1;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+}
+
+.settings {
+  background-color: #121212;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+.settings.chatRelated {
+  top: 30px;
+  height: calc(100% - 30px);
+}
+.settings.hidden {
+  display: none;
 }

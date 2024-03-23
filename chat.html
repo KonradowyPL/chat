@@ -16,7 +16,7 @@
     <div id="navbar">
       <form action="" id="newChatForm" maxlength="10">
         <div class="newSelector">
-          <input type="text" name="" id="newChat" placeholder="Create new chat" /> <button type="submit"><i class="bi bi-plus-lg"></i></button>
+          <input type="text" name="" id="newChat" placeholder="Create new chat" maxlength="20" /> <button type="submit"><i class="bi bi-plus-lg"></i></button>
         </div>
         <div class="modelSelect">
           <input type="radio" name="model" id="mixtral-8x7b-instant-pro" checked />
@@ -30,9 +30,17 @@
       <div id="chats"></div>
     </div>
     <div class="chatArea">
-      <div id="chatName"></div>
+      <div id="chatMeta">
+        <span id="chatName"></span>
+        <i class="bi bi-dot"></i>
+        <span id="chatModel"></span>
+        <button class="bi bi-three-dots-vertical" id="chatSettings"></button>
+      </div>
       <ul id="messages"></ul>
       <textarea name="" id="message" cols="30" rows="5" autofocus placeholder="Your message here..."></textarea>
+      <div id="settingsBox" class="chatRelated hidden settings">
+        <input type="text" name="" id="renameChat" placeholder="Rename chat" maxlength="20" />
+      </div>
     </div>
   </body>
 </html>
