@@ -27,11 +27,13 @@ marked.use({
 });
 
 var conversation = [];
-var chatName = urlParams.get("c") || "main";
+var chatId = urlParams.get("c") || Object.keys(JSON.parse(localStorage.getItem("chatHistory")))[0];
+var chatName;
 var locked = false;
 var model = "mixtral-8x7b-instant-pro";
 var chats = [];
 var chatHistory = {};
+var chatNames = {};
 
 const rockModel = (name) => {
   return (messages) => {
@@ -55,6 +57,9 @@ const models = {
   "gemma-7b-instant": rockModel("gemma-7b-instant"),
 };
 
+loadConversation();
+loadChats();
+
 textArea.addEventListener("keydown", function (e) {
   if (e.key === "Enter" && !e.shiftKey && !locked) {
     e.preventDefault();
@@ -62,6 +67,26 @@ textArea.addEventListener("keydown", function (e) {
     textArea.value = "";
   }
 });
+
+newChatForm.onsubmit = (e) => {
+  e.preventDefault();
+  chatId = ((Math.random() * 0xffffffff) >>> 0) + "";
+  chatName =
+    newChat.value ||
+    `Unnamed ${
+      +Object.keys(localStorage)
+        .filter((key) => key.startsWith("CHAT:Unnamed "))
+        .map((key) => +key.slice("CHAT:Unnamed ".length) || 0)
+        .sort((a, b) => a - b)
+        .reverse()[0] + 1 || 1
+    }`;
+
+  model = document.querySelector("input[type=radio][name=model]:checked").id;
+  saveConversation();
+  console.log(chatName);
+  loadConversation();
+  loadChats();
+};
 
 function writeMessage(message) {
   addMessage({ role: "user", content: message });
@@ -86,9 +111,12 @@ function writeMessage(message) {
 }
 
 function saveConversation() {
-  let exists = !!localStorage.getItem(`CHAT:${chatName}`);
-  localStorage.setItem(`CHAT:${chatName}`, JSON.stringify({ messages: conversation, model }));
+  chatNames[chatId] = chatName;
+  let exists = !!localStorage.getItem(`CHAT:${chatId}`);
+  localStorage.setItem(`CHAT:${chatId}`, JSON.stringify({ messages: conversation, model }));
   localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+  localStorage.setItem("chatNames", JSON.stringify(chatNames));
+
   if (!exists) {
     loadChats();
   }
@@ -99,20 +127,22 @@ function loadConversation() {
     chat.removeChild(chat.firstChild);
   }
 
-  urlParams.set("c", chatName);
+  urlParams.set("c", chatId);
   history.replaceState({}, "", "?" + urlParams.toString());
 
-  chatNameEle.innerText = `${chatName} ᛫ ${model}`;
-  chatData = JSON.parse(localStorage.getItem(`CHAT:${chatName}`)) || {};
+  chatData = JSON.parse(localStorage.getItem(`CHAT:${chatId}`)) || {};
+  console.log(chatData);
   conversation = chatData.messages || [];
   model = chatData.model || model;
+  chatName = chatNames[chatId] || "Unnamed";
+  chatNameEle.innerText = `${chatName} ᛫ ${model}`;
 
   conversation.forEach(createMessage);
 }
 
 function addMessage(message) {
   conversation.push(message);
-  chatHistory[chatName] = Date.now();
+  chatHistory[chatId] = Date.now();
   createMessage(message);
   saveConversation();
 }
@@ -152,17 +182,17 @@ function loadChats() {
     .map((key) => key.slice("CHAT:".length));
 
   chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "{}");
-  console.log(chatHistory);
+  chatNames = JSON.parse(localStorage.getItem("chatNames") || "{}");
 
   chats.sort((a, b) => chatHistory[b] || 0 - chatHistory[a] || 0);
 
   chatsEle.append(
     ...chats.map((ele) => {
       const li = document.createElement("li");
-      li.append(bootStrapIcon("bi-chat"), document.createTextNode(ele));
+      li.append(bootStrapIcon("bi-chat"), document.createTextNode(chatNames[ele] || ele));
 
       li.onclick = () => {
-        chatName = ele;
+        chatId = ele;
         loadConversation();
       };
 
@@ -171,27 +201,6 @@ function loadChats() {
   );
 }
 
-newChatForm.onsubmit = (e) => {
-  e.preventDefault();
-  chatName =
-    newChat.value ||
-    `Unnamed ${
-      +Object.keys(localStorage)
-        .filter((key) => key.startsWith("CHAT:Unnamed "))
-        .map((key) => +key.slice("CHAT:Unnamed ".length) || 0)
-        .sort((a, b) => a - b)
-        .reverse()[0] + 1 || 1
-    }`;
-
-  model = document.querySelector("input[type=radio][name=model]:checked").id;
-  loadConversation();
-  saveConversation();
-  loadChats();
-};
-
 function bootStrapIcon(name) {
   return Object.assign(document.createElement("i"), { className: `bi ${name}` });
 }
-
-loadConversation();
-loadChats();
