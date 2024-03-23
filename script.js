@@ -30,12 +30,20 @@ var conversation = [];
 var chatName = urlParams.get("c") || "main";
 var locked = false;
 var model = "mixtral-8x7b-instant-pro";
+var chats = [];
+var chatHistory = {};
 
 const rockModel = (name) => {
   return (messages) => {
     return fetch("https://corsproxy.io/?https%3A%2F%2Fchat.discord.rocks%2Freply", {
       method: "POST",
-      body: JSON.stringify({ messages: messages, model: name }),
+      body: JSON.stringify({
+        messages: messages.map((obj) => ({
+          role: obj.role,
+          content: obj.content,
+        })),
+        model: name,
+      }),
       headers: { "Content-Type": "application/json" },
     });
   };
@@ -73,12 +81,17 @@ function writeMessage(message) {
       addMessage({ role: "assistant", content: assistantMessage });
     })
     .catch((errorMessage) => {
-      addMessage({ role: "assistant", content: `Error`, error: errorMessage });
+      addMessage({ role: "assistant", content: `Error`, error: String(errorMessage) });
     });
 }
 
 function saveConversation() {
+  let exists = !!localStorage.getItem(`CHAT:${chatName}`);
   localStorage.setItem(`CHAT:${chatName}`, JSON.stringify({ messages: conversation, model }));
+  localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+  if (!exists) {
+    loadChats();
+  }
 }
 
 function loadConversation() {
@@ -99,13 +112,13 @@ function loadConversation() {
 
 function addMessage(message) {
   conversation.push(message);
+  chatHistory[chatName] = Date.now();
   createMessage(message);
   saveConversation();
 }
 
 function createMessage(message) {
   const li = document.createElement("li");
-  marked.use({ renderer });
 
   let parsedMessage = !message.error
     ? marked
@@ -134,9 +147,14 @@ function loadChats() {
     chatsEle.removeChild(chatsEle.firstChild);
   }
 
-  const chats = Object.keys(localStorage)
+  chats = Object.keys(localStorage)
     .filter((key) => key.startsWith("CHAT:"))
     .map((key) => key.slice("CHAT:".length));
+
+  chatHistory = JSON.parse(localStorage.getItem("chatHistory") || "{}");
+  console.log(chatHistory);
+
+  chats.sort((a, b) => chatHistory[b] || 0 - chatHistory[a] || 0);
 
   chatsEle.append(
     ...chats.map((ele) => {
@@ -160,14 +178,14 @@ newChatForm.onsubmit = (e) => {
     `Unnamed ${
       +Object.keys(localStorage)
         .filter((key) => key.startsWith("CHAT:Unnamed "))
-        .map((key) => key.slice("CHAT:Unnamed ".length))
-        .sort()
-        .reverse()[0] + 1 || 0
+        .map((key) => +key.slice("CHAT:Unnamed ".length) || 0)
+        .sort((a, b) => a - b)
+        .reverse()[0] + 1 || 1
     }`;
 
   model = document.querySelector("input[type=radio][name=model]:checked").id;
-  localStorage.setItem(`CHAT:${chatName}`, "[]");
   loadConversation();
+  saveConversation();
   loadChats();
 };
 
