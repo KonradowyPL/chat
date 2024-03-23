@@ -7,7 +7,6 @@ const chatsEle = document.getElementById("chats");
 
 const renderer = new marked.Renderer();
 renderer.code = function (code, language) {
-  console.log("pared!");
   // Check if the language is valid for highlight.js
   const validLanguage = !!(language && hljs.getLanguage(language));
   // Highlight the code
@@ -64,13 +63,15 @@ function writeMessage(message) {
       locked = false;
       if (response.ok) {
         return response.text();
-      } else return response.text();
+      } else {
+        throw "There was an error while generating your response. Check console and report bugs!";
+      }
     })
     .then((assistantMessage) => {
       addMessage({ role: "assistant", content: assistantMessage });
     })
     .catch((errorMessage) => {
-      addMessage({ role: "assistant", content: `Error`, error: String(errorMessage) });
+      addMessage({ role: "assistant", content: `Error`, error: errorMessage });
     });
 }
 
