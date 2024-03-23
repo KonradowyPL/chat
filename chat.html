@@ -27,7 +27,8 @@
           <label for="gemma-7b-instant">gemma-7b-instant</label>
         </div>
       </form>
-      <div id="chats"></div>
+      <div id="pinnedChats" class="chats"></div>
+      <div id="chats" class="chats"></div>
     </div>
     <div class="chatArea">
       <div id="chatMeta">
@@ -36,10 +37,12 @@
         <span id="chatModel"></span>
         <button class="bi bi-three-dots-vertical" id="chatSettings"></button>
       </div>
-      <ul id="messages"></ul>
+      <div id="messages"></div>
       <textarea name="" id="message" cols="30" rows="5" autofocus placeholder="Your message here..."></textarea>
       <div id="settingsBox" class="chatRelated hidden settings">
         <input type="text" name="" id="renameChat" placeholder="Rename chat" maxlength="20" />
+        <input type="checkbox" name="" id="pinChat" /> <label for="pinChat">pin chat</label>
+        <button type="button" id="deleteChat">Delete Chat (Irreversable <i class="bi bi-emoji-frown"></i>)</button>
       </div>
     </div>
   </body>

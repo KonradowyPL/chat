@@ -8,6 +8,9 @@ const chatsEle = document.getElementById("chats");
 const chatSettings = document.getElementById("chatSettings");
 const settingsBox = document.getElementById("settingsBox");
 const renameChatEle = document.getElementById("renameChat");
+const pinChat = document.getElementById("pinChat");
+const pinnedChatsEle = document.getElementById("pinnedChats");
+const deleteChat = document.getElementById("deleteChat");
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -31,13 +34,14 @@ marked.use({
 });
 
 var conversation = [];
-var chatId = urlParams.get("c") || Object.keys(JSON.parse(localStorage.getItem("chatHistory")))[0];
+var chatId = urlParams.get("c") || Object.keys(JSON.parse(localStorage.getItem("chatHistory") || "[]"))[0] || ((Math.random() * 0xffffffff) >>> 0) + "";
 var chatName;
 var locked = false;
 var model = "mixtral-8x7b-instant-pro";
 var chats = [];
-var chatHistory = JSON.parse(localStorage.getItem("chatHistory"));
-var chatNames = JSON.parse(localStorage.getItem("chatNames"));
+var chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || {};
+var chatNames = JSON.parse(localStorage.getItem("chatNames")) || {};
+var pinnedChats = JSON.parse(localStorage.getItem("pinnedChats")) || [];
 
 const rockModel = (name) => {
   return (messages) => {
@@ -110,6 +114,28 @@ chatSettings.addEventListener("click", (e) => {
   }
 });
 
+pinChat.addEventListener("change", (e) => {
+  if (pinChat.checked) {
+    pinnedChats.push(chatId);
+  } else {
+    pinnedChats.splice(pinnedChats.indexOf(chatId), 1);
+  }
+  saveConversation();
+  loadChats();
+});
+
+deleteChat.addEventListener("click", (e) => {
+  localStorage.removeItem(`CHAT:${chatId}`);
+  delete chatHistory[chatId];
+  delete chatNames[chatId];
+  pinnedChats.splice(pinnedChats.indexOf(chatId), 1);
+  chatId = Object.keys(chatHistory)[0];
+  loadConversation();
+  saveConversation();
+  loadChats();
+  settingsBox.classList.add("hidden");
+});
+
 function writeMessage(message) {
   addMessage({ role: "user", content: message });
 
@@ -138,6 +164,7 @@ function saveConversation() {
   localStorage.setItem(`CHAT:${chatId}`, JSON.stringify({ messages: conversation, model }));
   localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
   localStorage.setItem("chatNames", JSON.stringify(chatNames));
+  localStorage.setItem("pinnedChats", JSON.stringify(pinnedChats));
 
   if (!exists) {
     loadChats();
@@ -155,8 +182,9 @@ function loadConversation() {
   chatData = JSON.parse(localStorage.getItem(`CHAT:${chatId}`)) || {};
   conversation = chatData.messages || [];
   model = chatData.model || model;
-  chatName = chatNames[chatId];
+  chatName = chatNames[chatId] || "Main";
   renameChatEle.value = chatName;
+  pinChat.checked = pinnedChats.indexOf(chatId) != -1;
 
   loadConversationMeta();
   conversation.forEach(createMessage);
@@ -176,7 +204,7 @@ function addMessage(message) {
 }
 
 function createMessage(message) {
-  const li = document.createElement("li");
+  const li = document.createElement("div");
 
   let parsedMessage = !message.error
     ? marked
@@ -204,6 +232,9 @@ function loadChats() {
   while (chatsEle.firstChild) {
     chatsEle.removeChild(chatsEle.firstChild);
   }
+  while (pinnedChatsEle.firstChild) {
+    pinnedChatsEle.removeChild(pinnedChatsEle.firstChild);
+  }
 
   chats = Object.keys(localStorage)
     .filter((key) => key.startsWith("CHAT:"))
@@ -214,21 +245,27 @@ function loadChats() {
 
   chats.sort((a, b) => (chatHistory[b] || 0) - (chatHistory[a] || 0));
 
-  chatsEle.append(
-    ...chats.map((ele) => {
-      const li = document.createElement("li");
-      li.append(bootStrapIcon("bi-chat"), document.createTextNode(chatNames[ele]));
-      li.setAttribute("data-id", ele);
+  const pinned = chats.filter((chat) => pinnedChats.indexOf(chat) != -1);
+  const unpinned = chats.filter((chat) => pinnedChats.indexOf(chat) == -1);
 
-      li.onclick = () => {
-        chatId = ele;
-        settingsBox.classList.add("hidden");
-        loadConversation();
-      };
+  const c = (ele) => {
+    const li = document.createElement("li");
+    li.append(bootStrapIcon(icon), document.createTextNode(chatNames[ele]));
+    li.setAttribute("data-id", ele);
 
-      return li;
-    })
-  );
+    li.onclick = () => {
+      chatId = ele;
+      settingsBox.classList.add("hidden");
+      loadConversation();
+    };
+
+    return li;
+  };
+
+  var icon = "bi-chat";
+  chatsEle.append(...unpinned.map(c));
+  icon = "bi-pin";
+  pinnedChatsEle.append(...pinned.map(c));
 }
 
 function bootStrapIcon(name) {
