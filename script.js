@@ -11,6 +11,7 @@ const renameChatEle = document.getElementById("renameChat");
 const pinChat = document.getElementById("pinChat");
 const pinnedChatsEle = document.getElementById("pinnedChats");
 const deleteChat = document.getElementById("deleteChat");
+const navToggle = document.getElementById("navToggle");
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -95,6 +96,8 @@ newChatForm.onsubmit = (e) => {
   loadConversation();
   saveConversation();
   loadChats();
+
+  document.body.classList.remove("nav");
 };
 
 renameChatEle.addEventListener("input", (e) => {
@@ -133,6 +136,11 @@ deleteChat.addEventListener("click", (e) => {
   loadConversation();
   saveConversation();
   loadChats();
+  settingsBox.classList.add("hidden");
+});
+
+navToggle.addEventListener("click", (e) => {
+  document.body.classList.toggle("nav");
   settingsBox.classList.add("hidden");
 });
 
@@ -256,6 +264,7 @@ function loadChats() {
     li.onclick = () => {
       chatId = ele;
       settingsBox.classList.add("hidden");
+      document.body.classList.remove("nav");
       loadConversation();
     };
 

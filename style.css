@@ -7,8 +7,16 @@ html {
 body {
   height: 100vh;
   margin: 0;
-  display: flex;
   font-family: "Kulim Park", sans-serif;
+
+  display: grid;
+  position: relative;
+  grid-template-areas:
+    "N I"
+    "C M"
+    "C T";
+  grid-template-columns: 200px auto;
+  grid-template-rows: 100px auto 100px;
 }
 
 .chatArea {
@@ -23,6 +31,7 @@ body {
 }
 
 #messages {
+  grid-area: M;
   max-height: 100%;
   overflow-y: scroll;
   flex-grow: 1;
@@ -34,9 +43,9 @@ body {
 }
 
 #navbar {
+  grid-area: C;
   width: 200px;
   min-width: 200px;
-  border-right: 1px solid white;
 }
 
 .chats li {
@@ -57,6 +66,7 @@ body {
 }
 #message {
   min-height: 20px;
+  grid-area: T;
 }
 
 #messages > div.robot .message {
@@ -77,7 +87,7 @@ body {
 .modelSelect {
   margin-top: auto;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 20px auto;
   margin-bottom: 20px;
 }
 
@@ -103,6 +113,11 @@ code .copy {
   top: 5px;
   right: 5px;
   cursor: pointer;
+}
+
+#newChatForm {
+  grid-area: N;
+  height: 30px;
 }
 
 .newSelector {
@@ -153,6 +168,7 @@ blockquote br:first-child {
   padding-right: 2px;
   display: flex;
   height: 20px;
+  grid-area: I;
 }
 
 #chatSettings {
@@ -182,4 +198,41 @@ blockquote br:first-child {
 
 #pinnedChats {
   margin-bottom: 10px;
+}
+
+#navToggle {
+  display: none;
+  position: absolute;
+}
+
+@media screen and (max-width: 800px) {
+  #navToggle {
+    display: block;
+  }
+
+  body.nav #navToggle {
+    right: 0;
+    z-index: 100;
+  }
+
+  body:not(.nav) #newChatForm,
+  body:not(.nav) #navbar {
+    display: none;
+  }
+  body:not(.nav) #chatMeta {
+    margin-left: 30px;
+  }
+
+  body {
+    grid-template-columns: 0 100%;
+  }
+
+  body.nav {
+    grid-template-columns: 100% 0;
+  }
+  body.nav #message,
+  body.nav #messages,
+  body.nav #chatMeta {
+    display: none;
+  }
 }

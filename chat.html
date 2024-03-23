@@ -13,37 +13,38 @@
     <script src="./script.js" defer></script>
   </head>
   <body>
+    <button id="navToggle"><i class="bi bi-list"></i></button>
+
+    <form action="" id="newChatForm" maxlength="10">
+      <div class="newSelector">
+        <input type="text" name="" id="newChat" placeholder="Create new chat" maxlength="20" /> <button type="submit"><i class="bi bi-plus-lg"></i></button>
+      </div>
+      <div class="modelSelect">
+        <input type="radio" name="model" id="mixtral-8x7b-instant-pro" checked />
+        <label for="mixtral-8x7b-instant-pro">mixtral-8x7b-instant-pro</label>
+        <input type="radio" name="model" id="mixtral-8x7b-instant" />
+        <label for="mixtral-8x7b-instant">mixtral-8x7b-instant</label>
+        <input type="radio" name="model" id="gemma-7b-instant" />
+        <label for="gemma-7b-instant">gemma-7b-instant</label>
+      </div>
+    </form>
+    <div id="chatMeta">
+      <span id="chatName"></span>
+      <i class="bi bi-dot"></i>
+      <span id="chatModel"></span>
+      <button class="bi bi-three-dots-vertical" id="chatSettings"></button>
+    </div>
     <div id="navbar">
-      <form action="" id="newChatForm" maxlength="10">
-        <div class="newSelector">
-          <input type="text" name="" id="newChat" placeholder="Create new chat" maxlength="20" /> <button type="submit"><i class="bi bi-plus-lg"></i></button>
-        </div>
-        <div class="modelSelect">
-          <input type="radio" name="model" id="mixtral-8x7b-instant-pro" checked />
-          <label for="mixtral-8x7b-instant-pro">mixtral-8x7b-instant-pro</label>
-          <input type="radio" name="model" id="mixtral-8x7b-instant" />
-          <label for="mixtral-8x7b-instant">mixtral-8x7b-instant</label>
-          <input type="radio" name="model" id="gemma-7b-instant" />
-          <label for="gemma-7b-instant">gemma-7b-instant</label>
-        </div>
-      </form>
       <div id="pinnedChats" class="chats"></div>
       <div id="chats" class="chats"></div>
     </div>
-    <div class="chatArea">
-      <div id="chatMeta">
-        <span id="chatName"></span>
-        <i class="bi bi-dot"></i>
-        <span id="chatModel"></span>
-        <button class="bi bi-three-dots-vertical" id="chatSettings"></button>
-      </div>
-      <div id="messages"></div>
-      <textarea name="" id="message" cols="30" rows="5" autofocus placeholder="Your message here..."></textarea>
-      <div id="settingsBox" class="chatRelated hidden settings">
-        <input type="text" name="" id="renameChat" placeholder="Rename chat" maxlength="20" />
-        <input type="checkbox" name="" id="pinChat" /> <label for="pinChat">pin chat</label>
-        <button type="button" id="deleteChat">Delete Chat (Irreversable <i class="bi bi-emoji-frown"></i>)</button>
-      </div>
+
+    <div id="messages"></div>
+    <textarea name="" id="message" cols="30" rows="5" autofocus placeholder="Your message here..."></textarea>
+    <div id="settingsBox" class="chatRelated hidden settings">
+      <input type="text" name="" id="renameChat" placeholder="Rename chat" maxlength="20" />
+      <input type="checkbox" name="" id="pinChat" /> <label for="pinChat">pin chat</label>
+      <button type="button" id="deleteChat">Delete Chat (Irreversable <i class="bi bi-emoji-frown"></i>)</button>
     </div>
   </body>
 </html>
