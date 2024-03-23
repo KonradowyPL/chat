@@ -10,7 +10,7 @@ const settingsBox = document.getElementById("settingsBox");
 const renameChatEle = document.getElementById("renameChat");
 const pinChat = document.getElementById("pinChat");
 const pinnedChatsEle = document.getElementById("pinnedChats");
-const deleteChat = document.getElementById("deleteChat");
+const deleteChatEle = document.getElementById("deleteChat");
 const navToggle = document.getElementById("navToggle");
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -127,17 +127,23 @@ pinChat.addEventListener("change", (e) => {
   loadChats();
 });
 
-deleteChat.addEventListener("click", (e) => {
-  localStorage.removeItem(`CHAT:${chatId}`);
-  delete chatHistory[chatId];
-  delete chatNames[chatId];
-  pinnedChats.splice(pinnedChats.indexOf(chatId), 1);
-  chatId = Object.keys(chatHistory)[0];
-  loadConversation();
+deleteChatEle.addEventListener("click", (e) => {
+  deleteChat(chatId);
+});
+
+function deleteChat(chat) {
+  localStorage.removeItem(`CHAT:${chat}`);
+  delete chatHistory[chat];
+  delete chatNames[chat];
+  pinnedChats.splice(pinnedChats.indexOf(chat), 1);
+  if (chat == chatId) {
+    chatId = Object.keys(chatNames)[0] || ((Math.random() * 0xffffffff) >>> 0) + "";
+    loadConversation();
+  }
   saveConversation();
   loadChats();
   settingsBox.classList.add("hidden");
-});
+}
 
 navToggle.addEventListener("click", (e) => {
   document.body.classList.toggle("nav");
@@ -289,4 +295,14 @@ function renameChat(id, name) {
     chatName = name;
     loadConversationMeta();
   }
+}
+
+function purgeChats() {
+  chats.forEach((c) => {
+    const dat = JSON.parse(localStorage.getItem(`CHAT:${c}`) || "{}");
+
+    if (dat?.messages?.length == 0) {
+      deleteChat(c);
+    }
+  });
 }

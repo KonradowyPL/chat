@@ -182,16 +182,15 @@ blockquote br:first-child {
 
 .settings {
   background-color: #121212;
-  position: absolute;
   width: 100%;
   height: 100%;
-  left: 0;
-  top: 0;
+  grid-area: M;
 }
-.settings.chatRelated {
-  top: 30px;
-  height: calc(100% - 30px);
+
+body:has(.settings:not(.hidden)) > #message {
+  display: none;
 }
+
 .settings.hidden {
   display: none;
 }
