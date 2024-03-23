@@ -5,6 +5,8 @@ const newChat = document.getElementById("newChat");
 const newChatForm = document.getElementById("newChatForm");
 const chatsEle = document.getElementById("chats");
 
+const urlParams = new URLSearchParams(window.location.search);
+
 const renderer = new marked.Renderer();
 renderer.code = function (code, language) {
   // Check if the language is valid for highlight.js
@@ -25,7 +27,7 @@ marked.use({
 });
 
 var conversation = [];
-var chatName = "main";
+var chatName = urlParams.get("c") || "main";
 var locked = false;
 var model = "mixtral-8x7b-instant-pro";
 
@@ -83,6 +85,9 @@ function loadConversation() {
   while (chat.firstChild) {
     chat.removeChild(chat.firstChild);
   }
+
+  urlParams.set("c", chatName);
+  history.replaceState({}, "", "?" + urlParams.toString());
 
   chatNameEle.innerText = `${chatName} ᛫ ${model}`;
   chatData = JSON.parse(localStorage.getItem(`CHAT:${chatName}`)) || {};
