@@ -41,6 +41,7 @@ newChat.onclick = (e) => {
   const textarea = document.createElement("textarea");
   const select = document.createElement("select");
   textarea.placeholder = "Message mixtral-8x7b-instant-pro...";
+  const chatName = Object.assign(document.createElement("input"), { placeholder: "Unnamed", maxLength: 20 });
   select.append(
     Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant-pro", innerText: "mixtral-8x7b-instant-pro" }),
     Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant", innerText: "mixtral-8x7b-instant" }),
@@ -58,6 +59,9 @@ newChat.onclick = (e) => {
   textarea.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+
+      console.log({ name: chatName.value || "Unnamed", model: select.value, messages: { role: "user", content: textarea.value } });
+
       textarea.value = "";
       textarea.style.height = "auto";
     }
@@ -66,15 +70,15 @@ newChat.onclick = (e) => {
   const g1 = document.createElement("div");
   const g2 = document.createElement("div");
 
-  g1.append(
-    Object.assign(document.createElement("span"), { innerText: "Chat name:" }),
-    Object.assign(document.createElement("input"), { placeholder: "Unnamed", maxLength: 20 })
-  );
+  g1.append(Object.assign(document.createElement("span"), { innerText: "Chat name:" }), chatName);
 
   g2.append(Object.assign(document.createElement("span"), { innerText: "Model:" }), select);
   settings.append(g1, g2);
 
   main.append(settings, textarea);
+
+  textarea.focus();
+  textarea.selectionStart = textarea.value.length;
 };
 
 newChat.onclick();

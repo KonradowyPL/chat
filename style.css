@@ -11,6 +11,12 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: row;
+}
+
+body,
+textarea,
+input,
+option {
   font-family: "Kulim Park", sans-serif;
 }
 
@@ -36,19 +42,25 @@ body[data-state="newChat"] > #main > div > div > select {
   width: 100%;
   box-sizing: border-box;
   font-size: 120%;
-  border: 0;
-  padding: 20px;
-  border-radius: 10px;
+  border: none;
+  padding: 5px;
+  background-color: transparent;
 }
 body[data-state="newChat"] > #main > div > div {
   display: flex;
   flex-direction: column;
   width: clamp(100px, 50%, 400px);
+  padding: 10px;
+  border-radius: 10px;
+  background-color: field;
 }
 
-body[data-state="newChat"] > #main > div > select:focus {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+body[data-state="newChat"] > #main > div > div > :focus {
+  outline: none;
+}
+
+body[data-state="newChat"] > #main > div > div:focus-within {
+  outline: 1px solid white;
 }
 
 body[data-state="newChat"] > #main > textarea {
@@ -61,7 +73,6 @@ body[data-state="newChat"] > #main > textarea {
   border: 0;
   padding: 20px;
   border-radius: 10px;
-  font-family: "Kulim Park", sans-serif;
 }
 
 body[data-state="newChat"] > #main > div {
@@ -73,4 +84,9 @@ body[data-state="newChat"] > #main > div {
   padding: 20px;
   flex-grow: 1;
   width: 100%;
+}
+
+option {
+  background-color: field;
+  padding-left: 5px;
 }
