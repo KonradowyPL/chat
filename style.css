@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Kulim+Park:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&display=swap");
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  font-family: "Kulim Park", sans-serif;
+}
+
+#nav {
+  width: 200px;
+}
+
+#main {
+  width: calc(100vw - 200px);
+}
+
+body[data-state="newChat"] > #main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+body[data-state="newChat"] > #main > div > div > input,
+body[data-state="newChat"] > #main > div > div > select {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 120%;
+  border: 0;
+  padding: 20px;
+  border-radius: 10px;
+}
+body[data-state="newChat"] > #main > div > div {
+  display: flex;
+  flex-direction: column;
+  width: clamp(100px, 50%, 400px);
+}
+
+body[data-state="newChat"] > #main > div > select:focus {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+body[data-state="newChat"] > #main > textarea {
+  resize: none;
+  width: 80%;
+  min-height: 100px;
+  max-height: 500px;
+  box-sizing: border-box;
+  font-size: 120%;
+  border: 0;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: "Kulim Park", sans-serif;
+}
+
+body[data-state="newChat"] > #main > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  flex-grow: 1;
+  width: 100%;
+}
