@@ -30,10 +30,10 @@ const chatMessages = (id, messages) => {
     },
   });
 };
-newChat.onclick = newChatUI;
 
 const chats = (() => {
-  let chats = {};
+  const chatsObj = tryParse(localStorage.getItem("chats"), {});
+  const chats = {};
 
   const saveChats = () => {
     decompiledObj = {};
@@ -46,16 +46,14 @@ const chats = (() => {
     localStorage.setItem("chats", JSON.stringify(decompiledObj));
   };
 
-  let chatsObj = tryParse(localStorage.getItem("chats"), {});
+  Object.keys(chatsObj).forEach((key) => {
+    // these lines make sure that most of code will run without errors
+    let chat = chatsObj[key] || {};
+    chat.name ||= "Unnamed";
+    chat.model ||= "mixtral-8x7b-instant-pro";
+    chat.messages = chatMessages(key);
 
-  Object.keys(chatsObj).forEach((key, index) => {
-    chatsObj[key].name ||= "Unnamed";
-    chatsObj[key].model ||= "mixtral-8x7b-instant-pro";
-    chatsObj[key].messages = chatMessages(key);
-  });
-
-  Object.keys(chatsObj).forEach((key, index) => {
-    chats[key] = new Proxy(chatsObj[key], {
+    chats[key] = new Proxy(chat, {
       set: (target, property, value) => {
         target[property] = value;
         saveChats();
@@ -64,3 +62,5 @@ const chats = (() => {
   });
   return chats;
 })();
+
+newChat.onclick = newChatUI;
