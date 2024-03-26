@@ -10,8 +10,8 @@ function tryParse(str, exit) {
 
 // behaves like normal array, but is loaded only when needed
 // args: chat id to load from localstorage
-const chatMessages = (id) => {
-  return new Proxy([], {
+const chatMessages = (id, messages) => {
+  return new Proxy(messages || [], {
     // target == backend object
     // property == vaule passed as key
     // value == proxy object
@@ -30,55 +30,37 @@ const chatMessages = (id) => {
     },
   });
 };
+newChat.onclick = newChatUI;
 
-const chat = chatMessages("0");
+const chats = (() => {
+  let chats = {};
 
-newChat.onclick = (e) => {
-  while (main.firstChild) main.removeChild(main.firstChild);
-
-  document.body.setAttribute("data-state", "newChat");
-  const settings = document.createElement("div");
-  const textarea = document.createElement("textarea");
-  const select = document.createElement("select");
-  textarea.placeholder = "Message mixtral-8x7b-instant-pro...";
-  const chatName = Object.assign(document.createElement("input"), { placeholder: "Unnamed", maxLength: 20 });
-  select.append(
-    Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant-pro", innerText: "mixtral-8x7b-instant-pro" }),
-    Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant", innerText: "mixtral-8x7b-instant" }),
-    Object.assign(document.createElement("option"), { value: "gemma-7b-instant", innerText: "gemma-7b-instant" })
-  );
-  select.onchange = (e) => {
-    textarea.placeholder = `Message ${select.value}...`;
+  const saveChats = () => {
+    decompiledObj = {};
+    Object.keys(chats).forEach((key, index) => {
+      let obj = Object.assign({}, chats[key]);
+      delete obj.messages;
+      decompiledObj[key] = obj;
+    });
+    console.info("saved chat data!");
+    localStorage.setItem("chats", JSON.stringify(decompiledObj));
   };
 
-  textarea.addEventListener("input", (e) => {
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+  let chatsObj = tryParse(localStorage.getItem("chats"), {});
+
+  Object.keys(chatsObj).forEach((key, index) => {
+    chatsObj[key].name ||= "Unnamed";
+    chatsObj[key].model ||= "mixtral-8x7b-instant-pro";
+    chatsObj[key].messages = chatMessages(key);
   });
 
-  textarea.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-
-      console.log({ name: chatName.value || "Unnamed", model: select.value, messages: { role: "user", content: textarea.value } });
-
-      textarea.value = "";
-      textarea.style.height = "auto";
-    }
+  Object.keys(chatsObj).forEach((key, index) => {
+    chats[key] = new Proxy(chatsObj[key], {
+      set: (target, property, value) => {
+        target[property] = value;
+        saveChats();
+      },
+    });
   });
-
-  const g1 = document.createElement("div");
-  const g2 = document.createElement("div");
-
-  g1.append(Object.assign(document.createElement("span"), { innerText: "Chat name:" }), chatName);
-
-  g2.append(Object.assign(document.createElement("span"), { innerText: "Model:" }), select);
-  settings.append(g1, g2);
-
-  main.append(settings, textarea);
-
-  textarea.focus();
-  textarea.selectionStart = textarea.value.length;
-};
-
-newChat.onclick();
+  return chats;
+})();
