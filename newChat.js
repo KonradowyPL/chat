@@ -26,6 +26,7 @@ const newChatUI = () => {
       e.preventDefault();
       if (textarea.value) {
         currentChat = createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value }] });
+        askAiWrapper(select.value, chats[currentChat].messages);
         displayChat();
         textarea.value = "";
         textarea.style.height = "auto";
@@ -44,5 +45,7 @@ const newChatUI = () => {
   main.append(settings, textarea);
 
   textarea.focus();
-  textarea.selectionStart = textarea.value.length;
+  chatName.tabIndex = 2;
+  select.tabIndex = 3;
+  textarea.tabIndex = 1;
 };

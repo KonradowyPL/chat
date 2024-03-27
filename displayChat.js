@@ -1,7 +1,8 @@
-var currentChat;
-
 const setChat = (chatId) => {
   currentChat = chatId;
+  params.set("c", chatId);
+  url.search = params.toString();
+  history.pushState({}, "", url.toString());
 };
 
 const displayChat = () => {
@@ -25,17 +26,29 @@ const displayChat = () => {
   textarea.addEventListener("input", (e) => {
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
+    messages.style.paddingBottom = textarea.scrollHeight + 10 + "px";
   });
 
   textarea.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      chats[currentChat].messages.push({ role: "user", content: textarea.value });
-      askAiWrapper(chats[currentChat].model, chats[currentChat].messages);
+      if (!locked) {
+        let isTop = messages.scrollTop + messages.clientHeight >= messages.scrollHeight;
+
+        chats[currentChat].messages.push({ role: "user", content: textarea.value });
+        askAiWrapper(chats[currentChat].model, chats[currentChat].messages, isTop);
+
+        // scroll bottom
+        if (isTop) messages.scrollTop = messages.scrollHeight;
+
+        textarea.value = "";
+      }
     }
   });
 
   main.append(meta, messages, textarea);
+  messages.scrollTop = messages.scrollHeight;
+  textarea.focus();
 
   // called (helpfully) when message content changes in current chat
   onMessageChange = (index) => {
@@ -46,7 +59,16 @@ const displayChat = () => {
   };
 };
 
-// TODO: rewrite this
-const createMessageObj = (content, role) => {
-  return Object.assign(document.createElement("div"), { innerText: `${role}: ${content}` });
+const createMessageObj = (content, role, error) => {
+  const box = document.createElement("div");
+  box.classList.add(...[role == "user" ? "person" : "robot", "message"]);
+  box.append(
+    bootStrapIcon(role == "user" ? "bi-person" : "bi-robot"),
+    Object.assign(document.createElement("div"), { innerHTML: error || content, classList: `content ${error ? "error" : ""}` })
+  );
+  return box;
 };
+
+function bootStrapIcon(name) {
+  return Object.assign(document.createElement("i"), { className: `bi ${name}` });
+}

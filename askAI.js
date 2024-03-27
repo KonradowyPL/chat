@@ -38,8 +38,18 @@ const askAI = (model, messages) => {
     });
 };
 
-const askAiWrapper = (model, messages) => {
-  askAI(model, messages).then((response) => {
-    chats[currentChat].messages.push(response);
-  });
+var locked = false;
+
+const askAiWrapper = (model, messages, scrollBottom) => {
+  if (!locked) {
+    locked = true;
+    let messagesObj = document.querySelector("body[data-state=chat] > #main > .messages");
+
+    askAI(model, messages).then((response) => {
+      locked = false;
+      chats[currentChat].messages.push(response);
+
+      if (scrollBottom) messagesObj.scrollTop = messagesObj.scrollHeight;
+    });
+  }
 };
