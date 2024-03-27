@@ -1,7 +1,7 @@
 const newChatUI = () => {
   while (main.firstChild) main.removeChild(main.firstChild);
-
   document.body.setAttribute("data-state", "newChat");
+
   const settings = document.createElement("div");
   const textarea = document.createElement("textarea");
   const select = document.createElement("select");
@@ -24,11 +24,12 @@ const newChatUI = () => {
   textarea.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-
-      createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value }] });
-
-      textarea.value = "";
-      textarea.style.height = "auto";
+      if (textarea.value) {
+        currentChat = createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value }] });
+        displayChat(currentChat);
+        textarea.value = "";
+        textarea.style.height = "auto";
+      }
     }
   });
 

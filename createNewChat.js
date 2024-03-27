@@ -1,5 +1,7 @@
 const createNewChat = (chatDat) => {
-  createNewChatObj(chatDat, newChatId());
+  const id = newChatId();
+  createNewChatObj(chatDat, id);
+  return id;
 };
 
 const newChatId = () => {
