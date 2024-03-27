@@ -26,7 +26,7 @@ const newChatUI = () => {
       e.preventDefault();
       if (textarea.value) {
         currentChat = createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value }] });
-        displayChat(currentChat);
+        displayChat();
         textarea.value = "";
         textarea.style.height = "auto";
       }
