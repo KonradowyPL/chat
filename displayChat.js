@@ -30,10 +30,20 @@ const displayChat = () => {
   textarea.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      chats[currentChat].messages.push({ role: "user", content: textarea.value });
+      askAiWrapper(chats[currentChat].model, chats[currentChat].messages);
     }
   });
 
   main.append(meta, messages, textarea);
+
+  // called (helpfully) when message content changes in current chat
+  onMessageChange = (index) => {
+    if (index == messages.childElementCount) {
+      let messageObj = chats[currentChat].messages[index];
+      messages.append(createMessageObj(messageObj.content, messageObj.role));
+    }
+  };
 };
 
 // TODO: rewrite this

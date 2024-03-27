@@ -6,7 +6,7 @@ const createNewChat = (chatDat) => {
 
 const newChatId = () => {
   const rand = () => Array.from(new Array(16), () => characters[Math.floor(Math.random() * characters.length)]).join("");
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_";
   let id = rand();
   while (chats[id]) id = rand();
   return id;
@@ -67,6 +67,8 @@ const chatMessages = (id, messages) => {
       if (!target?.length) this.get(target, property, value);
       target[property] = value;
       localStorage.setItem(`CHAT:${id}`, JSON.stringify(target));
+
+      if (id == currentChat) onMessageChange(property);
       return true;
     },
   });
