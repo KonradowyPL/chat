@@ -1,5 +1,13 @@
-const createNewChat = (params) => {
-  console.log(params);
+const createNewChat = (chatDat) => {
+  createNewChatObj(chatDat, newChatId());
+};
+
+const newChatId = () => {
+  const rand = () => Array.from(new Array(16), () => characters[Math.floor(Math.random() * characters.length)]).join("");
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-";
+  let id = rand();
+  while (chats[id]) id = rand();
+  return id;
 };
 
 const saveChats = () => {
@@ -13,12 +21,12 @@ const saveChats = () => {
   localStorage.setItem("chats", JSON.stringify(decompiledObj));
 };
 
-const createNewChatObj = (chatDat, chatId) => {
+const createNewChatObj = (chatDat, chatId, noSave) => {
   // these lines make sure that most of code will run without errors
   chatDat ||= [];
   chatDat.name ||= "Unnamed";
   chatDat.model ||= "mixtral-8x7b-instant-pro";
-  chatDat.messages = chatMessages(chatId);
+  chatDat.messages = chatMessages(chatId, chatDat.messages);
 
   // create proxy object for each chat
   chats[chatId] = new Proxy(chatDat, {
@@ -27,19 +35,21 @@ const createNewChatObj = (chatDat, chatId) => {
       saveChats();
     },
   });
+  if (!noSave) saveChats();
 };
 
 const loadChats = () => {
   const chatsFromStorage = tryParse(localStorage.getItem("chats"), {});
   // for rach object create new chat
   Object.keys(chatsFromStorage).forEach((key) => {
-    createNewChatObj(chatsFromStorage[key], key);
+    createNewChatObj(chatsFromStorage[key], key, true);
   });
 };
 
 // behaves like normal array, but is loaded only when needed
 // args: chat id to load from localstorage
 const chatMessages = (id, messages) => {
+  if (!localStorage.getItem(`CHAT:${id}`)) localStorage.setItem(`CHAT:${id}`, JSON.stringify(messages));
   return new Proxy(messages || [], {
     // target == backend object
     // property == vaule passed as key

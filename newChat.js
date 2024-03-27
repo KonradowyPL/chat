@@ -25,7 +25,7 @@ const newChatUI = () => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
 
-      createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: { role: "user", content: textarea.value } });
+      createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value }] });
 
       textarea.value = "";
       textarea.style.height = "auto";

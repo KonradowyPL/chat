@@ -8,30 +8,8 @@ function tryParse(str, exit) {
   }
 }
 
-// behaves like normal array, but is loaded only when needed
-// args: chat id to load from localstorage
-const chatMessages = (id, messages) => {
-  return new Proxy(messages || [], {
-    // target == backend object
-    // property == vaule passed as key
-    // value == proxy object
-    get: function (target, property, value) {
-      if (!target?.length) {
-        target.push(...tryParse(localStorage.getItem(`CHAT:${id}`), []));
-        console.info("HOT Loaded");
-      }
-      return target[property];
-    },
-    set: function (target, property, value) {
-      if (!target?.length) this.get(target, property, value);
-      target[property] = value;
-      localStorage.setItem(`CHAT:${id}`, JSON.stringify(target));
-      return true;
-    },
-  });
-};
-
 const chats = {};
 loadChats();
 
 newChat.onclick = newChatUI;
+newChat.onclick();
