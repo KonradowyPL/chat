@@ -41,16 +41,17 @@ const askAI = (model, messages) => {
 var locked = false;
 
 const askAiWrapper = (model, messages, scrollBottom) => {
+  let chat = currentChat;
   if (!locked) {
     locked = true;
     let messagesObj = document.querySelector("body[data-state=chat] > #main > .messages");
 
     askAI(model, messages).then((response) => {
       locked = false;
-      chats[currentChat].messages.push(response);
-      chats[currentChat].date = Date.now();
+      chats[chat].messages.push(response);
+      chats[chat].date = Date.now();
 
-      if (scrollBottom) messagesObj.scrollTop = messagesObj.scrollHeight;
+      if (scrollBottom && chat == currentChat) messagesObj.scrollTop = messagesObj.scrollHeight;
     });
   }
 };

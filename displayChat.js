@@ -14,6 +14,8 @@ const displayChat = () => {
   while (main.firstChild) main.removeChild(main.firstChild);
   document.body.setAttribute("data-state", "chat");
   const meta = document.createElement("div");
+  const textareaContainer = document.createElement("div");
+  textareaContainer.classList = "textarea-container";
   meta.classList = "chat-meta";
   meta.append(
     Object.assign(document.createElement("span"), { innerText: chats[currentChat].name }),
@@ -25,13 +27,14 @@ const displayChat = () => {
   messages.append(...chats[currentChat].messages.map((e) => createMessageObj(e.content, e.role, e.error)));
 
   const textarea = document.createElement("textarea");
-  textarea.placeholder = "Add a folowup question...";
+  textareaContainer.append(textarea);
+  textarea.placeholder = "Ask a folowup question...";
   textarea.addEventListener("input", (e) => {
     let isTop = messages.scrollTop + messages.clientHeight >= messages.scrollHeight;
 
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
-    messages.style.paddingBottom = textarea.scrollHeight + 30 + "px";
+    textareaContainer.style.height = "auto";
+    textareaContainer.style.height = textarea.scrollHeight + "px";
+    messages.style.paddingBottom = Math.min(textarea.scrollHeight, 500) + 30 + "px";
 
     if (isTop) messages.scrollTop = messages.scrollHeight;
   });
@@ -39,21 +42,24 @@ const displayChat = () => {
   textarea.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (!locked) {
+      if (!locked && textarea.value.trim()) {
         let isTop = messages.scrollTop + messages.clientHeight >= messages.scrollHeight;
 
-        chats[currentChat].messages.push({ role: "user", content: textarea.value });
+        chats[currentChat].messages.push({ role: "user", content: textarea.value.trim() });
         chats[currentChat].date = Date.now();
         askAiWrapper(chats[currentChat].model, chats[currentChat].messages, isTop);
 
         // scroll bottom
-
         textarea.value = "";
+
+        // reset size
+        textareaContainer.style.height = "auto";
+        textareaContainer.style.paddingBottom = textarea.scrollHeight + 30 + "px";
       }
     }
   });
 
-  main.append(meta, messages, textarea);
+  main.append(meta, messages, textareaContainer);
   messages.scrollTop = messages.scrollHeight;
   textarea.focus();
 

@@ -18,9 +18,11 @@ html {
   color-scheme: light dark;
   color: var(--font-primary);
   background-color: var(--bg-primary);
+  overscroll-behavior-y: contain;
 }
 
 body {
+  overscroll-behavior-y: contain;
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -112,13 +114,12 @@ option {
 }
 body[data-state="chat"] > #main > .messages {
   padding-bottom: 130px;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-left: 7%;
+  padding-right: 7%;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: 100%;
   max-height: 100%;
   overflow-y: auto;
   scrollbar-gutter: stable;
@@ -159,26 +160,40 @@ body[data-state="chat"] > #main > .messages > .message > .content.error {
   background-color: var(--chat-error);
 }
 
-body[data-state="chat"] > #main > textarea {
+body[data-state="chat"] > #main > .textarea-container > textarea {
   background-color: var(--bg-secondary);
-  position: absolute;
   resize: none;
   width: calc(80% - 32px);
-  min-height: 100px;
-  max-height: 500px;
+
   box-sizing: border-box;
   font-size: 120%;
   border: 0;
   padding: 20px;
   border-radius: 10px;
-  bottom: 20px;
+}
+
+body[data-state="chat"] > #main > .textarea-container {
+  position: absolute;
+  min-height: 100px;
+  max-height: 500px;
+  width: 100%;
+  padding-bottom: 20px;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(0deg, var(--bg-extra) 0%, transparent 100%);
 }
 
 body[data-state="chat"] > #main > .chat-meta {
-  width: calc(100% - 50px);
+  width: 100%;
   padding: 5px;
+  padding-left: 25px;
+  padding-right: 25px;
   display: flex;
+  box-sizing: border-box;
   justify-content: space-between;
+  background-color: var(--bg-thirdary);
+  border-bottom: var(--bg-extra) 3px solid;
 }
 
 #chatsContainer {
@@ -230,6 +245,7 @@ body[data-state="chat"] > #main > .chat-meta {
 }
 
 #chatsContainer > div > span {
+  padding-left: 25px;
   font-size: 75%;
   color: var(--font-secondary);
 }

@@ -27,8 +27,8 @@ const newChatUI = () => {
   textarea.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (textarea.value) {
-        currentChat = createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value }] });
+      if (textarea.value.trim()) {
+        currentChat = createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value.trim() }] });
         askAiWrapper(select.value, chats[currentChat].messages);
         displayChat();
         textarea.value = "";
