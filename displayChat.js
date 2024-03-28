@@ -4,6 +4,9 @@ const setChat = (chatId, noDisplay) => {
   url.search = params.toString();
   history.pushState({}, "", url.toString());
   if (!noDisplay) displayChat();
+
+  // update current chat
+  displayChatList();
 };
 
 const displayChat = () => {
@@ -24,9 +27,13 @@ const displayChat = () => {
   const textarea = document.createElement("textarea");
   textarea.placeholder = "Add a folowup question...";
   textarea.addEventListener("input", (e) => {
+    let isTop = messages.scrollTop + messages.clientHeight >= messages.scrollHeight;
+
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
-    messages.style.paddingBottom = textarea.scrollHeight + 10 + "px";
+    messages.style.paddingBottom = textarea.scrollHeight + 30 + "px";
+
+    if (isTop) messages.scrollTop = messages.scrollHeight;
   });
 
   textarea.addEventListener("keydown", (e) => {
@@ -36,10 +43,10 @@ const displayChat = () => {
         let isTop = messages.scrollTop + messages.clientHeight >= messages.scrollHeight;
 
         chats[currentChat].messages.push({ role: "user", content: textarea.value });
+        chats[currentChat].date = Date.now();
         askAiWrapper(chats[currentChat].model, chats[currentChat].messages, isTop);
 
         // scroll bottom
-        if (isTop) messages.scrollTop = messages.scrollHeight;
 
         textarea.value = "";
       }

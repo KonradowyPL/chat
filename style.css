@@ -1,17 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Kulim+Park:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&display=swap");
 
 :root {
-  --br-primary: #121212;
-  --br-secondary: #3b3b3b;
+  --bg-secondary: #3b3b3b;
+  --bg-thirdary: #262627;
+  --bg-primary: #1d1d1d;
+  --bg-extra: #111111;
 
   --chat-primary: #525151;
   --chat-secondary: #3a3a3a;
   --chat-error: #782222;
+
+  --font-primary: #fff;
+  --font-secondary: #bbb;
 }
 
 html {
   color-scheme: light dark;
-  background-color: var(--br-primary);
+  color: var(--font-primary);
+  background-color: var(--bg-primary);
 }
 
 body {
@@ -34,6 +40,7 @@ option {
   width: 200px;
   padding: 5px;
   box-sizing: border-box;
+  background-color: var(--bg-extra);
 }
 
 #main {
@@ -64,7 +71,7 @@ body[data-state="newChat"] > #main > div > div {
   width: clamp(100px, 50%, 400px);
   padding: 10px;
   border-radius: 10px;
-  background-color: var(--br-secondary);
+  background-color: var(--bg-thirdary);
 }
 
 body[data-state="newChat"] > #main > div > div > :focus {
@@ -76,7 +83,7 @@ body[data-state="newChat"] > #main > div > div:focus-within {
 }
 
 body[data-state="newChat"] > #main > textarea {
-  background-color: var(--br-secondary);
+  background-color: var(--bg-thirdary);
   resize: none;
   width: 80%;
   min-height: 100px;
@@ -100,11 +107,11 @@ body[data-state="newChat"] > #main > div {
 }
 
 option {
-  background-color: var(--br-secondary);
+  background-color: var(--bg-thirdary);
   padding-left: 5px;
 }
 body[data-state="chat"] > #main > .messages {
-  padding-bottom: 110px;
+  padding-bottom: 130px;
   padding-right: 5px;
   padding-left: 5px;
   flex-grow: 1;
@@ -153,7 +160,7 @@ body[data-state="chat"] > #main > .messages > .message > .content.error {
 }
 
 body[data-state="chat"] > #main > textarea {
-  background-color: var(--br-secondary);
+  background-color: var(--bg-secondary);
   position: absolute;
   resize: none;
   width: calc(80% - 32px);
@@ -198,9 +205,9 @@ body[data-state="chat"] > #main > .chat-meta {
 
 #newChat:hover,
 #newChat:focus,
-#chatsContainer > :hover,
-#chatsContainer > :focus {
-  background-color: field;
+#chatsContainer > div > div:hover,
+#chatsContainer > div > div:focus {
+  background-color: var(--bg-thirdary);
 }
 
 #newChat > .bi-plus-lg {
@@ -211,9 +218,26 @@ body[data-state="chat"] > #main > .chat-meta {
   margin-right: 5px;
 }
 
-#chatsContainer > div {
+#chatsContainer > div > div {
   padding-left: 5px;
   transition: background-color 150ms;
   border-radius: 5px;
   padding: 4px;
+}
+
+#chatsContainer > div {
+  display: none;
+}
+
+#chatsContainer > div > span {
+  font-size: 75%;
+  color: var(--font-secondary);
+}
+
+#chatsContainer > div:has(div) {
+  display: block;
+}
+
+#chatsContainer .current {
+  background-color: var(--bg-primary);
 }

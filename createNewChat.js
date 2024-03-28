@@ -28,6 +28,7 @@ const createNewChatObj = (chatDat, chatId, noSave) => {
   chatDat ||= [];
   chatDat.name ||= "Unnamed";
   chatDat.model ||= "mixtral-8x7b-instant-pro";
+  chatDat.date ||= 0;
   chatDat.messages = chatMessages(chatId, chatDat.messages);
 
   // create proxy object for each chat
@@ -35,6 +36,9 @@ const createNewChatObj = (chatDat, chatId, noSave) => {
     set: (target, property, value) => {
       target[property] = value;
       saveChats();
+
+      // refersh chat list
+      if (["date", "name", "icon"].includes(property)) displayChatList();
     },
   });
   if (!noSave) saveChats();

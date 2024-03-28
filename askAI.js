@@ -48,6 +48,7 @@ const askAiWrapper = (model, messages, scrollBottom) => {
     askAI(model, messages).then((response) => {
       locked = false;
       chats[currentChat].messages.push(response);
+      chats[currentChat].date = Date.now();
 
       if (scrollBottom) messagesObj.scrollTop = messagesObj.scrollHeight;
     });
