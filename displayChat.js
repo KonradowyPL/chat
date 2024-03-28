@@ -19,7 +19,7 @@ const displayChat = () => {
 
   const messages = document.createElement("div");
   messages.classList = "messages";
-  messages.append(...chats[currentChat].messages.map((e) => createMessageObj(e.content, e.role)));
+  messages.append(...chats[currentChat].messages.map((e) => createMessageObj(e.content, e.role, e.error)));
 
   const textarea = document.createElement("textarea");
   textarea.placeholder = "Add a folowup question...";
@@ -54,12 +54,13 @@ const displayChat = () => {
   onMessageChange = (index) => {
     if (index == messages.childElementCount) {
       let messageObj = chats[currentChat].messages[index];
-      messages.append(createMessageObj(messageObj.content, messageObj.role));
+      messages.append(createMessageObj(messageObj.content, messageObj.role, messageObj.error));
     }
   };
 };
 
 const createMessageObj = (content, role, error) => {
+  console.log(error);
   const box = document.createElement("div");
   box.classList.add(...[role == "user" ? "person" : "robot", "message"]);
   box.append(

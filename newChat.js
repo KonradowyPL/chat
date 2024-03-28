@@ -1,6 +1,9 @@
 const newChatUI = () => {
   while (main.firstChild) main.removeChild(main.firstChild);
   document.body.setAttribute("data-state", "newChat");
+  params.delete("c");
+  url.search = params.toString();
+  history.pushState({}, "", url.toString());
 
   const settings = document.createElement("div");
   const textarea = document.createElement("textarea");

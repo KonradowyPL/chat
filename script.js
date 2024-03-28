@@ -14,11 +14,18 @@ const params = new URLSearchParams(url.search);
 var currentChat = params.get("c");
 newChat.onclick = newChatUI;
 
-const chats = {};
+var chats = {};
 loadChats();
 
-if (currentChat && chats[currentChat]) {
+chats = new Proxy(chats, {
+  set: (target, property, value) => {
+    target[property] = value;
+  },
+  get: (target, property, value) => target[property],
+});
+
+if (currentChat && currentChat.match(/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_]{16}/g) && chats[currentChat]) {
   displayChat();
 } else {
-  newChat.onclick();
+  newChatUI();
 }
