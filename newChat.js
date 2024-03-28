@@ -1,6 +1,7 @@
 const newChatUI = () => {
   while (main.firstChild) main.removeChild(main.firstChild);
   document.body.setAttribute("data-state", "newChat");
+  document.body.removeAttribute("nav");
   params.delete("c");
   url.search = params.toString();
   history.pushState({}, "", url.toString());

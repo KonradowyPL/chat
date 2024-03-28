@@ -4,7 +4,7 @@ const setChat = (chatId, noDisplay) => {
   url.search = params.toString();
   history.pushState({}, "", url.toString());
   if (!noDisplay) displayChat();
-
+  document.body.removeAttribute("nav");
   // update current chat
   displayChatList();
 };

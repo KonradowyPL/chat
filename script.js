@@ -31,3 +31,7 @@ if (currentChat && currentChat.match(/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn
 } else {
   newChatUI();
 }
+
+navToggle.onclick = () => {
+  document.body.toggleAttribute("nav");
+};

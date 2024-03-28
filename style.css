@@ -70,7 +70,7 @@ body[data-state="newChat"] > #main > div > div > select {
 body[data-state="newChat"] > #main > div > div {
   display: flex;
   flex-direction: column;
-  width: clamp(100px, 50%, 400px);
+  width: clamp(300px, 50%, 400px);
   padding: 10px;
   border-radius: 10px;
   background-color: var(--bg-thirdary);
@@ -186,12 +186,16 @@ body[data-state="chat"] > #main > .textarea-container {
 
 body[data-state="chat"] > #main > .chat-meta {
   width: 100%;
+  height: 45px;
   padding: 5px;
   padding-left: 25px;
   padding-right: 25px;
   display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
   box-sizing: border-box;
   justify-content: space-between;
+  align-items: center;
   background-color: var(--bg-thirdary);
   border-bottom: var(--bg-extra) 3px solid;
 }
@@ -256,4 +260,63 @@ body[data-state="chat"] > #main > .chat-meta {
 
 #chatsContainer .current {
   background-color: var(--bg-primary);
+}
+
+.bi-list {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  #nav {
+    position: absolute;
+    z-index: 999999;
+    height: 100%;
+    translate: -100% 0;
+    transition: translate 300ms;
+  }
+  #main {
+    width: 100%;
+  }
+  #newChat {
+    width: calc(100% - 30px);
+  }
+  [nav] .bi-list {
+    translate: 0 0;
+  }
+
+  .bi-list {
+    display: inline-block;
+    position: relative;
+    translate: 35px 0;
+    z-index: 999;
+    transition: translate 300ms;
+  }
+
+  :not([nav]) .chat-meta {
+    padding-left: 40px !important;
+  }
+
+  [nav] #nav {
+    translate: 0 0;
+  }
+
+  body[data-state="chat"] > #main > .textarea-container > textarea {
+    width: 90%;
+  }
+  body[data-state="newChat"] > #main > textarea {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .messages {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #nav {
+    width: 100%;
+  }
 }
