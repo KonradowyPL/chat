@@ -16,10 +16,12 @@ newChat.onclick = newChatUI;
 
 var chats = {};
 loadChats();
+displayChatList();
 
 chats = new Proxy(chats, {
   set: (target, property, value) => {
     target[property] = value;
+    displayChatList();
   },
   get: (target, property, value) => target[property],
 });

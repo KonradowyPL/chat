@@ -1,15 +1,15 @@
-const setChat = (chatId) => {
+const setChat = (chatId, noDisplay) => {
   currentChat = chatId;
   params.set("c", chatId);
   url.search = params.toString();
   history.pushState({}, "", url.toString());
+  if (!noDisplay) displayChat();
 };
 
 const displayChat = () => {
-  setChat(currentChat);
+  setChat(currentChat, true);
   while (main.firstChild) main.removeChild(main.firstChild);
   document.body.setAttribute("data-state", "chat");
-  console.log(currentChat);
   const meta = document.createElement("div");
   meta.classList = "chat-meta";
   meta.append(
@@ -60,7 +60,6 @@ const displayChat = () => {
 };
 
 const createMessageObj = (content, role, error) => {
-  console.log(error);
   const box = document.createElement("div");
   box.classList.add(...[role == "user" ? "person" : "robot", "message"]);
   box.append(
