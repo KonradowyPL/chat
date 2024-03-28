@@ -54,7 +54,7 @@ const displayChat = () => {
 
         // reset size
         textareaContainer.style.height = "auto";
-        textareaContainer.style.paddingBottom = textarea.scrollHeight + 30 + "px";
+        messages.textareaContainer.style.paddingBottom = textarea.scrollHeight + 30 + "px";
       }
     }
   });
@@ -75,9 +75,14 @@ const displayChat = () => {
 const createMessageObj = (content, role, error) => {
   const box = document.createElement("div");
   box.classList.add(...[role == "user" ? "person" : "robot", "message"]);
+
+  let parsed;
+
+  if (error || role == "user") parsed = error || content;
+  else parsed = parseMessage(content);
   box.append(
     bootStrapIcon(role == "user" ? "bi-person" : "bi-robot"),
-    Object.assign(document.createElement("div"), { innerHTML: error || content, classList: `content ${error ? "error" : ""}` })
+    Object.assign(document.createElement("div"), { innerHTML: parsed, classList: `content ${error ? "error" : ""}` })
   );
   return box;
 };

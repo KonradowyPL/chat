@@ -120,6 +120,7 @@ body[data-state="chat"] > #main > .messages {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 100%;
   max-height: 100%;
   overflow-y: auto;
   scrollbar-gutter: stable;
@@ -201,9 +202,12 @@ body[data-state="chat"] > #main > .chat-meta {
 }
 
 #chatsContainer {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding-top: 10px;
   display: flex;
+  max-height: calc(100% - 40px);
+  scrollbar-gutter: stable;
   flex-direction: column;
   gap: 3px;
 }
@@ -242,6 +246,7 @@ body[data-state="chat"] > #main > .chat-meta {
   transition: background-color 150ms;
   border-radius: 5px;
   padding: 4px;
+  cursor: pointer;
 }
 
 #chatsContainer > div {
@@ -263,6 +268,33 @@ body[data-state="chat"] > #main > .chat-meta {
 }
 
 .bi-list {
+  display: none;
+}
+
+code {
+  display: block;
+  border-radius: 5px;
+  position: relative;
+  white-space: pre-wrap;
+  min-height: 20px;
+  padding-top: 5px !important;
+}
+
+code .copy {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+code br {
+  display: unset !important;
+}
+
+:is(p, hr, ul, ol, br, h1, h2, h3, h4, h5, h6, blockquote) + br,
+ul > br,
+ol > br,
+blockquote br:first-child {
   display: none;
 }
 
