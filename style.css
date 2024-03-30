@@ -114,6 +114,7 @@ option {
   padding-left: 5px;
 }
 body[data-state="chat"] > #main > .messages {
+  padding-top: 20px;
   padding-bottom: 130px;
   padding-left: 7%;
   padding-right: 7%;
@@ -191,7 +192,6 @@ body[data-state="chat"] > #main > .chat-meta {
   height: 45px;
   padding: 5px;
   padding-left: 25px;
-  padding-right: 25px;
   display: flex;
   flex-grow: 0;
   flex-shrink: 0;
@@ -202,6 +202,25 @@ body[data-state="chat"] > #main > .chat-meta {
   border-bottom: var(--bg-extra) 3px solid;
 }
 
+body[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical {
+  height: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 150ms;
+  border-radius: 5px;
+}
+
+body[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical:hover,
+body[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical:focus {
+  background-color: var(--bg-secondary);
+}
+body[data-state="chat"] > #main > .chat-meta > .model {
+  margin-left: auto;
+  margin-right: 10px;
+  color: var(--font-secondary);
+}
 #chatsContainer {
   overflow-x: hidden;
   overflow-y: auto;
@@ -279,6 +298,8 @@ code {
   white-space: pre-wrap;
   min-height: 20px;
   padding-top: 5px !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 code .copy {
@@ -296,6 +317,10 @@ code br {
 ul > br,
 ol > br,
 blockquote br:first-child {
+  display: none;
+}
+
+p:empty {
   display: none;
 }
 
@@ -352,4 +377,82 @@ blockquote br:first-child {
   #nav {
     width: 100%;
   }
+}
+
+#chatSettingsOverlay {
+  position: absolute;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  left: 0;
+  top: 0;
+  background-color: #0005;
+  transition: background-color 150ms;
+}
+
+#chatSettingsOverlay:empty {
+  visibility: hidden;
+  background-color: transparent;
+}
+
+.settings {
+  max-width: 300px;
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
+  background-color: var(--bg-secondary);
+  border-radius: 5px;
+  padding: 7px;
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.settings input,
+.settings select {
+  border: none;
+  text-decoration: underline;
+}
+
+.settings input:focus,
+.settings select:focus {
+  outline: none;
+}
+
+.settings > div:focus-within,
+.settings > div:focus {
+  outline: #fff;
+  border: 1px solid #fff;
+}
+
+.settings input {
+  font-size: 100%;
+}
+
+.settings :last-child {
+  margin-top: auto;
+}
+
+.settings > button.delete {
+  border: #dc3545 2px solid;
+  border-radius: 5px;
+  background-color: transparent;
+  width: fit-content;
+  color: #dc3545;
+  padding: 5px;
+  font-size: 110%;
+  cursor: pointer;
+}
+
+.settings > button.delete > i {
+  padding-right: 5px;
+}
+.settings > button.delete:hover,
+.settings > button.delete:focus {
+  background-color: #dc3545;
+  color: #fff;
 }

@@ -3,6 +3,7 @@ const displayChatList = () => {
     const ele = document.createElement("div");
     if (currentChat == chatId) ele.classList = "current";
     ele.append(bootStrapIcon("bi-chat-text"), document.createTextNode(chats[chatId].name));
+    ele.tabIndex = 0;
     ele.onclick = () => {
       setChat(chatId);
     };
@@ -22,7 +23,7 @@ const displayChatList = () => {
   );
 };
 
-// groups chats by date
+// groups chats by last message date
 function groupchats(chats) {
   const now = new Date();
   const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago
@@ -33,11 +34,11 @@ function groupchats(chats) {
     "Last 24 Hours": [],
     "Last 7 Days": [],
     "Last 30 Days": [],
-    "This year": [], // there are chats older than this year
+    "This year": [], // there are all chats older than 30 days
   };
   Object.keys(chats).forEach((chatId) => {
     let epochTime = chats[chatId].date;
-    const itemDate = new Date(epochTime); // Convert epoch time to milliseconds
+    const itemDate = new Date(epochTime);
     if (itemDate >= last24Hours) {
       groups["Last 24 Hours"].push(chatId);
     } else if (itemDate >= last7Days) {

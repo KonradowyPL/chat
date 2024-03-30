@@ -24,6 +24,14 @@ chats = new Proxy(chats, {
     displayChatList();
   },
   get: (target, property, value) => target[property],
+
+  deleteProperty: (target, property) => {
+    localStorage.removeItem(`CHAT:${property}`);
+    delete target[property];
+    saveChats();
+    displayChatList();
+    if (property == currentChat) newChatUI();
+  },
 });
 
 if (currentChat && currentChat.match(/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_]{16}/g) && chats[currentChat]) {
@@ -35,3 +43,20 @@ if (currentChat && currentChat.match(/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn
 navToggle.onclick = () => {
   document.body.toggleAttribute("nav");
 };
+
+// emulate clicking when focused
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    document.activeElement.click();
+  }
+
+  // unfocus element
+  if (event.key === "Escape") {
+    document?.activeElement.blur();
+  }
+
+  if (event.key === "/") {
+    document.querySelector("textarea")?.focus();
+    event.preventDefault();
+  }
+});

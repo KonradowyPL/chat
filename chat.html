@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" />
 
+    <script src="./chatSettings.js" defer></script>
     <script src="./parser.js" defer></script>
     <script src="./chatList.js" defer></script>
     <script src="askAI.js" defer></script>
@@ -19,13 +20,14 @@
     <script src="./createNewChat.js" defer></script>
     <script src="./script.js" defer></script>
     <link rel="stylesheet" href="style.css" />
-
   </head>
   <body>
     <section id="nav">
-      <button id="newChat"><i class="bi bi-chat"></i> New Chat <i class="bi bi-plus-lg"></i> </i></button> <i class="bi bi-list hamburger" id="navToggle"></i>
+      <button id="newChat"><i class="bi bi-chat"></i> New Chat <i class="bi bi-plus-lg"></i></button> <i class="bi bi-list hamburger" id="navToggle"></i>
       <div id="chatsContainer"></div>
     </section>
     <section id="main"></section>
+
+    <div id="chatSettingsOverlay"></div>
   </body>
 </html>

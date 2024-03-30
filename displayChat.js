@@ -15,11 +15,15 @@ const displayChat = () => {
   document.body.setAttribute("data-state", "chat");
   const meta = document.createElement("div");
   const textareaContainer = document.createElement("div");
+  const settings = bootStrapIcon("bi-three-dots-vertical");
+  settings.tabIndex = 0;
+  settings.onclick = displayChatSettings;
   textareaContainer.classList = "textarea-container";
   meta.classList = "chat-meta";
   meta.append(
     Object.assign(document.createElement("span"), { innerText: chats[currentChat].name }),
-    Object.assign(document.createElement("span"), { innerText: chats[currentChat].model })
+    Object.assign(document.createElement("span"), { innerText: chats[currentChat].model, className: "model" }),
+    settings
   );
 
   const messages = document.createElement("div");
@@ -54,7 +58,7 @@ const displayChat = () => {
 
         // reset size
         textareaContainer.style.height = "auto";
-        messages.textareaContainer.style.paddingBottom = textarea.scrollHeight + 30 + "px";
+        messages.style.paddingBottom = textarea.scrollHeight + 30 + "px";
       }
     }
   });
@@ -78,7 +82,11 @@ const createMessageObj = (content, role, error) => {
 
   let parsed;
 
-  if (error || role == "user") parsed = error || content;
+  // escape html but allow enters
+  if (error || role == "user")
+    parsed = escapeHTML(error || content)
+      .replace("&lt;br&gt;", "<br>")
+      .replace("\n", "<br>");
   else parsed = parseMessage(content);
   box.append(
     bootStrapIcon(role == "user" ? "bi-person" : "bi-robot"),
@@ -90,3 +98,21 @@ const createMessageObj = (content, role, error) => {
 function bootStrapIcon(name) {
   return Object.assign(document.createElement("i"), { className: `bi ${name}` });
 }
+
+const escapeHTML = (str) =>
+  str.replace(
+    /[&<>'"]/g,
+    (tag) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;",
+      }[tag] || tag)
+  );
+
+const updateChatMeta = () => {
+  document.querySelector("body[data-state=chat] > #main > .chat-meta > span:nth-child(1)").innerText = chats[currentChat].name;
+  document.querySelector("body[data-state=chat] > #main > .chat-meta > span:nth-child(2)").innerText = chats[currentChat].model;
+};

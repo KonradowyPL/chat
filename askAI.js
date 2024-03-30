@@ -27,7 +27,7 @@ const askAI = (model, messages) => {
       if (response.ok) {
         return response.text();
       } else {
-        throw "There was an error while generating your response. Check console and report bugs!";
+        throw `Error: ${response.text()}`;
       }
     })
     .then((assistantMessage) => {

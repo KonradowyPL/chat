@@ -29,6 +29,7 @@ const createNewChatObj = (chatDat, chatId, noSave) => {
   chatDat.name ||= "Unnamed";
   chatDat.model ||= "mixtral-8x7b-instant-pro";
   chatDat.date ||= 0;
+  chatDat.pinned ||= false;
   chatDat.messages = chatMessages(chatId, chatDat.messages);
 
   // create proxy object for each chat
@@ -38,7 +39,12 @@ const createNewChatObj = (chatDat, chatId, noSave) => {
       saveChats();
 
       // refersh chat list
-      if (["date", "name", "icon"].includes(property)) displayChatList();
+      if (["date", "name", "icon", "model"].includes(property)) {
+        displayChatList();
+
+        // refersh chat meta if modifed data of current chat
+        if (chatId == currentChat) updateChatMeta();
+      }
     },
   });
   if (!noSave) saveChats();
