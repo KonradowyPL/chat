@@ -17,8 +17,9 @@
 html {
   color-scheme: light dark;
   color: var(--font-primary);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-extra);
   overscroll-behavior-y: contain;
+  overflow: hidden;
 }
 
 body {
@@ -48,6 +49,9 @@ option {
 
 #main {
   width: calc(100vw - 200px);
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-primary);
 }
 
 body[data-state="newChat"] > #main {
@@ -56,6 +60,7 @@ body[data-state="newChat"] > #main {
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  padding-top: 0;
   box-sizing: border-box;
 }
 
@@ -103,8 +108,9 @@ body[data-state="newChat"] > #main > div {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: clamp(5px, 5%, 30px);
   padding: 20px;
+  padding-top: 0;
   flex-grow: 1;
   width: 100%;
 }

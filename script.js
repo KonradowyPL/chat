@@ -60,3 +60,10 @@ document.addEventListener("keydown", function (event) {
     event.preventDefault();
   }
 });
+
+// fix mobile keyboard covering up footers (textarea)
+window.addEventListener("resize", () => {
+  document.body.style.height = window.visualViewport.height + "px";
+});
+
+document.body.style.height = window.visualViewport.height + "px";
