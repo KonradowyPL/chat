@@ -4,6 +4,10 @@ const displayChatSettings = () => {
   const settings = document.createElement("div");
   settings.classList = "settings";
 
+  const closeBtn = document.createElement("button");
+  closeBtn.classList = "close";
+  closeBtn.append(bootStrapIcon("bi-x-lg"));
+
   const select = document.createElement("select");
   const chatName = Object.assign(document.createElement("input"), { placeholder: "Unnamed", maxLength: 20, value: chats[currentChat].name });
   select.append(
@@ -25,7 +29,7 @@ const displayChatSettings = () => {
 
   g2.append(Object.assign(document.createElement("span"), { innerText: "Model:" }), select);
 
-  settings.append(Object.assign(document.createElement("h2"), { innerText: "Chat settings" }), g1, g2, deleteBtn);
+  settings.append(closeBtn, Object.assign(document.createElement("h2"), { innerText: "Chat settings" }), g1, g2, deleteBtn);
 
   chatName.addEventListener("change", (e) => {
     chats[currentChat].name = chatName.value || "Unnamed";
@@ -37,6 +41,10 @@ const displayChatSettings = () => {
 
   deleteBtn.addEventListener("click", (e) => {
     deleteChat(currentChat);
+    hideSettings();
+  });
+
+  closeBtn.addEventListener("click", (e) => {
     hideSettings();
   });
 

@@ -330,6 +330,103 @@ p:empty {
   display: none;
 }
 
+#chatSettingsOverlay {
+  position: absolute;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  left: 0;
+  top: 0;
+  background-color: #0005;
+  transition: background-color 150ms;
+}
+
+#chatSettingsOverlay:empty {
+  visibility: hidden;
+  background-color: transparent;
+}
+
+.settings {
+  max-width: 300px;
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
+  background-color: var(--bg-secondary);
+  border-radius: 5px;
+  padding: 7px;
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.settings input,
+.settings select {
+  border: none;
+  text-decoration: underline;
+}
+
+.settings input:focus,
+.settings select:focus {
+  outline: none;
+}
+
+.settings > div {
+  border: 1px solid transparent;
+}
+
+.settings > div:focus-within,
+.settings > div:focus {
+  border: 1px solid #fff;
+}
+
+.settings input {
+  font-size: 100%;
+}
+
+.settings :last-child {
+  margin-top: auto;
+}
+
+.settings > button.delete {
+  border: #dc3545 2px solid;
+  border-radius: 5px;
+  background-color: transparent;
+  width: fit-content;
+  color: #dc3545;
+  padding: 5px;
+  font-size: 110%;
+  cursor: pointer;
+}
+
+.settings > button.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  aspect-ratio: 1;
+  background-color: transparent;
+  border: none;
+  border-radius: 3px;
+  transition: background-color 150ms;
+}
+
+.settings > button.close:hover,
+.settings > button.close:focus {
+  background-color: var(--bg-thirdary);
+}
+
+.settings > button.delete > i {
+  padding-right: 5px;
+}
+.settings > button.delete:hover,
+.settings > button.delete:focus {
+  background-color: #dc3545;
+  color: #fff;
+}
+
 @media screen and (max-width: 700px) {
   #nav {
     position: absolute;
@@ -383,82 +480,14 @@ p:empty {
   #nav {
     width: 100%;
   }
-}
-
-#chatSettingsOverlay {
-  position: absolute;
-  width: 100vw;
-  width: 100dvw;
-  height: 100vh;
-  height: 100dvh;
-  left: 0;
-  top: 0;
-  background-color: #0005;
-  transition: background-color 150ms;
-}
-
-#chatSettingsOverlay:empty {
-  visibility: hidden;
-  background-color: transparent;
-}
-
-.settings {
-  max-width: 300px;
-  width: 100%;
-  height: 100%;
-  max-height: 600px;
-  background-color: var(--bg-secondary);
-  border-radius: 5px;
-  padding: 7px;
-  position: absolute;
-  right: 20px;
-  top: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.settings input,
-.settings select {
-  border: none;
-  text-decoration: underline;
-}
-
-.settings input:focus,
-.settings select:focus {
-  outline: none;
-}
-
-.settings > div:focus-within,
-.settings > div:focus {
-  outline: #fff;
-  border: 1px solid #fff;
-}
-
-.settings input {
-  font-size: 100%;
-}
-
-.settings :last-child {
-  margin-top: auto;
-}
-
-.settings > button.delete {
-  border: #dc3545 2px solid;
-  border-radius: 5px;
-  background-color: transparent;
-  width: fit-content;
-  color: #dc3545;
-  padding: 5px;
-  font-size: 110%;
-  cursor: pointer;
-}
-
-.settings > button.delete > i {
-  padding-right: 5px;
-}
-.settings > button.delete:hover,
-.settings > button.delete:focus {
-  background-color: #dc3545;
-  color: #fff;
+  .settings {
+    max-width: 100vw;
+    max-width: 100dvw;
+    max-height: 100vh;
+    max-height: 100dvh;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    border-radius: 0;
+  }
 }

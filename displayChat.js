@@ -7,6 +7,7 @@ const setChat = (chatId, noDisplay) => {
   document.body.removeAttribute("nav");
   // update current chat
   displayChatList();
+  hideSettings();
 };
 
 const displayChat = () => {
