@@ -1,12 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Kulim+Park:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&display=swap");
+
 :root {
   --bg-secondary: #3b3b3b;
   --bg-thirdary: #262627;
   --bg-primary: #1d1d1d;
   --bg-extra: #111111;
+
   --chat-primary: #525151;
   --chat-secondary: #3a3a3a;
   --chat-error: #782222;
+
   --font-primary: #fff;
   --font-secondary: #bbb;
 }
@@ -51,7 +54,7 @@ option {
   background-color: var(--bg-primary);
 }
 
-[data-state=newChat] > #main {
+[data-state="newChat"] > #main {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -61,8 +64,8 @@ option {
   box-sizing: border-box;
 }
 
-[data-state=newChat] > #main > div > div > input,
-[data-state=newChat] > #main > div > div > select {
+[data-state="newChat"] > #main > div > div > input,
+[data-state="newChat"] > #main > div > div > select {
   width: 100%;
   box-sizing: border-box;
   font-size: 120%;
@@ -70,8 +73,7 @@ option {
   padding: 5px;
   background-color: transparent;
 }
-
-[data-state=newChat] > #main > div > div {
+[data-state="newChat"] > #main > div > div {
   display: flex;
   flex-direction: column;
   width: clamp(300px, 50%, 400px);
@@ -80,15 +82,15 @@ option {
   background-color: var(--bg-thirdary);
 }
 
-[data-state=newChat] > #main > div > div > :focus {
+[data-state="newChat"] > #main > div > div > :focus {
   outline: none;
 }
 
-[data-state=newChat] > #main > div > div:focus-within {
+[data-state="newChat"] > #main > div > div:focus-within {
   outline: 1px solid white;
 }
 
-[data-state=newChat] > #main > textarea {
+[data-state="newChat"] > #main > textarea {
   background-color: var(--bg-thirdary);
   resize: none;
   width: 80%;
@@ -101,7 +103,7 @@ option {
   border-radius: 10px;
 }
 
-[data-state=newChat] > #main > div {
+[data-state="newChat"] > #main > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -117,8 +119,7 @@ option {
   background-color: var(--bg-thirdary);
   padding-left: 5px;
 }
-
-[data-state=chat] > #main > .messages {
+[data-state="chat"] > #main > .messages {
   padding-top: 20px;
   padding-bottom: 130px;
   padding-left: 7%;
@@ -134,20 +135,20 @@ option {
   box-sizing: border-box;
 }
 
-[data-state=chat] > #main {
+[data-state="chat"] > #main {
   display: flex;
   flex-direction: column;
   position: relative;
   align-items: center;
 }
 
-[data-state=chat] > #main > .messages > .message {
+[data-state="chat"] > #main > .messages > .message {
   width: 100%;
   display: flex;
   flex-direction: row;
 }
 
-[data-state=chat] .message > .content {
+[data-state="chat"] .message > .content {
   overflow-wrap: break-word;
   background-color: var(--chat-secondary);
   padding: 10px;
@@ -156,23 +157,23 @@ option {
   max-width: calc(100% - 21px);
 }
 
-[data-state=chat] .message > i {
+[data-state="chat"] .message > i {
   padding-right: 5px;
   padding-top: 5px;
 }
 
-[data-state=chat] .message.robot > .content {
+[data-state="chat"] .message.robot > .content {
   background-color: var(--chat-primary);
 }
-
-[data-state=chat] .message > .content.error {
+[data-state="chat"] .message > .content.error {
   background-color: var(--chat-error);
 }
 
-[data-state=chat] .textarea-container > textarea {
+[data-state="chat"] .textarea-container > textarea {
   background-color: var(--bg-secondary);
   resize: none;
   width: calc(80% - 32px);
+
   box-sizing: border-box;
   font-size: 120%;
   border: 0;
@@ -180,7 +181,7 @@ option {
   border-radius: 10px;
 }
 
-[data-state=chat] > #main > .textarea-container {
+[data-state="chat"] > #main > .textarea-container {
   position: absolute;
   min-height: 100px;
   max-height: 500px;
@@ -192,7 +193,7 @@ option {
   background: linear-gradient(0deg, var(--bg-extra) 0%, transparent 100%);
 }
 
-[data-state=chat] > #main > .chat-meta {
+[data-state="chat"] > #main > .chat-meta {
   width: 100%;
   height: 45px;
   padding: 5px;
@@ -207,7 +208,7 @@ option {
   border-bottom: var(--bg-extra) 3px solid;
 }
 
-[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical {
+[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical {
   height: 100%;
   aspect-ratio: 1;
   display: flex;
@@ -217,17 +218,15 @@ option {
   border-radius: 5px;
 }
 
-[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:hover,
-[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:focus {
+[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical:hover,
+[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical:focus {
   background-color: var(--bg-secondary);
 }
-
-[data-state=chat] > #main > .chat-meta > .model {
+[data-state="chat"] > #main > .chat-meta > .model {
   margin-left: auto;
   margin-right: 10px;
   color: var(--font-secondary);
 }
-
 #chatsContainer {
   overflow-x: hidden;
   overflow-y: auto;
@@ -264,7 +263,6 @@ option {
   position: absolute;
   right: 5px;
 }
-
 #chatsContainer .bi-chat-text {
   margin-right: 5px;
 }
@@ -340,7 +338,7 @@ p:empty {
   height: 100dvh;
   left: 0;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.3333333333);
+  background-color: #0005;
   transition: background-color 150ms;
 }
 
@@ -423,7 +421,6 @@ p:empty {
 .settings > button.delete > i {
   padding-right: 5px;
 }
-
 .settings > button.delete:hover,
 .settings > button.delete:focus {
   background-color: #dc3545;
@@ -447,6 +444,7 @@ p:empty {
   [nav] .bi-list {
     translate: 0 0;
   }
+
   .bi-list {
     display: inline-block;
     position: relative;
@@ -454,25 +452,30 @@ p:empty {
     z-index: 999;
     transition: translate 300ms;
   }
+
   :not([nav]) .chat-meta {
     padding-left: 40px !important;
   }
+
   [nav] #nav {
     translate: 0 0;
   }
-  [data-state=chat] > #main > .textarea-container > textarea {
+
+  [data-state="chat"] > #main > .textarea-container > textarea {
     width: 90%;
   }
-  [data-state=newChat] > #main > textarea {
+  [data-state="newChat"] > #main > textarea {
     width: 90%;
   }
 }
+
 @media screen and (max-width: 900px) {
   .messages {
     padding-left: 10px !important;
     padding-right: 10px !important;
   }
 }
+
 @media screen and (max-width: 400px) {
   #nav {
     width: 100%;
@@ -488,5 +491,3 @@ p:empty {
     border-radius: 0;
   }
 }
-
-/*# sourceMappingURL=style.css.map */
