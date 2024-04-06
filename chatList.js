@@ -4,6 +4,7 @@ const displayChatList = () => {
     if (currentChat == chatId) ele.classList = "current";
     ele.append(bootStrapIcon("bi-chat-text"), document.createTextNode(chats[chatId].name));
     ele.tabIndex = 0;
+    ele.role = "button";
     ele.onclick = () => {
       setChat(chatId);
     };
@@ -52,3 +53,7 @@ function groupchats(chats) {
 
   return groups;
 }
+
+navWrapper.onclick = (e) => {
+  if (e.srcElement == navWrapper) document.body.removeAttribute("nav");
+};

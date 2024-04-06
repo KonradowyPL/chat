@@ -456,17 +456,36 @@ p:empty {
     width: 100%;
   }
   #newChat {
-    width: calc(100% - 30px);
+    width: calc(100% - 40px);
   }
   [nav] .bi-list {
     translate: 0 0;
   }
+  [nav] .navWrapper {
+    background-color: rgba(0, 0, 0, 0.3333333333);
+    width: 100%;
+  }
+  .navWrapper {
+    transition: background-color 150ms;
+    position: absolute;
+    z-index: 999999;
+    height: 100%;
+  }
   .bi-list {
     display: inline-block;
     position: relative;
-    translate: 35px 0;
+    translate: 45px 0;
     z-index: 999;
     transition: translate 300ms;
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 150ms;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .bi-list:hover, .bi-list:focus {
+    background-color: var(--bg-secondary);
   }
   :not([nav]) .chat-meta {
     padding-left: 40px !important;
@@ -491,6 +510,9 @@ p:empty {
   #nav {
     width: 100%;
   }
+  .navWrapper {
+    width: 100vw;
+  }
   .settings {
     max-width: 100vw;
     max-width: 100dvw;
@@ -500,6 +522,7 @@ p:empty {
     right: 0;
     box-sizing: border-box;
     border-radius: 0;
+    padding-top: 20px;
   }
 }
 

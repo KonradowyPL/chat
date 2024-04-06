@@ -97,7 +97,7 @@ const createMessageObj = (content, role, error) => {
 };
 
 function bootStrapIcon(name) {
-  return Object.assign(document.createElement("i"), { className: `bi ${name}` });
+  return Object.assign(document.createElement("i"), { className: `bi ${name}`, role: "img" });
 }
 
 const escapeHTML = (str) =>

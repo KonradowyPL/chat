@@ -47,15 +47,15 @@ navToggle.onclick = () => {
 // emulate clicking when focused
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    document.activeElement.click();
+    document?.activeElement?.click();
   }
 
   // unfocus element
   if (event.key === "Escape") {
-    document?.activeElement.blur();
+    document?.activeElement?.blur();
   }
 
-  if (event.key === "/") {
+  if (event.key === "/" && document?.activeElement == document.body) {
     document.querySelector("textarea")?.focus();
     event.preventDefault();
   }
@@ -67,3 +67,38 @@ window.addEventListener("resize", () => {
 });
 
 document.body.style.height = window.visualViewport.height + "px";
+
+// navbar swipe logic
+var touchStart;
+document.addEventListener(
+  "touchstart",
+  (e) => {
+    touchStart = e.changedTouches[0].pageX;
+    if (document.body.getAttribute("nav") != undefined) touchStart -= nav.clientWidth;
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchmove",
+  (e) => {
+    if (window.matchMedia("screen and (max-width: 700px)").matches) {
+      nav.style.translate = `clamp(-100%, calc(${e.changedTouches[0].pageX - touchStart}px - 100%), 0%) 0`;
+      nav.style.transition = `translate 0ms`;
+    }
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchend",
+  (e) => {
+    nav.style.removeProperty("translate");
+    nav.style.removeProperty("transition");
+    if (window.matchMedia("screen and (max-width: 700px)").matches) {
+      if (e.changedTouches[0].pageX - touchStart > nav.clientWidth / 2) document.body.setAttribute("nav", "");
+      else document.body.removeAttribute("nav");
+    }
+  },
+  { passive: true }
+);
