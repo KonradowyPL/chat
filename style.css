@@ -229,8 +229,16 @@ option {
 
 [data-state=chat] > #main > .chat-meta > .model {
   margin-left: auto;
+  padding-left: 5px;
   margin-right: 10px;
   color: var(--font-secondary);
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+[data-state=chat] > #main > .chat-meta > span {
+  white-space: nowrap;
 }
 
 #chatsContainer {
@@ -464,6 +472,7 @@ p:empty {
   [nav] .navWrapper {
     background-color: rgba(0, 0, 0, 0.3333333333);
     width: 100%;
+    pointer-events: all;
   }
   .navWrapper {
     transition: background-color 150ms;
@@ -512,6 +521,7 @@ p:empty {
   }
   .navWrapper {
     width: 100vw;
+    pointer-events: none;
   }
   .settings {
     max-width: 100vw;

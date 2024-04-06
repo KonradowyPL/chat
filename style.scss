@@ -241,8 +241,16 @@ option {
 
 [data-state="chat"] > #main > .chat-meta > .model {
   margin-left: auto;
+  padding-left: 5px;
   margin-right: 10px;
   color: var(--font-secondary);
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+[data-state="chat"] > #main > .chat-meta > span {
+  white-space: nowrap;
 }
 
 #chatsContainer {
@@ -448,12 +456,12 @@ p:empty {
   [nav] .navWrapper {
     background-color: #0005;
     width: 100%;
-
+    pointer-events: all;
   }
 
   .navWrapper {
     transition: background-color 150ms;
-    position:absolute;
+    position: absolute;
     z-index: 999999;
     height: 100%;
   }
@@ -465,7 +473,7 @@ p:empty {
     z-index: 999;
     transition: translate 300ms;
     padding: 5px;
-    @include button(var(--bg-secondary))
+    @include button(var(--bg-secondary));
   }
 
   :not([nav]) .chat-meta {
@@ -492,11 +500,12 @@ p:empty {
 }
 
 @media screen and (max-width: 400px) {
- #nav {
+  #nav {
     width: 100%;
   }
   .navWrapper {
     width: 100vw;
+    pointer-events: none;
   }
   .settings {
     max-width: 100vw;
@@ -507,6 +516,6 @@ p:empty {
     right: 0;
     box-sizing: border-box;
     border-radius: 0;
-    padding-top: 20px
+    padding-top: 20px;
   }
 }
