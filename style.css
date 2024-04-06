@@ -11,16 +11,20 @@
   --font-secondary: #bbb;
 }
 
+html,
+body,
+:root {
+  color-scheme: dark;
+  overscroll-behavior-y: contain;
+}
+
 html {
-  color-scheme: light dark;
   color: var(--font-primary);
   background-color: var(--bg-extra);
-  overscroll-behavior-y: contain;
   overflow: hidden;
 }
 
 body {
-  overscroll-behavior-y: contain;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -208,17 +212,18 @@ option {
 }
 
 [data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical {
-  height: 100%;
+  border-radius: 3px;
+  transition: background-color 150ms;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 150ms;
-  border-radius: 5px;
+  height: 100%;
 }
-
-[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:hover,
-[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:focus {
+[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:hover, [data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:focus {
   background-color: var(--bg-secondary);
 }
 
@@ -243,20 +248,17 @@ option {
   position: relative;
   height: 30px;
   width: 100%;
-  background-color: transparent;
-  border: none;
   text-align: left;
   font-size: 110%;
   padding: 5px;
   box-sizing: border-box;
+  border-radius: 3px;
   transition: background-color 150ms;
-  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
-
-#newChat:hover,
-#newChat:focus,
-#chatsContainer > div > div:hover,
-#chatsContainer > div > div:focus {
+#newChat:hover, #newChat:focus {
   background-color: var(--bg-thirdary);
 }
 
@@ -271,10 +273,15 @@ option {
 
 #chatsContainer > div > div {
   padding-left: 5px;
-  transition: background-color 150ms;
-  border-radius: 5px;
   padding: 4px;
+  border-radius: 3px;
+  transition: background-color 150ms;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+}
+#chatsContainer > div > div:hover, #chatsContainer > div > div:focus {
+  background-color: var(--bg-thirdary);
 }
 
 #chatsContainer > div {
@@ -389,45 +396,52 @@ p:empty {
   font-size: 100%;
 }
 
-.settings :last-child {
+.settings > :last-child {
   margin-top: auto;
 }
 
 .settings > button.delete {
-  border: #dc3545 2px solid;
-  border-radius: 5px;
+  border-radius: 3px;
+  transition: background-color 150ms;
   background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border: #dc3545 2px solid;
   width: fit-content;
   color: #dc3545;
   padding: 5px;
   font-size: 110%;
-  cursor: pointer;
+  transition: background-color 150ms, color 150ms;
+}
+.settings > button.delete:hover, .settings > button.delete:focus {
+  background-color: #dc3545;
+}
+
+.settings > button.delete:hover,
+.settings > button.delete:focus {
+  color: #fff;
 }
 
 .settings > button.close {
   position: absolute;
   top: 10px;
   right: 10px;
-  aspect-ratio: 1;
-  background-color: transparent;
-  border: none;
   border-radius: 3px;
   transition: background-color 150ms;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-.settings > button.close:hover,
-.settings > button.close:focus {
+.settings > button.close:hover, .settings > button.close:focus {
   background-color: var(--bg-thirdary);
 }
 
 .settings > button.delete > i {
   padding-right: 5px;
-}
-
-.settings > button.delete:hover,
-.settings > button.delete:focus {
-  background-color: #dc3545;
-  color: #fff;
 }
 
 @media screen and (max-width: 700px) {

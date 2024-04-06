@@ -14,16 +14,41 @@
   --font-secondary: #bbb;
 }
 
+@mixin button($col) {
+  border-radius: 3px;
+  transition: background-color 150ms;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: $col;
+  }
+}
+
+@mixin buttonIcon($col) {
+  @include button($col);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html,
+body,
+:root {
+  color-scheme: dark;
+  overscroll-behavior-y: contain;
+}
+
 html {
-  color-scheme: light dark;
   color: var(--font-primary);
   background-color: var(--bg-extra);
-  overscroll-behavior-y: contain;
   overflow: hidden;
 }
 
 body {
-  overscroll-behavior-y: contain;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -119,6 +144,7 @@ option {
   background-color: var(--bg-thirdary);
   padding-left: 5px;
 }
+
 [data-state="chat"] > #main > .messages {
   padding-top: 20px;
   padding-bottom: 130px;
@@ -209,24 +235,16 @@ option {
 }
 
 [data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical {
+  @include buttonIcon(var(--bg-secondary));
   height: 100%;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 150ms;
-  border-radius: 5px;
 }
 
-[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical:hover,
-[data-state="chat"] > #main > .chat-meta > .bi-three-dots-vertical:focus {
-  background-color: var(--bg-secondary);
-}
 [data-state="chat"] > #main > .chat-meta > .model {
   margin-left: auto;
   margin-right: 10px;
   color: var(--font-secondary);
 }
+
 #chatsContainer {
   overflow-x: hidden;
   overflow-y: auto;
@@ -242,21 +260,11 @@ option {
   position: relative;
   height: 30px;
   width: 100%;
-  background-color: transparent;
-  border: none;
   text-align: left;
   font-size: 110%;
   padding: 5px;
   box-sizing: border-box;
-  transition: background-color 150ms;
-  border-radius: 5px;
-}
-
-#newChat:hover,
-#newChat:focus,
-#chatsContainer > div > div:hover,
-#chatsContainer > div > div:focus {
-  background-color: var(--bg-thirdary);
+  @include button(var(--bg-thirdary));
 }
 
 #newChat > .bi-plus-lg {
@@ -269,10 +277,8 @@ option {
 
 #chatsContainer > div > div {
   padding-left: 5px;
-  transition: background-color 150ms;
-  border-radius: 5px;
   padding: 4px;
-  cursor: pointer;
+  @include button(var(--bg-thirdary));
 }
 
 #chatsContainer > div {
@@ -387,44 +393,37 @@ p:empty {
   font-size: 100%;
 }
 
-.settings :last-child {
+.settings > :last-child {
   margin-top: auto;
 }
 
 .settings > button.delete {
+  @include button(#dc3545);
   border: #dc3545 2px solid;
-  border-radius: 5px;
-  background-color: transparent;
   width: fit-content;
   color: #dc3545;
   padding: 5px;
   font-size: 110%;
-  cursor: pointer;
+  transition:
+    background-color 150ms,
+    color 150ms;
+}
+
+.settings > button.delete:hover,
+.settings > button.delete:focus {
+  color: #fff;
 }
 
 .settings > button.close {
   position: absolute;
   top: 10px;
   right: 10px;
-  aspect-ratio: 1;
-  background-color: transparent;
-  border: none;
-  border-radius: 3px;
-  transition: background-color 150ms;
-}
 
-.settings > button.close:hover,
-.settings > button.close:focus {
-  background-color: var(--bg-thirdary);
+  @include buttonIcon(var(--bg-thirdary));
 }
 
 .settings > button.delete > i {
   padding-right: 5px;
-}
-.settings > button.delete:hover,
-.settings > button.delete:focus {
-  background-color: #dc3545;
-  color: #fff;
 }
 
 @media screen and (max-width: 700px) {
