@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="color-scheme: dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0  maximum-scale=1.0, user-scalable=no" />
@@ -21,11 +21,12 @@
     <script src="./newChat.js" defer></script>
     <script src="./createNewChat.js" defer></script>
     <script src="./script.js" defer></script>
+
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body style="display: flex">
     <div class="navWrapper" id="navWrapper">
-      <section id="nav">
+      <section id="nav" style="width: 200px">
         <div class="logo">
           <img src="./logo.svg" alt="" width="25px" height="25px" />
           InstantBrain
@@ -45,8 +46,10 @@
         </div>
       </section>
     </div>
-    <section id="main"></section>
+    <section id="main">
+      <noscript>Please enable javascript for this site to work.</noscript>
+    </section>
 
-    <div id="chatSettingsOverlay"></div>
+    <div id="chatSettingsOverlay" style="position: absolute"></div>
   </body>
 </html>
