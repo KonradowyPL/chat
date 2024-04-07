@@ -41,11 +41,29 @@ option {
   font-family: "Kulim Park", sans-serif;
 }
 
+option {
+  background-color: var(--bg-thirdary);
+  padding-left: 5px;
+}
+
 #nav {
   width: 200px;
   padding: 5px;
   box-sizing: border-box;
   background-color: var(--bg-extra);
+}
+#nav hr {
+  border: 1px solid var(--font-secondary);
+}
+#nav .footer {
+  position: absolute;
+  bottom: 5px;
+  display: flex;
+  flex-direction: column;
+}
+#nav .footer a {
+  text-decoration: none;
+  color: var(--font-primary);
 }
 
 #main {
@@ -55,7 +73,7 @@ option {
   background-color: var(--bg-primary);
 }
 
-[data-state=newChat] > #main {
+[data-state=newChat] #main {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -64,18 +82,18 @@ option {
   padding-top: 0;
   box-sizing: border-box;
 }
-
-[data-state=newChat] > #main > div > div > input,
-[data-state=newChat] > #main > div > div > select {
+[data-state=newChat] #main > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(5px, 5%, 30px);
+  padding: 20px;
+  padding-top: 0;
+  flex-grow: 1;
   width: 100%;
-  box-sizing: border-box;
-  font-size: 120%;
-  border: none;
-  padding: 5px;
-  background-color: transparent;
 }
-
-[data-state=newChat] > #main > div > div {
+[data-state=newChat] #main > div > div {
   display: flex;
   flex-direction: column;
   width: clamp(300px, 50%, 400px);
@@ -83,16 +101,22 @@ option {
   border-radius: 10px;
   background-color: var(--bg-thirdary);
 }
-
-[data-state=newChat] > #main > div > div > :focus {
+[data-state=newChat] #main > div > div > :focus {
   outline: none;
 }
-
-[data-state=newChat] > #main > div > div:focus-within {
+[data-state=newChat] #main > div > div:focus-within {
   outline: 1px solid white;
 }
-
-[data-state=newChat] > #main > textarea {
+[data-state=newChat] #main > div > div > select,
+[data-state=newChat] #main > div > div > input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 120%;
+  border: none;
+  padding: 5px;
+  background-color: transparent;
+}
+[data-state=newChat] #main > textarea {
   background-color: var(--bg-thirdary);
   resize: none;
   width: 80%;
@@ -105,23 +129,12 @@ option {
   border-radius: 10px;
 }
 
-[data-state=newChat] > #main > div {
+[data-state=chat] > #main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  position: relative;
   align-items: center;
-  gap: clamp(5px, 5%, 30px);
-  padding: 20px;
-  padding-top: 0;
-  flex-grow: 1;
-  width: 100%;
 }
-
-option {
-  background-color: var(--bg-thirdary);
-  padding-left: 5px;
-}
-
 [data-state=chat] > #main > .messages {
   padding-top: 20px;
   padding-bottom: 130px;
@@ -137,21 +150,12 @@ option {
   scrollbar-gutter: stable;
   box-sizing: border-box;
 }
-
-[data-state=chat] > #main {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center;
-}
-
 [data-state=chat] > #main > .messages > .message {
   width: 100%;
   display: flex;
   flex-direction: row;
 }
-
-[data-state=chat] .message > .content {
+[data-state=chat] > #main > .messages > .message > .content {
   overflow-wrap: break-word;
   background-color: var(--chat-secondary);
   padding: 10px;
@@ -159,32 +163,17 @@ option {
   box-sizing: border-box;
   max-width: calc(100% - 21px);
 }
-
-[data-state=chat] .message > i {
+[data-state=chat] > #main > .messages > .message > .content.error {
+  background-color: var(--chat-error);
+}
+[data-state=chat] > #main > .messages > .message > i {
   padding-right: 5px;
   padding-top: 5px;
 }
-
-[data-state=chat] .message.robot > .content {
+[data-state=chat] > #main > .messages > .message.robot > .content {
   background-color: var(--chat-primary);
 }
-
-[data-state=chat] .message > .content.error {
-  background-color: var(--chat-error);
-}
-
-[data-state=chat] .textarea-container > textarea {
-  background-color: var(--bg-secondary);
-  resize: none;
-  width: calc(80% - 32px);
-  box-sizing: border-box;
-  font-size: 120%;
-  border: 0;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-[data-state=chat] > #main > .textarea-container {
+[data-state=chat] > #main .textarea-container {
   position: absolute;
   min-height: 100px;
   max-height: 500px;
@@ -195,8 +184,17 @@ option {
   justify-content: center;
   background: linear-gradient(0deg, var(--bg-extra) 0%, transparent 100%);
 }
-
-[data-state=chat] > #main > .chat-meta {
+[data-state=chat] > #main .textarea-container > textarea {
+  background-color: var(--bg-secondary);
+  resize: none;
+  width: calc(80% - 32px);
+  box-sizing: border-box;
+  font-size: 120%;
+  border: 0;
+  padding: 20px;
+  border-radius: 10px;
+}
+[data-state=chat] > #main .chat-meta {
   width: 100%;
   height: 45px;
   padding: 5px;
@@ -210,8 +208,7 @@ option {
   background-color: var(--bg-thirdary);
   border-bottom: var(--bg-extra) 3px solid;
 }
-
-[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical {
+[data-state=chat] > #main .chat-meta .bi-three-dots-vertical {
   border-radius: 3px;
   transition: background-color 150ms;
   background-color: transparent;
@@ -223,11 +220,10 @@ option {
   justify-content: center;
   height: 100%;
 }
-[data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:hover, [data-state=chat] > #main > .chat-meta > .bi-three-dots-vertical:focus {
+[data-state=chat] > #main .chat-meta .bi-three-dots-vertical:hover, [data-state=chat] > #main .chat-meta .bi-three-dots-vertical:focus {
   background-color: var(--bg-secondary);
 }
-
-[data-state=chat] > #main > .chat-meta > .model {
+[data-state=chat] > #main .chat-meta .model {
   margin-left: auto;
   padding-left: 5px;
   margin-right: 10px;
@@ -236,8 +232,7 @@ option {
   min-width: 0;
   overflow: hidden;
 }
-
-[data-state=chat] > #main > .chat-meta > span {
+[data-state=chat] > #main .chat-meta > span {
   white-space: nowrap;
 }
 
@@ -250,6 +245,35 @@ option {
   scrollbar-gutter: stable;
   flex-direction: column;
   gap: 3px;
+}
+#chatsContainer .bi-chat-text {
+  margin-right: 5px;
+}
+#chatsContainer > div {
+  display: none;
+}
+#chatsContainer > div > div {
+  padding-left: 5px;
+  padding: 4px;
+  border-radius: 3px;
+  transition: background-color 150ms;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+#chatsContainer > div > div:hover, #chatsContainer > div > div:focus {
+  background-color: var(--bg-thirdary);
+}
+#chatsContainer > div > span {
+  padding-left: 25px;
+  font-size: 75%;
+  color: var(--font-secondary);
+}
+#chatsContainer > div:has(div) {
+  display: block;
+}
+#chatsContainer .current {
+  background-color: var(--bg-primary);
 }
 
 #newChat {
@@ -269,51 +293,20 @@ option {
 #newChat:hover, #newChat:focus {
   background-color: var(--bg-thirdary);
 }
-
 #newChat > .bi-plus-lg {
   position: absolute;
   right: 5px;
-}
-
-#chatsContainer .bi-chat-text {
-  margin-right: 5px;
-}
-
-#chatsContainer > div > div {
-  padding-left: 5px;
-  padding: 4px;
-  border-radius: 3px;
-  transition: background-color 150ms;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-#chatsContainer > div > div:hover, #chatsContainer > div > div:focus {
-  background-color: var(--bg-thirdary);
-}
-
-#chatsContainer > div {
-  display: none;
-}
-
-#chatsContainer > div > span {
-  padding-left: 25px;
-  font-size: 75%;
-  color: var(--font-secondary);
-}
-
-#chatsContainer > div:has(div) {
-  display: block;
-}
-
-#chatsContainer .current {
-  background-color: var(--bg-primary);
 }
 
 .bi-list {
   display: none;
 }
 
+code {
+  background-color: #282c34;
+  padding: 4px;
+  border-radius: 4px;
+}
 code.hljs {
   display: block;
   border-radius: 5px;
@@ -324,13 +317,6 @@ code.hljs {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-
-code {
-  background-color: #282c34;
-  padding: 4px;
-  border-radius: 4px;
-}
-
 code .copy {
   position: absolute;
   top: 5px;
@@ -345,7 +331,6 @@ code .copy {
 code .copy:hover, code .copy:focus {
   background-color: var(--bg-primary);
 }
-
 code br {
   display: unset !important;
 }
@@ -353,10 +338,7 @@ code br {
 :is(p, hr, ul, ol, br, h1, h2, h3, h4, h5, h6, blockquote) + br,
 ul > br,
 ol > br,
-blockquote br:first-child {
-  display: none;
-}
-
+blockquote br:first-child,
 p:empty {
   display: none;
 }
@@ -372,7 +354,6 @@ p:empty {
   background-color: rgba(0, 0, 0, 0.3333333333);
   transition: background-color 150ms;
 }
-
 #chatSettingsOverlay:empty {
   visibility: hidden;
   background-color: transparent;
@@ -393,39 +374,29 @@ p:empty {
   flex-direction: column;
   gap: 5px;
 }
-
 .settings input,
 .settings select {
   border: none;
   text-decoration: underline;
   background-color: transparent;
+  font-size: 100%;
+  width: 200px;
 }
-
 .settings input:focus,
 .settings select:focus {
   outline: none;
 }
-
 .settings > div {
   border: 1px solid transparent;
   width: 100%;
   display: flex;
 }
-
-.settings > div:focus-within,
-.settings > div:focus {
+.settings > div:focus-within, .settings > div:focus {
   border: 1px solid #fff;
 }
-
-.settings input {
-  font-size: 100%;
-  width: 200px;
-}
-
 .settings > :last-child {
   margin-top: auto;
 }
-
 .settings > button.delete {
   border-radius: 3px;
   transition: background-color 150ms;
@@ -442,13 +413,13 @@ p:empty {
 .settings > button.delete:hover, .settings > button.delete:focus {
   background-color: #dc3545;
 }
-
-.settings > button.delete:hover,
-.settings > button.delete:focus {
+.settings > button.delete:focus, .settings > button.delete:hover {
   color: #fff;
 }
-
-.settings > button.close {
+.settings > button.delete > i {
+  padding-right: 5px;
+}
+.settings button.close {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -462,12 +433,8 @@ p:empty {
   align-items: center;
   justify-content: center;
 }
-.settings > button.close:hover, .settings > button.close:focus {
+.settings button.close:hover, .settings button.close:focus {
   background-color: var(--bg-thirdary);
-}
-
-.settings > button.delete > i {
-  padding-right: 5px;
 }
 
 .logo {
@@ -482,21 +449,6 @@ p:empty {
   cursor: default;
 }
 
-#nav hr {
-  border: 1px solid var(--font-secondary);
-}
-
-#nav .footer {
-  position: absolute;
-  bottom: 5px;
-  display: flex;
-  flex-direction: column;
-}
-#nav .footer a {
-  text-decoration: none;
-  color: var(--font-primary);
-}
-
 @media screen and (max-width: 700px) {
   #nav {
     position: absolute;
@@ -505,25 +457,25 @@ p:empty {
     translate: -100% 0;
     transition: translate 300ms;
   }
+  [nav] #nav {
+    translate: 0 0;
+  }
   #main {
     width: 100%;
   }
   #newChat {
     width: calc(100% - 40px);
   }
-  [nav] .bi-list {
-    translate: 0 0;
-  }
-  [nav] .navWrapper {
-    background-color: rgba(0, 0, 0, 0.3333333333);
-    width: 100%;
-    pointer-events: all;
-  }
   .navWrapper {
     transition: background-color 150ms;
     position: absolute;
     z-index: 999999;
     height: 100%;
+  }
+  [nav] .navWrapper {
+    background-color: rgba(0, 0, 0, 0.3333333333);
+    width: 100%;
+    pointer-events: all;
   }
   .bi-list {
     border-radius: 3px;
@@ -541,11 +493,11 @@ p:empty {
   .bi-list:hover, .bi-list:focus {
     background-color: var(--bg-secondary);
   }
+  [nav] .bi-list {
+    translate: 0 0;
+  }
   :not([nav]) .chat-meta {
     padding-left: 40px !important;
-  }
-  [nav] #nav {
-    translate: 0 0;
   }
   [data-state=chat] > #main > .textarea-container > textarea {
     width: 90%;
