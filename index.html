@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0  maximum-scale=1.0, user-scalable=no" />
-    <title>Document</title>
+    <title>InstantBrain</title>
+    <link rel="shortcut icon" href="./logo-dark.png" type="image/x-icon" media="(prefers-color-scheme: light)" />
+    <link rel="shortcut icon" href="./logo-light.png" type="image/x-icon" media="(prefers-color-scheme: dark)" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
 
@@ -24,8 +26,23 @@
   <body>
     <div class="navWrapper" id="navWrapper">
       <section id="nav">
+        <div class="logo">
+          <img src="./logo.svg" alt="" width="25px" height="25px" />
+          InstantBrain
+        </div>
+        <hr />
         <button id="newChat"><i class="bi bi-chat"></i> New Chat <i class="bi bi-plus-lg"></i></button> <i class="bi bi-list hamburger" id="navToggle"></i>
         <div id="chatsContainer"></div>
+        <div class="footer">
+          <div>
+            <i class="bi bi-discord"></i>
+            <a href="https://discord.gg/g5HyXAWbfu" target="_blank">Join discord!</a>
+          </div>
+          <div>
+            <i class="bi bi-github"></i>
+            <a href="https://github.com/konradowypl/chat" target="_blank">View source on github</a>
+          </div>
+        </div>
       </section>
     </div>
     <section id="main"></section>

@@ -314,7 +314,7 @@ option {
   display: none;
 }
 
-code {
+code.hljs {
   display: block;
   border-radius: 5px;
   position: relative;
@@ -325,11 +325,25 @@ code {
   margin-bottom: 5px;
 }
 
+code {
+  background-color: #282c34;
+  padding: 4px;
+  border-radius: 4px;
+}
+
 code .copy {
   position: absolute;
   top: 5px;
   right: 5px;
+  padding: 5px;
+  border-radius: 3px;
+  transition: background-color 150ms;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+}
+code .copy:hover, code .copy:focus {
+  background-color: var(--bg-primary);
 }
 
 code br {
@@ -452,6 +466,33 @@ p:empty {
   padding-right: 5px;
 }
 
+.logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--font-secondary);
+  padding: 5px;
+  cursor: default;
+}
+
+#nav hr {
+  border: 1px solid var(--font-secondary);
+}
+
+#nav .footer {
+  position: absolute;
+  bottom: 5px;
+  display: flex;
+  flex-direction: column;
+}
+#nav .footer a {
+  text-decoration: none;
+  color: var(--font-primary);
+}
+
 @media screen and (max-width: 700px) {
   #nav {
     position: absolute;
@@ -513,26 +554,6 @@ p:empty {
   .messages {
     padding-left: 10px !important;
     padding-right: 10px !important;
-  }
-}
-@media screen and (max-width: 400px) {
-  #nav {
-    width: 100%;
-  }
-  .navWrapper {
-    width: 100vw;
-    pointer-events: none;
-  }
-  .settings {
-    max-width: 100vw;
-    max-width: 100dvw;
-    max-height: 100vh;
-    max-height: 100dvh;
-    top: 0;
-    right: 0;
-    box-sizing: border-box;
-    border-radius: 0;
-    padding-top: 20px;
   }
 }
 
