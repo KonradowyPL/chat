@@ -388,6 +388,8 @@ p:empty {
 .settings select {
   border: none;
   text-decoration: underline;
+  background-color: transparent;
+
 }
 
 .settings input:focus,
@@ -397,6 +399,8 @@ p:empty {
 
 .settings > div {
   border: 1px solid transparent;
+  width: 100%;
+  display: flex;
 }
 
 .settings > div:focus-within,
@@ -406,6 +410,7 @@ p:empty {
 
 .settings input {
   font-size: 100%;
+  width: 200px;
 }
 
 .settings > :last-child {
@@ -501,13 +506,13 @@ p:empty {
   }
 
   .bi-list {
+    @include button(var(--bg-secondary));
     display: inline-block;
     position: relative;
-    translate: 45px 0;
+    translate: 45px -55px;
     z-index: 999;
-    transition: translate 300ms;
+    transition: translate 300ms, background-color 150ms;
     padding: 5px;
-    @include button(var(--bg-secondary));
   }
 
   :not([nav]) .chat-meta {

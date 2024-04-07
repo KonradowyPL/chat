@@ -398,6 +398,7 @@ p:empty {
 .settings select {
   border: none;
   text-decoration: underline;
+  background-color: transparent;
 }
 
 .settings input:focus,
@@ -407,6 +408,8 @@ p:empty {
 
 .settings > div {
   border: 1px solid transparent;
+  width: 100%;
+  display: flex;
 }
 
 .settings > div:focus-within,
@@ -416,6 +419,7 @@ p:empty {
 
 .settings input {
   font-size: 100%;
+  width: 200px;
 }
 
 .settings > :last-child {
@@ -522,17 +526,17 @@ p:empty {
     height: 100%;
   }
   .bi-list {
-    display: inline-block;
-    position: relative;
-    translate: 45px 0;
-    z-index: 999;
-    transition: translate 300ms;
-    padding: 5px;
     border-radius: 3px;
     transition: background-color 150ms;
     background-color: transparent;
     border: none;
     cursor: pointer;
+    display: inline-block;
+    position: relative;
+    translate: 45px -55px;
+    z-index: 999;
+    transition: translate 300ms, background-color 150ms;
+    padding: 5px;
   }
   .bi-list:hover, .bi-list:focus {
     background-color: var(--bg-secondary);
