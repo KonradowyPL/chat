@@ -70,22 +70,28 @@ option {
   padding-left: 5px;
 }
 
+.navWrapper {
+  height: 100%;
+}
+
 #nav {
   width: 200px;
+  height: 100%;
   padding: 5px;
   box-sizing: border-box;
   background-color: var(--bg-extra);
-
+  display: flex;
+  flex-direction: column;
   hr {
     border: 1px solid var(--font-secondary);
   }
 
   .footer {
-    position: absolute;
-    bottom: 5px;
+    margin-top: auto;
     display: flex;
     flex-direction: column;
-
+    padding-top:10px;
+    padding-bottom: 5px;
     a {
       text-decoration: none;
       color: var(--font-primary);
@@ -317,18 +323,19 @@ option {
   box-sizing: border-box;
   background-color: transparent;
   border: none;
-  
+
   > .btn {
     padding: 5px;
     position: relative;
     height: 30px;
     box-sizing: border-box;
     @include button(var(--bg-thirdary));
-    
+
     > .bi-plus-lg {
-    position: absolute;
-    right: 5px;
-  }}
+      position: absolute;
+      right: 5px;
+    }
+  }
 }
 
 .bi-list {
@@ -512,7 +519,7 @@ p:empty {
     @include button(var(--bg-secondary));
     display: inline-block;
     position: absolute;
-    translate: 10px 2px;
+    translate: 200px 0px;
     z-index: 999;
     transition:
       translate 300ms,
@@ -520,7 +527,7 @@ p:empty {
     padding: 5px;
 
     [nav] & {
-      translate: -35px 60px;
+      translate: 150px 60px;
     }
   }
 

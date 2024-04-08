@@ -25,12 +25,12 @@ const saveChats = () => {
 
 const createNewChatObj = (chatDat, chatId, noSave) => {
   // these lines make sure that most of code will run without errors
-  chatDat ||= [];
+  chatDat ||= {};
   chatDat.name ||= "Unnamed";
   chatDat.model ||= "mixtral-8x7b-instant-pro";
   chatDat.date ||= 0;
   chatDat.pinned ||= false;
-  chatDat.messages = chatMessages(chatId, chatDat.messages);
+  chatDat.messages = chatMessages(chatId, chatDat.messages || []);
 
   // create proxy object for each chat
   chats[chatId] = new Proxy(chatDat, {

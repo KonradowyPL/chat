@@ -46,20 +46,28 @@ option {
   padding-left: 5px;
 }
 
+.navWrapper {
+  height: 100%;
+}
+
 #nav {
   width: 200px;
+  height: 100%;
   padding: 5px;
   box-sizing: border-box;
   background-color: var(--bg-extra);
+  display: flex;
+  flex-direction: column;
 }
 #nav hr {
   border: 1px solid var(--font-secondary);
 }
 #nav .footer {
-  position: absolute;
-  bottom: 5px;
+  margin-top: auto;
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 5px;
 }
 #nav .footer a {
   text-decoration: none;
@@ -490,7 +498,7 @@ p:empty {
     cursor: pointer;
     display: inline-block;
     position: absolute;
-    translate: 10px 2px;
+    translate: 200px 0px;
     z-index: 999;
     transition: translate 300ms, background-color 150ms;
     padding: 5px;
@@ -499,7 +507,7 @@ p:empty {
     background-color: var(--bg-secondary);
   }
   [nav] .bi-list {
-    translate: -35px 60px;
+    translate: 150px 60px;
   }
   :not([nav]) .chat-meta {
     padding-left: 40px !important;
