@@ -1,7 +1,18 @@
+// detect cors bypass extension
+var corsDisabled = false;
+fetch("https://www.google.com")
+  .then((response) => {
+    if (!response.ok) throw new Error("");
+  })
+  .then(() => (corsDisabled = true))
+  .catch(() => (corsDisabled = false));
+
+const cors = (url) => (corsDisabled ? "https://corsproxy.io/?" + encodeURIComponent(url) : url);
+
 const askAI = (model, messages) => {
   const rockModel = (name) => {
     return (messages) => {
-      return fetch("https://corsproxy.io/?https%3A%2F%2Fchat.discord.rocks%2Freply", {
+      return fetch(cors("https://chat.discord.rocks/reply"), {
         method: "POST",
         body: JSON.stringify({
           messages: messages.map((obj) => ({
@@ -11,7 +22,42 @@ const askAI = (model, messages) => {
           model: name,
         }),
         headers: { "Content-Type": "application/json" },
+      }).then((response) => {
+        locked = false;
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw `Error: ${response.text()}`;
+        }
       });
+    };
+  };
+
+  const gptModel = (name) => {
+    return (messages) => {
+      return fetch(cors("https://gpt4.discord.rocks/ask"), {
+        method: "POST",
+        body: JSON.stringify({
+          messages: messages.map((obj) => ({
+            role: obj.role,
+            content: obj.content,
+          })),
+          model: name,
+        }),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((response) => {
+          locked = false;
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw `Error: ${response.json()}`;
+          }
+        })
+        .then((dat) => {
+          console.log(dat);
+          return dat.response + (dat?.url ? "\n" + dat.url : "");
+        });
     };
   };
 
@@ -19,17 +65,36 @@ const askAI = (model, messages) => {
     "mixtral-8x7b-instant-pro": rockModel("mixtral-8x7b-instant-pro"),
     "mixtral-8x7b-instant": rockModel("mixtral-8x7b-instant"),
     "gemma-7b-instant": rockModel("gemma-7b-instant"),
+    "gpt-4-turbo-preview": gptModel("gpt-4-turbo-preview"),
+    "gpt-4": gptModel("gpt-4"),
+    gemini: (messages) => {
+      return fetch(cors("https://gemini.discord.rocks/ask"), {
+        method: "POST",
+        body: JSON.stringify({
+          messages: messages.map((obj) => ({
+            role: obj.role == "user" ? "user" : "model",
+            content: obj.content,
+          })),
+        }),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((response) => {
+          locked = false;
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw `Error: ${response.text()}`;
+          }
+        })
+        .then((dat) => {
+          console.log(dat);
+          return dat.response + (dat?.url ? "\n" + dat.url : "");
+        });
+    },
   };
 
   return models[model](messages)
-    .then((response) => {
-      locked = false;
-      if (response.ok) {
-        return response.text();
-      } else {
-        throw `Error: ${response.text()}`;
-      }
-    })
+
     .then((assistantMessage) => {
       return { role: "assistant", content: assistantMessage };
     })

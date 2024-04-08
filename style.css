@@ -277,12 +277,17 @@ option {
 }
 
 #newChat {
-  position: relative;
-  height: 30px;
   width: 100%;
   text-align: left;
   font-size: 110%;
+  box-sizing: border-box;
+  background-color: transparent;
+  border: none;
+}
+#newChat > .btn {
   padding: 5px;
+  position: relative;
+  height: 30px;
   box-sizing: border-box;
   border-radius: 3px;
   transition: background-color 150ms;
@@ -290,10 +295,10 @@ option {
   border: none;
   cursor: pointer;
 }
-#newChat:hover, #newChat:focus {
+#newChat > .btn:hover, #newChat > .btn:focus {
   background-color: var(--bg-thirdary);
 }
-#newChat > .bi-plus-lg {
+#newChat > .btn > .bi-plus-lg {
   position: absolute;
   right: 5px;
 }
@@ -463,7 +468,7 @@ p:empty {
   #main {
     width: 100%;
   }
-  #newChat {
+  #newChat .btn {
     width: calc(100% - 40px);
   }
   .navWrapper {
@@ -484,8 +489,8 @@ p:empty {
     border: none;
     cursor: pointer;
     display: inline-block;
-    position: relative;
-    translate: 45px -55px;
+    position: absolute;
+    translate: 10px 2px;
     z-index: 999;
     transition: translate 300ms, background-color 150ms;
     padding: 5px;
@@ -494,7 +499,7 @@ p:empty {
     background-color: var(--bg-secondary);
   }
   [nav] .bi-list {
-    translate: 0 0;
+    translate: -35px 60px;
   }
   :not([nav]) .chat-meta {
     padding-left: 40px !important;

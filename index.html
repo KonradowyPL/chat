@@ -27,14 +27,26 @@
   <body style="display: flex">
     <div class="navWrapper" id="navWrapper">
       <section id="nav" style="width: 200px">
-        <div class="logo">
-          <img src="./logo.svg" alt="" width="25px" height="25px" />
-          InstantBrain
-        </div>
-        <hr />
-        <button id="newChat"><i class="bi bi-chat"></i> New Chat <i class="bi bi-plus-lg"></i></button> <i class="bi bi-list hamburger" id="navToggle"></i>
+        <button id="newChat">
+          <div class="logo">
+            <img src="./logo.svg" alt="" width="25px" height="25px" />
+            InstantBrain
+          </div>
+          <hr />
+
+          <div class="btn"><i class="bi bi-chat"></i> New Chat <i class="bi bi-plus-lg"></i></div>
+        </button>
+
+        <i class="bi bi-list hamburger" id="navToggle"></i>
         <div id="chatsContainer"></div>
         <div class="footer">
+          <div>
+            <i class="bi bi-box-arrow-up-right" style="font-size: 80%"></i>
+            <a href="https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf" target="_blank"
+              >Allow cors extension
+            </a>
+          </div>
+
           <div>
             <i class="bi bi-discord"></i>
             <a href="https://discord.gg/g5HyXAWbfu" target="_blank">Join discord!</a>

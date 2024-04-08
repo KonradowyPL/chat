@@ -311,19 +311,24 @@ option {
 }
 
 #newChat {
-  position: relative;
-  height: 30px;
   width: 100%;
   text-align: left;
   font-size: 110%;
-  padding: 5px;
   box-sizing: border-box;
-  @include button(var(--bg-thirdary));
-
-  > .bi-plus-lg {
+  background-color: transparent;
+  border: none;
+  
+  > .btn {
+    padding: 5px;
+    position: relative;
+    height: 30px;
+    box-sizing: border-box;
+    @include button(var(--bg-thirdary));
+    
+    > .bi-plus-lg {
     position: absolute;
     right: 5px;
-  }
+  }}
 }
 
 .bi-list {
@@ -486,7 +491,7 @@ p:empty {
   #main {
     width: 100%;
   }
-  #newChat {
+  #newChat .btn {
     width: calc(100% - 40px);
   }
 
@@ -506,8 +511,8 @@ p:empty {
   .bi-list {
     @include button(var(--bg-secondary));
     display: inline-block;
-    position: relative;
-    translate: 45px -55px;
+    position: absolute;
+    translate: 10px 2px;
     z-index: 999;
     transition:
       translate 300ms,
@@ -515,7 +520,7 @@ p:empty {
     padding: 5px;
 
     [nav] & {
-      translate: 0 0;
+      translate: -35px 60px;
     }
   }
 

@@ -16,7 +16,10 @@ const newChatUI = () => {
   select.append(
     Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant-pro", innerText: "mixtral-8x7b-instant-pro" }),
     Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant", innerText: "mixtral-8x7b-instant" }),
-    Object.assign(document.createElement("option"), { value: "gemma-7b-instant", innerText: "gemma-7b-instant" })
+    Object.assign(document.createElement("option"), { value: "gemma-7b-instant", innerText: "gemma-7b-instant" }),
+    Object.assign(document.createElement("option"), { value: "gpt-4", innerText: "gpt-4" }),
+    Object.assign(document.createElement("option"), { value: "gpt-4-turbo-preview", innerText: "gpt-4-turbo-preview" }),
+    Object.assign(document.createElement("option"), { value: "gemini", innerText: "gemini" })
   );
   select.onchange = (e) => {
     textarea.placeholder = `Message ${select.value}...`;
