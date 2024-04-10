@@ -19,7 +19,8 @@ const newChatUI = () => {
     Object.assign(document.createElement("option"), { value: "gemma-7b-instant", innerText: "gemma-7b-instant" }),
     Object.assign(document.createElement("option"), { value: "gpt-4", innerText: "gpt-4" }),
     Object.assign(document.createElement("option"), { value: "gpt-4-turbo-preview", innerText: "gpt-4-turbo-preview" }),
-    Object.assign(document.createElement("option"), { value: "gemini", innerText: "gemini" })
+    Object.assign(document.createElement("option"), { value: "gemini", innerText: "gemini" }),
+    Object.assign(document.createElement("option"), { value: "none", innerText: "[debug] none" })
   );
   select.onchange = (e) => {
     textarea.placeholder = `Message ${select.value}...`;
@@ -34,9 +35,15 @@ const newChatUI = () => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (textarea.value.trim()) {
-        currentChat = createNewChat({ name: chatName.value || "Unnamed", model: select.value, messages: [{ role: "user", content: textarea.value.trim() }] });
+        currentChat = createNewChat({
+          name: chatName.value || "Unnamed",
+          model: select.value,
+          messages: [{ role: "user", content: textarea.value.trim() }],
+          date: Date.now(),
+        });
         askAiWrapper(select.value, chats[currentChat].messages);
         displayChat();
+        createTextPlaceholder();
         textarea.value = "";
         textarea.style.height = "auto";
       }

@@ -70,7 +70,7 @@ const displayChat = () => {
 
   // called (helpfully) when message content changes in current chat
   onMessageChange = (index) => {
-    if (index == messages.childElementCount) {
+    if (index == chats[currentChat].messages.length - 1) {
       let messageObj = chats[currentChat].messages[index];
       messages.append(createMessageObj(messageObj.content, messageObj.role, messageObj.error));
     }
@@ -117,3 +117,24 @@ const updateChatMeta = () => {
   document.querySelector("body[data-state=chat] > #main > .chat-meta > span:nth-child(1)").innerText = chats[currentChat].name;
   document.querySelector("body[data-state=chat] > #main > .chat-meta > span:nth-child(2)").innerText = chats[currentChat].model;
 };
+
+const createTextPlaceholder = () => {
+  const messagesContainer = document.querySelector(`body[data-state=chat] #main .messages`);
+  if (!messagesContainer) return;
+  const obj = document.createElement("div");
+  const content = document.createElement("div");
+  obj.classList = "robot message placeholder";
+  content.classList = "content";
+  content.append(
+    ...Array.from({ length: Math.round(Math.random() * 5 + 10) }, () => {
+      const ele = document.createElement("span");
+      ele.style.width = `${Math.round(Math.random() > 0.8 ? Math.random() * 20 + 80 : Math.random() * 10 + 20)}%`;
+      return ele;
+    })
+  );
+  obj.append(bootStrapIcon("bi-robot"), content);
+  messagesContainer.append(obj);
+};
+
+const removeTextPlaceholder = () =>
+  Array(document.querySelectorAll("body[data-state=chat] #main .messages .robot.message.placeholder").forEach((e) => e.remove()));

@@ -7,7 +7,7 @@ fetch("https://www.google.com")
   .then(() => (corsDisabled = true))
   .catch(() => (corsDisabled = false));
 
-const cors = (url) => (corsDisabled ? "https://corsproxy.io/?" + encodeURIComponent(url) : url);
+const cors = (url) => (corsDisabled ? url : "https://corsproxy.io/?" + encodeURIComponent(url));
 
 const askAI = (model, messages) => {
   const rockModel = (name) => {
@@ -24,11 +24,8 @@ const askAI = (model, messages) => {
         headers: { "Content-Type": "application/json" },
       }).then((response) => {
         locked = false;
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw `Error: ${response.text()}`;
-        }
+        if (response.ok) return response.text();
+        else throw `Error: ${response.text()}`;
       });
     };
   };
@@ -48,16 +45,10 @@ const askAI = (model, messages) => {
       })
         .then((response) => {
           locked = false;
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw `Error: ${response.json()}`;
-          }
+          if (response.ok) return response.json();
+          else throw `Error: ${response.json()}`;
         })
-        .then((dat) => {
-          console.log(dat);
-          return dat.response + (dat?.url ? "\n" + dat.url : "");
-        });
+        .then((dat) => dat.response + (dat?.url ? "\n" + dat.url : ""));
     };
   };
 
@@ -80,27 +71,17 @@ const askAI = (model, messages) => {
       })
         .then((response) => {
           locked = false;
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw `Error: ${response.text()}`;
-          }
+          if (response.ok) return response.json();
+          else throw `Error: ${response.text()}`;
         })
-        .then((dat) => {
-          console.log(dat);
-          return dat.response + (dat?.url ? "\n" + dat.url : "");
-        });
+        .then((dat) => dat.response + (dat?.url ? "\n" + dat.url : ""));
     },
+    none: (messages) => new Promise((r) => r(messages[messages.length - 1].content)),
   };
 
   return models[model](messages)
-
-    .then((assistantMessage) => {
-      return { role: "assistant", content: assistantMessage };
-    })
-    .catch((errorMessage) => {
-      return { role: "assistant", content: `Error`, error: String(errorMessage) };
-    });
+    .then((assistantMessage) => ({ role: "assistant", content: assistantMessage }))
+    .catch((errorMessage) => ({ role: "assistant", content: `Error`, error: String(errorMessage) }));
 };
 
 var locked = false;
@@ -116,7 +97,10 @@ const askAiWrapper = (model, messages, scrollBottom) => {
       chats[chat].messages.push(response);
       chats[chat].date = Date.now();
 
+      removeTextPlaceholder();
       if (scrollBottom && chat == currentChat) messagesObj.scrollTop = messagesObj.scrollHeight;
     });
+    createTextPlaceholder();
+    if (scrollBottom && chat == currentChat) messagesObj.scrollTop = messagesObj.scrollHeight;
   }
 };

@@ -9,6 +9,7 @@
   --chat-primary: #525151;
   --chat-secondary: #3a3a3a;
   --chat-error: #782222;
+  --chat-placeholder: #232a3e;
 
   --font-primary: #fff;
   --font-secondary: #bbb;
@@ -90,7 +91,7 @@ option {
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    padding-top:10px;
+    padding-top: 10px;
     padding-bottom: 5px;
     a {
       text-decoration: none;
@@ -215,6 +216,30 @@ option {
       &.robot > .content {
         background-color: var(--chat-primary);
       }
+      &.placeholder > .content {
+        background-color: var(--chat-placeholder);
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+
+        > span {
+          display: block;
+          animation: chat 4s ease-in-out infinite;
+          height: 1em;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+
+  @keyframes chat {
+    0%,
+    100% {
+      background-color: var(--chat-primary);
+    }
+    50% {
+      background-color: var(--chat-secondary);
     }
   }
 
@@ -295,13 +320,13 @@ option {
     display: none;
 
     > div {
-      padding-left: 5px;
-      padding: 4px;
       @include button(var(--bg-thirdary));
+      padding: 4px;
+      padding-left: 10px;
     }
 
     > span {
-      padding-left: 25px;
+      padding-left: 31px;
       font-size: 75%;
       color: var(--font-secondary);
     }
@@ -482,7 +507,7 @@ p:empty {
   cursor: default;
 
   .fancy {
-    color: var(--font-primary)
+    color: var(--font-primary);
   }
 }
 

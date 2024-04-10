@@ -104,8 +104,5 @@ document.addEventListener(
 );
 
 // extension url basing on browser
-if (navigator.userAgent.includes("Firefox")) {
-  extension.href = "https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin";
-} else {
-  extension.href = "https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf";
-}
+if (navigator.userAgent.includes("Firefox")) extension.href = "https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin";
+else extension.href = "https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf";
