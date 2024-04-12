@@ -2,25 +2,48 @@ const displayChatList = () => {
   const chatEle = (chatId) => {
     const ele = document.createElement("div");
     if (currentChat == chatId) ele.classList = "current";
-    ele.append(bootStrapIcon("bi-chat-text"), document.createTextNode(chats[chatId].name));
+    const checkbox = Object.assign(document.createElement("input"), {
+      type: "checkbox",
+    });
+    ele.append(
+      bootStrapIcon("bi-chat-text"),
+      document.createTextNode(chats[chatId].name),
+      checkbox,
+    );
+
+    ele.setAttribute("data-id", chatId);
     ele.tabIndex = 0;
     ele.role = "button";
-    ele.onclick = () => {
-      setChat(chatId);
+    ele.onclick = (e) => {
+      if (!document.querySelector("#navWrapper.checkbox")) setChat(chatId);
     };
+
+    checkbox.oninput = () => {
+      if (
+        !chatsContainer.querySelectorAll("input[type=checkbox]:checked").length
+      )
+        hideChatSelect();
+    };
+
     return ele;
   };
 
-  while (chatsContainer.firstChild) chatsContainer.removeChild(chatsContainer.firstChild);
+  while (chatsContainer.firstChild)
+    chatsContainer.removeChild(chatsContainer.firstChild);
 
   const groups = groupchats(chats);
   chatsContainer.append(
     ...Object.keys(groups).map((group) => {
       const ele = document.createElement("div");
-      const groupChats = groups[group].sort((a, b) => chats[b].date - chats[a].date);
-      ele.append(Object.assign(document.createElement("span"), { innerText: group }), ...groupChats.map(chatEle));
+      const groupChats = groups[group].sort(
+        (a, b) => chats[b].date - chats[a].date,
+      );
+      ele.append(
+        Object.assign(document.createElement("span"), { innerText: group }),
+        ...groupChats.map(chatEle),
+      );
       return ele;
-    })
+    }),
   );
 };
 

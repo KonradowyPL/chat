@@ -50,6 +50,18 @@ option {
 .navWrapper {
   height: 100%;
 }
+.navWrapper.checkbox > #nav > #chatsContainer > div > div > input {
+  display: block;
+  margin-left: auto;
+  height: 20px;
+  aspect-ratio: 1;
+}
+.navWrapper .onCheck {
+  display: none;
+}
+.navWrapper.checkbox .onCheck {
+  display: block;
+}
 
 #nav {
   width: 200px;
@@ -172,15 +184,15 @@ option {
   box-sizing: border-box;
   max-width: calc(100% - 21px);
 }
-[data-state=chat] > #main > .messages > .message > .content.error {
-  background-color: var(--chat-error);
-}
 [data-state=chat] > #main > .messages > .message > i {
   padding-right: 5px;
   padding-top: 5px;
 }
 [data-state=chat] > #main > .messages > .message.robot > .content {
   background-color: var(--chat-primary);
+}
+[data-state=chat] > #main > .messages > .message.robot > .content.error {
+  background-color: var(--chat-error);
 }
 [data-state=chat] > #main > .messages > .message.placeholder > .content {
   background-color: var(--chat-placeholder);
@@ -290,9 +302,16 @@ option {
   cursor: pointer;
   padding: 4px;
   padding-left: 10px;
+  height: 27px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 #chatsContainer > div > div:hover, #chatsContainer > div > div:focus {
   background-color: var(--bg-thirdary);
+}
+#chatsContainer > div > div > input {
+  display: none;
 }
 #chatsContainer > div > span {
   padding-left: 31px;
@@ -488,6 +507,28 @@ p:empty {
   color: var(--font-primary);
 }
 
+.options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.options > button {
+  height: 35px;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  transition: background-color 150ms;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.options > button:hover, .options > button:focus {
+  background-color: var(--bg-secondary);
+}
+
 @media screen and (max-width: 700px) {
   #nav {
     position: absolute;
@@ -533,7 +574,7 @@ p:empty {
     background-color: var(--bg-secondary);
   }
   [nav] .bi-list {
-    translate: 150px 60px;
+    translate: 155px 80zpx;
   }
   :not([nav]) .chat-meta {
     padding-left: 40px !important;

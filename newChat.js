@@ -12,15 +12,39 @@ const newChatUI = () => {
   const textarea = document.createElement("textarea");
   const select = document.createElement("select");
   textarea.placeholder = "Message mixtral-8x7b-instant-pro...";
-  const chatName = Object.assign(document.createElement("input"), { placeholder: "Unnamed", maxLength: 20 });
+  const chatName = Object.assign(document.createElement("input"), {
+    placeholder: "Unnamed",
+    maxLength: 20,
+  });
   select.append(
-    Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant-pro", innerText: "mixtral-8x7b-instant-pro" }),
-    Object.assign(document.createElement("option"), { value: "mixtral-8x7b-instant", innerText: "mixtral-8x7b-instant" }),
-    Object.assign(document.createElement("option"), { value: "gemma-7b-instant", innerText: "gemma-7b-instant" }),
-    Object.assign(document.createElement("option"), { value: "gpt-4", innerText: "gpt-4" }),
-    Object.assign(document.createElement("option"), { value: "gpt-4-turbo-preview", innerText: "gpt-4-turbo-preview" }),
-    Object.assign(document.createElement("option"), { value: "gemini", innerText: "gemini" }),
-    Object.assign(document.createElement("option"), { value: "none", innerText: "[debug] none" })
+    Object.assign(document.createElement("option"), {
+      value: "mixtral-8x7b-instant-pro",
+      innerText: "mixtral-8x7b-instant-pro",
+    }),
+    Object.assign(document.createElement("option"), {
+      value: "mixtral-8x7b-instant",
+      innerText: "mixtral-8x7b-instant",
+    }),
+    Object.assign(document.createElement("option"), {
+      value: "gemma-7b-instant",
+      innerText: "gemma-7b-instant",
+    }),
+    Object.assign(document.createElement("option"), {
+      value: "gpt-4",
+      innerText: "gpt-4",
+    }),
+    Object.assign(document.createElement("option"), {
+      value: "gpt-4-turbo-preview",
+      innerText: "gpt-4-turbo-preview",
+    }),
+    Object.assign(document.createElement("option"), {
+      value: "gemini",
+      innerText: "gemini",
+    }),
+    Object.assign(document.createElement("option"), {
+      value: "none",
+      innerText: "[debug] none",
+    }),
   );
   select.onchange = (e) => {
     textarea.placeholder = `Message ${select.value}...`;
@@ -53,10 +77,22 @@ const newChatUI = () => {
   const g1 = document.createElement("div");
   const g2 = document.createElement("div");
 
-  g1.append(Object.assign(document.createElement("span"), { innerText: "Chat name:" }), chatName);
+  g1.append(
+    Object.assign(document.createElement("span"), { innerText: "Chat name:" }),
+    chatName,
+  );
 
-  g2.append(Object.assign(document.createElement("span"), { innerText: "Model:" }), select);
-  settings.append(Object.assign(document.createElement("h1"), { innerText: "Create new chat" }), g1, g2);
+  g2.append(
+    Object.assign(document.createElement("span"), { innerText: "Model:" }),
+    select,
+  );
+  settings.append(
+    Object.assign(document.createElement("h1"), {
+      innerText: "Create new chat",
+    }),
+    g1,
+    g2,
+  );
 
   main.append(settings, textarea);
 

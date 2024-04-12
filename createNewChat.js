@@ -5,8 +5,13 @@ const createNewChat = (chatDat) => {
 };
 
 const newChatId = () => {
-  const rand = () => Array.from(new Array(16), () => characters[Math.floor(Math.random() * characters.length)]).join("");
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_";
+  const rand = () =>
+    Array.from(
+      new Array(16),
+      () => characters[Math.floor(Math.random() * characters.length)],
+    ).join("");
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_";
   let id = rand();
   while (chats[id]) id = rand();
   return id;
@@ -61,7 +66,8 @@ const loadChats = () => {
 // behaves like normal array, but is loaded only when needed
 // args: chat id to load from localstorage
 const chatMessages = (id, messages) => {
-  if (!localStorage.getItem(`CHAT:${id}`)) localStorage.setItem(`CHAT:${id}`, JSON.stringify(messages));
+  if (!localStorage.getItem(`CHAT:${id}`))
+    localStorage.setItem(`CHAT:${id}`, JSON.stringify(messages));
   return new Proxy(messages || [], {
     // target == backend object
     // property == vaule passed as key

@@ -34,7 +34,13 @@ chats = new Proxy(chats, {
   },
 });
 
-if (currentChat && currentChat.match(/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_]{16}/g) && chats[currentChat]) {
+if (
+  currentChat &&
+  currentChat.match(
+    /^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_]{16}/g,
+  ) &&
+  chats[currentChat]
+) {
   displayChat();
 } else {
   newChatUI();
@@ -74,9 +80,10 @@ document.addEventListener(
   "touchstart",
   (e) => {
     touchStart = e.changedTouches[0].pageX;
-    if (document.body.getAttribute("nav") != undefined) touchStart -= nav.clientWidth;
+    if (document.body.getAttribute("nav") != undefined)
+      touchStart -= nav.clientWidth;
   },
-  { passive: true }
+  { passive: true },
 );
 
 document.addEventListener(
@@ -87,7 +94,7 @@ document.addEventListener(
       nav.style.transition = `translate 0ms`;
     }
   },
-  { passive: true }
+  { passive: true },
 );
 
 document.addEventListener(
@@ -96,13 +103,18 @@ document.addEventListener(
     nav.style.removeProperty("translate");
     nav.style.removeProperty("transition");
     if (window.matchMedia("screen and (max-width: 700px)").matches) {
-      if (e.changedTouches[0].pageX - touchStart > nav.clientWidth / 2) document.body.setAttribute("nav", "");
+      if (e.changedTouches[0].pageX - touchStart > nav.clientWidth / 2)
+        document.body.setAttribute("nav", "");
       else document.body.removeAttribute("nav");
     }
   },
-  { passive: true }
+  { passive: true },
 );
 
 // extension url basing on browser
-if (navigator.userAgent.includes("Firefox")) extension.href = "https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin";
-else extension.href = "https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf";
+if (navigator.userAgent.includes("Firefox"))
+  extension.href =
+    "https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin";
+else
+  extension.href =
+    "https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf";

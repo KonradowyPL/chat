@@ -73,6 +73,20 @@ option {
 
 .navWrapper {
   height: 100%;
+  &.checkbox > #nav > #chatsContainer > div > div > input {
+    display: block;
+    margin-left: auto;
+    height: 20px;
+    aspect-ratio: 1;
+  }
+
+  .onCheck {
+    display: none;
+  }
+
+  &.checkbox .onCheck {
+    display: block;
+  }
 }
 
 #nav {
@@ -202,10 +216,6 @@ option {
         border-radius: 10px;
         box-sizing: border-box;
         max-width: calc(100% - 21px);
-
-        &.error {
-          background-color: var(--chat-error);
-        }
       }
 
       > i {
@@ -215,6 +225,9 @@ option {
 
       &.robot > .content {
         background-color: var(--chat-primary);
+        &.error {
+          background-color: var(--chat-error);
+        }
       }
       &.placeholder > .content {
         background-color: var(--chat-placeholder);
@@ -323,6 +336,14 @@ option {
       @include button(var(--bg-thirdary));
       padding: 4px;
       padding-left: 10px;
+      height: 27px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+
+      > input {
+        display: none;
+      }
     }
 
     > span {
@@ -511,6 +532,17 @@ p:empty {
   }
 }
 
+.options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  > button {
+    height: 35px;
+    aspect-ratio: 1;
+    @include buttonIcon(var(--bg-secondary));
+  }
+}
+
 @media screen and (max-width: 700px) {
   #nav {
     position: absolute;
@@ -556,7 +588,7 @@ p:empty {
     padding: 5px;
 
     [nav] & {
-      translate: 150px 60px;
+      translate: 155px 80zpx;
     }
   }
 

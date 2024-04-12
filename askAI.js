@@ -7,7 +7,8 @@ fetch("https://www.google.com")
   .then(() => (corsDisabled = true))
   .catch(() => (corsDisabled = false));
 
-const cors = (url) => (corsDisabled ? url : "https://corsproxy.io/?" + encodeURIComponent(url));
+const cors = (url) =>
+  corsDisabled ? url : "https://corsproxy.io/?" + encodeURIComponent(url);
 
 const askAI = (model, messages) => {
   const rockModel = (name) => {
@@ -76,12 +77,20 @@ const askAI = (model, messages) => {
         })
         .then((dat) => dat.response + (dat?.url ? "\n" + dat.url : ""));
     },
-    none: (messages) => new Promise((r) => r(messages[messages.length - 1].content)),
+    none: (messages) =>
+      new Promise((r) => r(messages[messages.length - 1].content)),
   };
 
   return models[model](messages)
-    .then((assistantMessage) => ({ role: "assistant", content: assistantMessage }))
-    .catch((errorMessage) => ({ role: "assistant", content: `Error`, error: String(errorMessage) }));
+    .then((assistantMessage) => ({
+      role: "assistant",
+      content: assistantMessage,
+    }))
+    .catch((errorMessage) => ({
+      role: "assistant",
+      content: `Error`,
+      error: String(errorMessage),
+    }));
 };
 
 var locked = false;
@@ -90,7 +99,9 @@ const askAiWrapper = (model, messages, scrollBottom) => {
   let chat = currentChat;
   if (!locked) {
     locked = true;
-    let messagesObj = document.querySelector("body[data-state=chat] > #main > .messages");
+    let messagesObj = document.querySelector(
+      "body[data-state=chat] > #main > .messages",
+    );
 
     askAI(model, messages).then((response) => {
       locked = false;
@@ -98,9 +109,11 @@ const askAiWrapper = (model, messages, scrollBottom) => {
       chats[chat].date = Date.now();
 
       removeTextPlaceholder();
-      if (scrollBottom && chat == currentChat) messagesObj.scrollTop = messagesObj.scrollHeight;
+      if (scrollBottom && chat == currentChat)
+        messagesObj.scrollTop = messagesObj.scrollHeight;
     });
     createTextPlaceholder();
-    if (scrollBottom && chat == currentChat) messagesObj.scrollTop = messagesObj.scrollHeight;
+    if (scrollBottom && chat == currentChat)
+      messagesObj.scrollTop = messagesObj.scrollHeight;
   }
 };

@@ -1,67 +1,92 @@
-<!DOCTYPE html>
 <html lang="en" style="color-scheme: dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0  maximum-scale=1.0, user-scalable=no" />
-    <title>AIsistant</title>
-    <link rel="shortcut icon" href="./logo-dark.png" type="image/x-icon" media="(prefers-color-scheme: light)" />
-    <link rel="shortcut icon" href="./logo-light.png" type="image/x-icon" media="(prefers-color-scheme: dark)" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0  maximum-scale=1.0, user-scalable=no" />
+        <title>AIsistant</title>
+        <link rel="shortcut icon" href="./logo-dark.png" type="image/x-icon" media="(prefers-color-scheme: light)" />
+        <link rel="shortcut icon" href="./logo-light.png" type="image/x-icon" media="(prefers-color-scheme: dark)" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js" defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css" />
 
-    <script src="./chatSettings.js" defer></script>
-    <script src="./parser.js" defer></script>
-    <script src="./chatList.js" defer></script>
-    <script src="askAI.js" defer></script>
-    <script src="./displayChat.js" defer></script>
-    <script src="./newChat.js" defer></script>
-    <script src="./createNewChat.js" defer></script>
-    <script src="./script.js" defer></script>
+        <script src="./chatSettings.js" defer></script>
+        <script src="./parser.js" defer></script>
+        <script src="./chatList.js" defer></script>
+        <script src="askAI.js" defer></script>
+        <script src="./displayChat.js" defer></script>
+        <script src="./newChat.js" defer></script>
+        <script src="./createNewChat.js" defer></script>
+        <script src="./chatSelect.js" defer></script>
+        <script src="./script.js" defer></script>
 
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body style="display: flex">
-    <div class="navWrapper" id="navWrapper">
-      <section id="nav" style="width: 200px">
-        <button id="newChat">
-          <div class="logo">
-            <img src="./logo.svg" alt="" width="50px" height="50px" />
-            <span class="fancy">AI</span>sistant
-          </div>
-          <hr />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body style="display: flex">
+        <div class="navWrapper" id="navWrapper">
+            <section id="nav" style="width: 200px">
+                <button id="newChat">
+                    <div class="logo">
+                        <img src="./logo.svg" alt="" width="50px" height="50px" />
+                        <span class="fancy">AI</span>sistant
+                    </div>
+                    <hr />
 
-          <div class="btn"><i class="bi bi-chat"></i> New Chat <i class="bi bi-plus-lg"></i></div>
-        </button>
+                    <div class="btn">
+                        <i class="bi bi-chat"></i> New Chat <i class="bi bi-plus-lg"></i>
+                    </div>
+                </button>
 
-        <i class="bi bi-list hamburger" id="navToggle"></i>
-        <div id="chatsContainer"></div>
-        <div class="footer">
-          <div>
-            <i class="bi bi-box-arrow-up-right" style="font-size: 80%"></i>
-            <a href="https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf" target="_blank" id="extension">
-              Allow cors extension
-            </a>
-          </div>
+                <i class="bi bi-list hamburger" id="navToggle"></i>
+                <div id="chatsContainer"></div>
+                <div class="footer">
+                    <div class="options">
+                        <button>
+                            <i class="bi bi-gear"></i>
+                        </button>
+                        <button id="selectInvert" class="onCheck">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </button>
+                        <button id="selectDelete" class="onCheck">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button id="selectOpen">
+                            <i class="bi bi-check2-square"></i>
+                        </button>
+                    </div>
 
-          <div>
-            <i class="bi bi-discord"></i>
-            <a href="https://discord.gg/g5HyXAWbfu" target="_blank">Join discord!</a>
-          </div>
-          <div>
-            <i class="bi bi-github"></i>
-            <a href="https://github.com/konradowypl/chat" target="_blank">View source on github</a>
-          </div>
+                    <div>
+                        <i class="bi bi-box-arrow-up-right" style="font-size: 80%"></i>
+                        <a
+                            href="https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf"
+                            target="_blank"
+                            id="extension"
+                        >
+                            Allow cors extension
+                        </a>
+                    </div>
+
+                    <div>
+                        <i class="bi bi-discord"></i>
+                        <a href="https://discord.gg/g5HyXAWbfu" target="_blank">
+                            Join discord!
+                        </a>
+                    </div>
+                    <div>
+                        <i class="bi bi-github"></i>
+                        <a href="https://github.com/konradowypl/chat" target="_blank">
+                            View source on github
+                        </a>
+                    </div>
+                </div>
+            </section>
         </div>
-      </section>
-    </div>
-    <section id="main">
-      <noscript>Please enable javascript for this site to work.</noscript>
-    </section>
+        <section id="main">
+            <noscript>Please enable javascript for this site to work.</noscript>
+        </section>
 
-    <div id="chatSettingsOverlay" style="position: absolute"></div>
-  </body>
-</html>
+        <div id="chatSettingsOverlay" style="position: absolute"></div>
+    </body>
+</html>;
