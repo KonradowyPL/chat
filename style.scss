@@ -1,420 +1,420 @@
 @import url("https://fonts.googleapis.com/css2?family=Kulim+Park:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&display=swap");
 
 :root {
-  --bg-secondary: #3b3b3b;
-  --bg-thirdary: #262627;
-  --bg-primary: #1d1d1d;
-  --bg-extra: #111111;
+    --bg-secondary: #3b3b3b;
+    --bg-thirdary: #262627;
+    --bg-primary: #1d1d1d;
+    --bg-extra: #111111;
 
-  --chat-primary: #525151;
-  --chat-secondary: #3a3a3a;
-  --chat-error: #782222;
-  --chat-placeholder: #232a3e;
+    --chat-primary: #525151;
+    --chat-secondary: #3a3a3a;
+    --chat-error: #782222;
+    --chat-placeholder: #232a3e;
 
-  --font-primary: #fff;
-  --font-secondary: #bbb;
+    --font-primary: #fff;
+    --font-secondary: #bbb;
 }
 
 @mixin button($col) {
-  border-radius: 3px;
-  transition: background-color 150ms;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 150ms;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 
-  &:hover,
-  &:focus {
-    background-color: $col;
-  }
+    &:hover,
+    &:focus {
+        background-color: $col;
+    }
 }
 
 @mixin buttonIcon($col) {
-  @include button($col);
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    @include button($col);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 html,
 body,
 :root {
-  color-scheme: dark;
-  overscroll-behavior-y: contain;
+    color-scheme: dark;
+    overscroll-behavior-y: contain;
 }
 
 html {
-  color: var(--font-primary);
-  background-color: var(--bg-extra);
-  overflow: hidden;
+    color: var(--font-primary);
+    background-color: var(--bg-extra);
+    overflow: hidden;
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  margin: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
 }
 
 body,
 textarea,
 input,
 option {
-  font-family: "Kulim Park", sans-serif;
+    font-family: "Kulim Park", sans-serif;
 }
 
 option {
-  background-color: var(--bg-thirdary);
-  padding-left: 5px;
+    background-color: var(--bg-thirdary);
+    padding-left: 5px;
 }
 
 .navWrapper {
-  height: 100%;
-  &.checkbox > #nav > #chatsContainer > div > div > input {
-    display: block;
-    margin-left: auto;
-    height: 20px;
-    aspect-ratio: 1;
-  }
+    height: 100%;
+    &.checkbox > #nav > #chatsContainer > div > div > input {
+        display: block;
+        margin-left: auto;
+        height: 20px;
+        aspect-ratio: 1;
+    }
 
-  .onCheck {
-    display: none;
-  }
+    .onCheck {
+        display: none;
+    }
 
-  &.checkbox .onCheck {
-    display: block;
-  }
+    &.checkbox .onCheck {
+        display: block;
+    }
 }
 
 #nav {
-  width: 200px;
-  height: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-  background-color: var(--bg-extra);
-  display: flex;
-  flex-direction: column;
-  hr {
-    border: 1px solid var(--font-secondary);
-  }
-
-  .footer {
-    margin-top: auto;
+    width: 200px;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: var(--bg-extra);
     display: flex;
     flex-direction: column;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    a {
-      text-decoration: none;
-      color: var(--font-primary);
+    hr {
+        border: 1px solid var(--font-secondary);
     }
-  }
+
+    .footer {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        padding-top: 10px;
+        padding-bottom: 5px;
+        a {
+            text-decoration: none;
+            color: var(--font-primary);
+        }
+    }
 }
 
 #main {
-  width: calc(100vw - 200px);
-  height: 100%;
-  overflow: hidden;
-  background-color: var(--bg-primary);
+    width: calc(100vw - 200px);
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-primary);
 }
 
 [data-state="newChat"] #main {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  padding-top: 0;
-  box-sizing: border-box;
-
-  > div {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: clamp(5px, 5%, 30px);
     padding: 20px;
     padding-top: 0;
-    flex-grow: 1;
-    width: 100%;
+    box-sizing: border-box;
 
     > div {
-      display: flex;
-      flex-direction: column;
-      width: clamp(300px, 50%, 400px);
-      padding: 10px;
-      border-radius: 10px;
-      background-color: var(--bg-thirdary);
-
-      > :focus {
-        outline: none;
-      }
-
-      &:focus-within {
-        outline: 1px solid white;
-      }
-
-      > select,
-      > input {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: clamp(5px, 5%, 30px);
+        padding: 20px;
+        padding-top: 0;
+        flex-grow: 1;
         width: 100%;
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            width: clamp(300px, 50%, 400px);
+            padding: 10px;
+            border-radius: 10px;
+            background-color: var(--bg-thirdary);
+
+            > :focus {
+                outline: none;
+            }
+
+            &:focus-within {
+                outline: 1px solid white;
+            }
+
+            > select,
+            > input {
+                width: 100%;
+                box-sizing: border-box;
+                font-size: 120%;
+                border: none;
+                padding: 5px;
+                background-color: transparent;
+            }
+        }
+    }
+
+    > textarea {
+        background-color: var(--bg-thirdary);
+        resize: none;
+        width: 80%;
+        min-height: 100px;
+        max-height: 500px;
         box-sizing: border-box;
         font-size: 120%;
-        border: none;
-        padding: 5px;
-        background-color: transparent;
-      }
+        border: 0;
+        padding: 20px;
+        border-radius: 10px;
     }
-  }
-
-  > textarea {
-    background-color: var(--bg-thirdary);
-    resize: none;
-    width: 80%;
-    min-height: 100px;
-    max-height: 500px;
-    box-sizing: border-box;
-    font-size: 120%;
-    border: 0;
-    padding: 20px;
-    border-radius: 10px;
-  }
 }
 
 [data-state="chat"] > #main {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center;
-
-  > .messages {
-    padding-top: 20px;
-    padding-bottom: 130px;
-    padding-left: 7%;
-    padding-right: 7%;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    width: 100%;
-    max-height: 100%;
-    overflow-y: auto;
-    scrollbar-gutter: stable;
-    box-sizing: border-box;
+    position: relative;
+    align-items: center;
 
-    > .message {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      > .content {
-        overflow-wrap: break-word;
-        background-color: var(--chat-secondary);
-        padding: 10px;
-        border-radius: 10px;
-        box-sizing: border-box;
-        max-width: calc(100% - 21px);
-      }
-
-      > i {
-        padding-right: 5px;
-        padding-top: 5px;
-      }
-
-      &.robot > .content {
-        background-color: var(--chat-primary);
-        &.error {
-          background-color: var(--chat-error);
-        }
-      }
-      &.placeholder > .content {
-        background-color: var(--chat-placeholder);
-        width: 100%;
+    > .messages {
+        padding-top: 20px;
+        padding-bottom: 130px;
+        padding-left: 7%;
+        padding-right: 7%;
+        flex-grow: 1;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 5px;
+        width: 100%;
+        max-height: 100%;
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+        box-sizing: border-box;
+
+        > .message {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+
+            > .content {
+                overflow-wrap: break-word;
+                background-color: var(--chat-secondary);
+                padding: 10px;
+                border-radius: 10px;
+                box-sizing: border-box;
+                max-width: calc(100% - 21px);
+            }
+
+            > i {
+                padding-right: 5px;
+                padding-top: 5px;
+            }
+
+            &.robot > .content {
+                background-color: var(--chat-primary);
+                &.error {
+                    background-color: var(--chat-error);
+                }
+            }
+            &.placeholder > .content {
+                background-color: var(--chat-placeholder);
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+
+                > span {
+                    display: block;
+                    animation: chat 4s ease-in-out infinite;
+                    height: 1em;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+
+    @keyframes chat {
+        0%,
+        100% {
+            background-color: var(--chat-primary);
+        }
+        50% {
+            background-color: var(--chat-secondary);
+        }
+    }
+
+    .textarea-container {
+        position: absolute;
+        min-height: 100px;
+        max-height: 500px;
+        width: 100%;
+        padding-bottom: 20px;
+        bottom: 0px;
+        display: flex;
+        justify-content: center;
+        background: linear-gradient(0deg, var(--bg-extra) 0%, transparent 100%);
+
+        > textarea {
+            background-color: var(--bg-secondary);
+            resize: none;
+            width: calc(80% - 32px);
+
+            box-sizing: border-box;
+            font-size: 120%;
+            border: 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    }
+
+    .chat-meta {
+        width: 100%;
+        height: 45px;
+        padding: 5px;
+        padding-left: 25px;
+        display: flex;
+        flex-grow: 0;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--bg-thirdary);
+        border-bottom: var(--bg-extra) 3px solid;
+
+        .bi-three-dots-vertical {
+            @include buttonIcon(var(--bg-secondary));
+            height: 100%;
+        }
+
+        .model {
+            margin-left: auto;
+            padding-left: 5px;
+            margin-right: 10px;
+            color: var(--font-secondary);
+            flex-shrink: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
 
         > span {
-          display: block;
-          animation: chat 4s ease-in-out infinite;
-          height: 1em;
-          border-radius: 4px;
+            white-space: nowrap;
         }
-      }
     }
-  }
-
-  @keyframes chat {
-    0%,
-    100% {
-      background-color: var(--chat-primary);
-    }
-    50% {
-      background-color: var(--chat-secondary);
-    }
-  }
-
-  .textarea-container {
-    position: absolute;
-    min-height: 100px;
-    max-height: 500px;
-    width: 100%;
-    padding-bottom: 20px;
-    bottom: 0px;
-    display: flex;
-    justify-content: center;
-    background: linear-gradient(0deg, var(--bg-extra) 0%, transparent 100%);
-
-    > textarea {
-      background-color: var(--bg-secondary);
-      resize: none;
-      width: calc(80% - 32px);
-
-      box-sizing: border-box;
-      font-size: 120%;
-      border: 0;
-      padding: 20px;
-      border-radius: 10px;
-    }
-  }
-
-  .chat-meta {
-    width: 100%;
-    height: 45px;
-    padding: 5px;
-    padding-left: 25px;
-    display: flex;
-    flex-grow: 0;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--bg-thirdary);
-    border-bottom: var(--bg-extra) 3px solid;
-
-    .bi-three-dots-vertical {
-      @include buttonIcon(var(--bg-secondary));
-      height: 100%;
-    }
-
-    .model {
-      margin-left: auto;
-      padding-left: 5px;
-      margin-right: 10px;
-      color: var(--font-secondary);
-      flex-shrink: 1;
-      min-width: 0;
-      overflow: hidden;
-    }
-
-    > span {
-      white-space: nowrap;
-    }
-  }
 }
 
 #chatsContainer {
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-top: 10px;
-  display: flex;
-  max-height: calc(100% - 40px);
-  scrollbar-gutter: stable;
-  flex-direction: column;
-  gap: 3px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-top: 10px;
+    display: flex;
+    max-height: calc(100% - 40px);
+    scrollbar-gutter: stable;
+    flex-direction: column;
+    gap: 3px;
 
-  .bi-chat-text {
-    margin-right: 5px;
-  }
-
-  > div {
-    display: none;
+    .bi-chat-text {
+        margin-right: 5px;
+    }
 
     > div {
-      @include button(var(--bg-thirdary));
-      padding: 4px;
-      padding-left: 10px;
-      height: 27px;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-
-      > input {
         display: none;
-      }
+
+        > div {
+            @include button(var(--bg-thirdary));
+            padding: 4px;
+            padding-left: 10px;
+            height: 27px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+
+            > input {
+                display: none;
+            }
+        }
+
+        > span {
+            padding-left: 31px;
+            font-size: 75%;
+            color: var(--font-secondary);
+        }
     }
 
-    > span {
-      padding-left: 31px;
-      font-size: 75%;
-      color: var(--font-secondary);
+    > div:has(div) {
+        display: block;
     }
-  }
 
-  > div:has(div) {
-    display: block;
-  }
-
-  .current {
-    background-color: var(--bg-primary);
-  }
+    .current {
+        background-color: var(--bg-primary);
+    }
 }
 
 #newChat {
-  width: 100%;
-  text-align: left;
-  font-size: 110%;
-  box-sizing: border-box;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  > .btn {
-    padding: 5px;
-    position: relative;
-    height: 30px;
+    width: 100%;
+    text-align: left;
+    font-size: 110%;
     box-sizing: border-box;
-    @include button(var(--bg-thirdary));
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    > .btn {
+        padding: 5px;
+        position: relative;
+        height: 30px;
+        box-sizing: border-box;
+        @include button(var(--bg-thirdary));
 
-    > .bi-plus-lg {
-      position: absolute;
-      right: 5px;
+        > .bi-plus-lg {
+            position: absolute;
+            right: 5px;
+        }
     }
-  }
 }
 
 .bi-list {
-  display: none;
+    display: none;
 }
 
 code {
-  background-color: #282c34;
-  padding: 4px;
-  border-radius: 4px;
+    background-color: #282c34;
+    padding: 4px;
+    border-radius: 4px;
 
-  &.hljs {
-    display: block;
-    border-radius: 5px;
-    position: relative;
-    white-space: pre-wrap;
-    min-height: 20px;
-    padding-top: 5px !important;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
+    &.hljs {
+        display: block;
+        border-radius: 5px;
+        position: relative;
+        white-space: pre-wrap;
+        min-height: 20px;
+        padding-top: 5px !important;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
 
-  .copy {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    padding: 5px;
-    @include button(var(--bg-primary));
-  }
+    .copy {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        padding: 5px;
+        @include button(var(--bg-primary));
+    }
 
-  br {
-    display: unset !important;
-  }
+    br {
+        display: unset !important;
+    }
 }
 
 :is(p, hr, ul, ol, br, h1, h2, h3, h4, h5, h6, blockquote) + br,
@@ -422,191 +422,191 @@ ul > br,
 ol > br,
 blockquote br:first-child,
 p:empty {
-  display: none;
+    display: none;
 }
 
 #chatSettingsOverlay {
-  position: absolute;
-  width: 100vw;
-  width: 100dvw;
-  height: 100vh;
-  height: 100dvh;
-  left: 0;
-  top: 0;
-  background-color: #0005;
-  transition: background-color 150ms;
+    position: absolute;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    left: 0;
+    top: 0;
+    background-color: #0005;
+    transition: background-color 150ms;
 
-  &:empty {
-    visibility: hidden;
-    background-color: transparent;
-  }
+    &:empty {
+        visibility: hidden;
+        background-color: transparent;
+    }
 }
 
 .settings {
-  max-width: 300px;
-  width: 100%;
-  height: 100%;
-  max-height: 600px;
-  background-color: var(--bg-secondary);
-  border-radius: 5px;
-  padding: 7px;
-  position: absolute;
-  right: 20px;
-  top: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-
-  input,
-  select {
-    border: none;
-    text-decoration: underline;
-    background-color: transparent;
-    font-size: 100%;
-    width: 200px;
-  }
-
-  input:focus,
-  select:focus {
-    outline: none;
-  }
-
-  > div {
-    border: 1px solid transparent;
+    max-width: 300px;
     width: 100%;
-    display: flex;
-
-    &:focus-within,
-    &:focus {
-      border: 1px solid #fff;
-    }
-  }
-
-  > :last-child {
-    margin-top: auto;
-  }
-
-  > button.delete {
-    @include button(#dc3545);
-    border: #dc3545 2px solid;
-    width: fit-content;
-    color: #dc3545;
-    padding: 5px;
-    font-size: 110%;
-    transition:
-      background-color 150ms,
-      color 150ms;
-
-    &:focus,
-    &:hover {
-      color: #fff;
-    }
-
-    > i {
-      padding-right: 5px;
-    }
-  }
-
-  button.close {
+    height: 100%;
+    max-height: 600px;
+    background-color: var(--bg-secondary);
+    border-radius: 5px;
+    padding: 7px;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    right: 20px;
+    top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 
-    @include buttonIcon(var(--bg-thirdary));
-  }
+    input,
+    select {
+        border: none;
+        text-decoration: underline;
+        background-color: transparent;
+        font-size: 100%;
+        width: 200px;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+    }
+
+    > div {
+        border: 1px solid transparent;
+        width: 100%;
+        display: flex;
+
+        &:focus-within,
+        &:focus {
+            border: 1px solid #fff;
+        }
+    }
+
+    > :last-child {
+        margin-top: auto;
+    }
+
+    > button.delete {
+        @include button(#dc3545);
+        border: #dc3545 2px solid;
+        width: fit-content;
+        color: #dc3545;
+        padding: 5px;
+        font-size: 110%;
+        transition:
+            background-color 150ms,
+            color 150ms;
+
+        &:focus,
+        &:hover {
+            color: #fff;
+        }
+
+        > i {
+            padding-right: 5px;
+        }
+    }
+
+    button.close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
+        @include buttonIcon(var(--bg-thirdary));
+    }
 }
 
 .logo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 25px;
-  font-weight: bold;
-  color: var(--font-secondary);
-  padding: 5px;
-  padding-left: 0;
-  cursor: default;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--font-secondary);
+    padding: 5px;
+    padding-left: 0;
+    cursor: default;
 
-  .fancy {
-    color: var(--font-primary);
-  }
+    .fancy {
+        color: var(--font-primary);
+    }
 }
 
 .options {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  > button {
-    height: 35px;
-    aspect-ratio: 1;
-    @include buttonIcon(var(--bg-secondary));
-  }
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    > button {
+        height: 35px;
+        aspect-ratio: 1;
+        @include buttonIcon(var(--bg-secondary));
+    }
 }
 
 @media screen and (max-width: 700px) {
-  #nav {
-    position: absolute;
-    z-index: 999999;
-    height: 100%;
-    translate: -100% 0;
-    transition: translate 300ms;
+    #nav {
+        position: absolute;
+        z-index: 999999;
+        height: 100%;
+        translate: -100% 0;
+        transition: translate 300ms;
 
-    [nav] & {
-      translate: 0 0;
+        [nav] & {
+            translate: 0 0;
+        }
     }
-  }
 
-  #main {
-    width: 100%;
-  }
-  #newChat .btn {
-    width: calc(100% - 40px);
-  }
-
-  .navWrapper {
-    transition: background-color 150ms;
-    position: absolute;
-    z-index: 999999;
-    height: 100%;
-
-    [nav] & {
-      background-color: #0005;
-      width: 100%;
-      pointer-events: all;
+    #main {
+        width: 100%;
     }
-  }
-
-  .bi-list {
-    @include button(var(--bg-secondary));
-    display: inline-block;
-    position: absolute;
-    translate: 200px 0px;
-    z-index: 999;
-    transition:
-      translate 300ms,
-      background-color 150ms;
-    padding: 5px;
-
-    [nav] & {
-      translate: 155px 80zpx;
+    #newChat .btn {
+        width: calc(100% - 40px);
     }
-  }
 
-  :not([nav]) .chat-meta {
-    padding-left: 40px !important;
-  }
+    .navWrapper {
+        transition: background-color 150ms;
+        position: absolute;
+        z-index: 999999;
+        height: 100%;
 
-  [data-state="chat"] > #main > .textarea-container > textarea {
-    width: 90%;
-  }
-  [data-state="newChat"] > #main > textarea {
-    width: 90%;
-  }
+        [nav] & {
+            background-color: #0005;
+            width: 100%;
+            pointer-events: all;
+        }
+    }
+
+    .bi-list {
+        @include button(var(--bg-secondary));
+        display: inline-block;
+        position: absolute;
+        translate: 200px 0px;
+        z-index: 999;
+        transition:
+            translate 300ms,
+            background-color 150ms;
+        padding: 5px;
+
+        [nav] & {
+            translate: 155px 80zpx;
+        }
+    }
+
+    :not([nav]) .chat-meta {
+        padding-left: 40px !important;
+    }
+
+    [data-state="chat"] > #main > .textarea-container > textarea {
+        width: 90%;
+    }
+    [data-state="newChat"] > #main > textarea {
+        width: 90%;
+    }
 }
 
 @media screen and (max-width: 900px) {
-  .messages {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  }
+    .messages {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
 }

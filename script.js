@@ -1,11 +1,11 @@
 function tryParse(str, exit) {
-  if (!str) return exit;
-  try {
-    return JSON.parse(str);
-  } catch {
-    console.error(`Error while parsing string: "${str}"`);
-    return exit;
-  }
+    if (!str) return exit;
+    try {
+        return JSON.parse(str);
+    } catch {
+        console.error(`Error while parsing string: "${str}"`);
+        return exit;
+    }
 }
 
 let url = new URL(window.location.href);
@@ -19,57 +19,51 @@ loadChats();
 displayChatList();
 
 chats = new Proxy(chats, {
-  set: (target, property, value) => {
-    target[property] = value;
-    displayChatList();
-  },
-  get: (target, property, value) => target[property],
+    set: (target, property, value) => {
+        target[property] = value;
+        displayChatList();
+    },
+    get: (target, property, value) => target[property],
 
-  deleteProperty: (target, property) => {
-    localStorage.removeItem(`CHAT:${property}`);
-    delete target[property];
-    saveChats();
-    displayChatList();
-    if (property == currentChat) newChatUI();
-  },
+    deleteProperty: (target, property) => {
+        localStorage.removeItem(`CHAT:${property}`);
+        delete target[property];
+        saveChats();
+        displayChatList();
+        if (property == currentChat) newChatUI();
+    },
 });
 
-if (
-  currentChat &&
-  currentChat.match(
-    /^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_]{16}/g,
-  ) &&
-  chats[currentChat]
-) {
-  displayChat();
+if (currentChat && currentChat.match(/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_]{16}/g) && chats[currentChat]) {
+    displayChat();
 } else {
-  newChatUI();
+    newChatUI();
 }
 
 navToggle.onclick = () => {
-  document.body.toggleAttribute("nav");
+    document.body.toggleAttribute("nav");
 };
 
 // emulate clicking when focused
 document.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    document?.activeElement?.click();
-  }
+    if (event.key === "Enter") {
+        document?.activeElement?.click();
+    }
 
-  // unfocus element
-  if (event.key === "Escape") {
-    document?.activeElement?.blur();
-  }
+    // unfocus element
+    if (event.key === "Escape") {
+        document?.activeElement?.blur();
+    }
 
-  if (event.key === "/" && document?.activeElement == document.body) {
-    document.querySelector("textarea")?.focus();
-    event.preventDefault();
-  }
+    if (event.key === "/" && document?.activeElement == document.body) {
+        document.querySelector("textarea")?.focus();
+        event.preventDefault();
+    }
 });
 
 // fix mobile keyboard covering up footers (textarea)
 window.addEventListener("resize", () => {
-  document.body.style.height = window.visualViewport.height + "px";
+    document.body.style.height = window.visualViewport.height + "px";
 });
 
 document.body.style.height = window.visualViewport.height + "px";
@@ -77,44 +71,38 @@ document.body.style.height = window.visualViewport.height + "px";
 // navbar swipe logic
 var touchStart;
 document.addEventListener(
-  "touchstart",
-  (e) => {
-    touchStart = e.changedTouches[0].pageX;
-    if (document.body.getAttribute("nav") != undefined)
-      touchStart -= nav.clientWidth;
-  },
-  { passive: true },
+    "touchstart",
+    (e) => {
+        touchStart = e.changedTouches[0].pageX;
+        if (document.body.getAttribute("nav") != undefined) touchStart -= nav.clientWidth;
+    },
+    { passive: true }
 );
 
 document.addEventListener(
-  "touchmove",
-  (e) => {
-    if (window.matchMedia("screen and (max-width: 700px)").matches) {
-      nav.style.translate = `clamp(-100%, calc(${e.changedTouches[0].pageX - touchStart}px - 100%), 0%) 0`;
-      nav.style.transition = `translate 0ms`;
-    }
-  },
-  { passive: true },
+    "touchmove",
+    (e) => {
+        if (window.matchMedia("screen and (max-width: 700px)").matches) {
+            nav.style.translate = `clamp(-100%, calc(${e.changedTouches[0].pageX - touchStart}px - 100%), 0%) 0`;
+            nav.style.transition = `translate 0ms`;
+        }
+    },
+    { passive: true }
 );
 
 document.addEventListener(
-  "touchend",
-  (e) => {
-    nav.style.removeProperty("translate");
-    nav.style.removeProperty("transition");
-    if (window.matchMedia("screen and (max-width: 700px)").matches) {
-      if (e.changedTouches[0].pageX - touchStart > nav.clientWidth / 2)
-        document.body.setAttribute("nav", "");
-      else document.body.removeAttribute("nav");
-    }
-  },
-  { passive: true },
+    "touchend",
+    (e) => {
+        nav.style.removeProperty("translate");
+        nav.style.removeProperty("transition");
+        if (window.matchMedia("screen and (max-width: 700px)").matches) {
+            if (e.changedTouches[0].pageX - touchStart > nav.clientWidth / 2) document.body.setAttribute("nav", "");
+            else document.body.removeAttribute("nav");
+        }
+    },
+    { passive: true }
 );
 
 // extension url basing on browser
-if (navigator.userAgent.includes("Firefox"))
-  extension.href =
-    "https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin";
-else
-  extension.href =
-    "https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf";
+if (navigator.userAgent.includes("Firefox")) extension.href = "https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin";
+else extension.href = "https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf";
