@@ -16,8 +16,9 @@ const displayChat = () => {
     document.body.setAttribute("data-state", "chat");
     const meta = document.createElement("div");
     const textareaContainer = document.createElement("div");
-    const settings = bootStrapIcon("bi-three-dots-vertical");
-    settings.tabIndex = 0;
+    const settings = Object.assign(document.createElement("button"), { classList: "chatSettings" });
+    settings.append(bootStrapIcon("bi-three-dots-vertical"));
+    settings.setAttribute("aria-label", "Open chat settings");
     settings.onclick = displayChatSettings;
     textareaContainer.classList = "textarea-container";
     meta.classList = "chat-meta";
@@ -150,5 +151,4 @@ const createTextPlaceholder = () => {
     messagesContainer.append(obj);
 };
 
-const removeTextPlaceholder = () =>
-    Array(document.querySelectorAll("body[data-state=chat] #main .messages .robot.message.placeholder").forEach((e) => e.remove()));
+const removeTextPlaceholder = () => Array(document.querySelectorAll("body[data-state=chat] #main .messages .robot.message.placeholder").forEach((e) => e.remove()));

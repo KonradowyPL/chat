@@ -14,6 +14,8 @@ const displayChatSettings = () => {
         maxLength: 20,
         value: chats[currentChat].name,
     });
+    chatName.setAttribute("aria-label", "Chat name");
+    select.setAttribute("aria-label", "Select model");
     select.append(
         Object.assign(document.createElement("option"), {
             value: "mixtral-8x7b-instant-pro",
@@ -43,16 +45,20 @@ const displayChatSettings = () => {
     select.value = chats[currentChat].model;
     const deleteBtn = document.createElement("button");
     deleteBtn.classList = "delete";
-
+    deleteBtn.setAttribute("aria-label", "Delete chat");
     deleteBtn.append(bootStrapIcon("bi-trash-fill"), Object.assign(document.createElement("span"), { innerText: "Delete Chat" }));
 
     const g1 = document.createElement("div");
     const g2 = document.createElement("div");
-    const g3 = document.createElement("div");
 
-    g1.append(Object.assign(document.createElement("span"), { innerText: "Chat name:" }), chatName);
+    const e1 = Object.assign(document.createElement("span"), { innerText: "Chat name:" });
+    const e2 = Object.assign(document.createElement("span"), { innerText: "Model:" });
+    e1.setAttribute("aria-hidden", "true");
+    e2.setAttribute("aria-hidden", "true");
 
-    g2.append(Object.assign(document.createElement("span"), { innerText: "Model:" }), select);
+    g1.append(e1, chatName);
+
+    g2.append(e2, select);
 
     settings.append(closeBtn, Object.assign(document.createElement("h2"), { innerText: "Chat settings" }), g1, g2, deleteBtn);
 

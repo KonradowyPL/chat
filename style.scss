@@ -294,7 +294,7 @@ option {
         background-color: var(--bg-thirdary);
         border-bottom: var(--bg-extra) 3px solid;
 
-        .bi-three-dots-vertical {
+        .chatSettings {
             @include buttonIcon(var(--bg-secondary));
             height: 100%;
         }

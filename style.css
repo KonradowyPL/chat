@@ -250,7 +250,7 @@ option {
   background-color: var(--bg-thirdary);
   border-bottom: var(--bg-extra) 3px solid;
 }
-[data-state=chat] > #main .chat-meta .bi-three-dots-vertical {
+[data-state=chat] > #main .chat-meta .chatSettings {
   border-radius: 3px;
   transition: background-color 150ms;
   background-color: transparent;
@@ -262,7 +262,7 @@ option {
   justify-content: center;
   height: 100%;
 }
-[data-state=chat] > #main .chat-meta .bi-three-dots-vertical:hover, [data-state=chat] > #main .chat-meta .bi-three-dots-vertical:focus {
+[data-state=chat] > #main .chat-meta .chatSettings:hover, [data-state=chat] > #main .chat-meta .chatSettings:focus {
   background-color: var(--bg-secondary);
 }
 [data-state=chat] > #main .chat-meta .model {
