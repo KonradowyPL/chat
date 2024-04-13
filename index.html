@@ -1,8 +1,14 @@
+<!DOCTYPE html>
 <html lang="en" style="color-scheme: dark">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0  maximum-scale=1.0, user-scalable=no" />
+        <meta name="title" content="AIsistant" />
+        <meta name="discreption" content="AIsistant is a link only free instant chat bot" />
+        <meta name="og:image" content="https://konradowypl.github.io/chat/logo-dark.png" />
+        <meta name="twitter:card" content="summary" />
         <title>AIsistant</title>
+
         <link rel="shortcut icon" href="./logo-dark.png" type="image/x-icon" media="(prefers-color-scheme: light)" />
         <link rel="shortcut icon" href="./logo-light.png" type="image/x-icon" media="(prefers-color-scheme: dark)" />
 
@@ -27,7 +33,7 @@
     <body style="display: flex">
         <div class="navWrapper" id="navWrapper">
             <section id="nav" style="width: 200px">
-                <button id="newChat">
+                <button id="newChat" aria-label="Create new chat">
                     <div class="logo">
                         <img src="./logo.svg" alt="" width="50px" height="50px" />
                         <span class="fancy">AI</span>sistant
@@ -41,38 +47,27 @@
                 <div id="chatsContainer"></div>
                 <div class="footer">
                     <div class="options">
-                        <button>
-                            <i class="bi bi-gear"></i>
-                        </button>
-                        <button id="selectInvert" class="onCheck">
-                            <i class="bi bi-arrow-repeat"></i>
-                        </button>
-                        <button id="selectDelete" class="onCheck">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                        <button id="selectOpen">
-                            <i class="bi bi-check2-square"></i>
-                        </button>
+                        <button aria-label="Does not work jet"><i class="bi bi-gear"></i></button>
+                        <button id="selectInvert" class="onCheck" aria-label="Invert selection"><i class="bi bi-arrow-repeat"></i></button>
+                        <button id="selectDelete" class="onCheck" aria-label="Delete selected"><i class="bi bi-trash"></i></button>
+                        <button id="selectAll" class="onCheck" aria-label="Select all"><i class="bi bi-check-all"></i></button>
+                        <button id="selectOpen" aria-label="Select chats"><i class="bi bi-check2-square"></i></button>
                     </div>
 
                     <div>
                         <i class="bi bi-box-arrow-up-right" style="font-size: 80%"></i>
-                        <a
-                            href="https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf"
-                            target="_blank"
-                            id="extension"
-                        >
+                        <a href="https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf" target="_blank" id="extension">
                             Allow cors extension
                         </a>
                     </div>
 
                     <div>
                         <i class="bi bi-discord"></i>
-                        <a href="https://discord.gg/g5HyXAWbfu" target="_blank"> Join discord! </a>
+                        <a href="https://discord.gg/g5HyXAWbfu" target="_blank">Join discord!</a>
                     </div>
                     <div>
                         <i class="bi bi-github"></i>
-                        <a href="https://github.com/konradowypl/chat" target="_blank"> View source on github </a>
+                        <a href="https://github.com/konradowypl/chat" target="_blank">View source on github</a>
                     </div>
                 </div>
             </section>
@@ -84,4 +79,3 @@
         <div id="chatSettingsOverlay" style="position: absolute"></div>
     </body>
 </html>
-;

@@ -28,6 +28,11 @@ const deleteSelected = () => {
     hideChatSelect();
 };
 
+const allSelect = () => {
+    chatsContainer.querySelectorAll("input[type=checkbox]").forEach((e) => (e.checked = true));
+};
+
+selectAll.onclick = allSelect;
 selectOpen.onclick = toggleSelect;
 selectInvert.onclick = invertSelect;
 selectDelete.onclick = deleteSelected;

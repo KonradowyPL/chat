@@ -16,6 +16,8 @@ const newChatUI = () => {
         placeholder: "Unnamed",
         maxLength: 20,
     });
+    chatName.setAttribute("aria-label", "Chat name");
+    select.setAttribute("aria-label", "Select Model");
     select.append(
         Object.assign(document.createElement("option"), {
             value: "mixtral-8x7b-instant-pro",
@@ -77,9 +79,14 @@ const newChatUI = () => {
     const g1 = document.createElement("div");
     const g2 = document.createElement("div");
 
-    g1.append(Object.assign(document.createElement("span"), { innerText: "Chat name:" }), chatName);
+    const s1 = Object.assign(document.createElement("span"), { innerText: "Chat name:" });
+    const s2 = Object.assign(document.createElement("span"), { innerText: "Model:" });
+    s1.setAttribute("aria-hidden", "true");
+    s2.setAttribute("aria-hidden", "true");
 
-    g2.append(Object.assign(document.createElement("span"), { innerText: "Model:" }), select);
+    g1.append(s1, chatName);
+    g2.append(s2, select);
+
     settings.append(
         Object.assign(document.createElement("h1"), {
             innerText: "Create new chat",
@@ -91,7 +98,4 @@ const newChatUI = () => {
     main.append(settings, textarea);
 
     textarea.focus();
-    chatName.tabIndex = 2;
-    select.tabIndex = 3;
-    textarea.tabIndex = 1;
 };
