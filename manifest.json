@@ -11,6 +11,11 @@
       "src": "./logo-light.png",
       "sizes": "412x412",
       "type": "image/png"
+    },
+    {
+      "src": "./logo-dark.png",
+      "sizes": "256x256",
+      "type": "image/png"
     }
   ]
 }
