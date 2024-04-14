@@ -369,12 +369,24 @@ option {
     box-sizing: border-box;
     background-color: transparent;
     border: none;
+    outline: none;
     padding: 0;
+
+    &:focus-within > .btn,
+    &:focus > .btn {
+        outline: white solid 1px;
+    }
+
     > .btn {
         padding: 5px;
         position: relative;
         height: 30px;
         box-sizing: border-box;
+
+        [data-state="newChat"] & {
+            background-color: var(--bg-primary);
+        }
+
         @include button(var(--bg-thirdary));
 
         > .bi-plus-lg {

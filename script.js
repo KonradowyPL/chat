@@ -46,7 +46,7 @@ navToggle.onclick = () => {
 
 // emulate clicking when focused
 document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && document?.activeElement?.nodeName != "BUTTON") {
         document?.activeElement?.click();
     }
 
@@ -58,6 +58,30 @@ document.addEventListener("keydown", function (event) {
     if (event.key === "/" && document?.activeElement == document.body) {
         document.querySelector("textarea")?.focus();
         event.preventDefault();
+    }
+    if (event.altKey && (event.keyCode == 40 || event.keyCode == 38)) {
+        let focuesd = currentChat;
+        if (document.activeElement.parentElement.parentElement == chatsContainer) {
+            focuesd = document.activeElement.getAttribute("data-id");
+        } else if (document.activeElement == newChat) {
+            focuesd = -1;
+        }
+        const currentIdx = sortedChats.indexOf(focuesd);
+        const newIdx = currentIdx + (event.keyCode == 38 ? -1 : 1);
+        console.log(newIdx);
+        if (newIdx < 0) {
+            newChat?.focus();
+            newChatUI();
+        } else {
+            const newChat = sortedChats[newIdx];
+            if (newChat) {
+                chatsContainer.querySelector(`[data-id="${newChat}"]`)?.focus();
+                setChat(newChat);
+            }
+        }
+    }
+    if (event.altKey && event.key == "=") {
+        newChatUI();
     }
 });
 

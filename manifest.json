@@ -1,21 +1,21 @@
 {
-  "name": "AIsistant",
-  "short_name": "AIsistant",
-  "description": "AIsistant is a link only free instant chat bot",
-  "theme_color": "#1d1d1d",
-  "background_color": "#1d1d1d",
-  "display": "standalone",
-  "start_url": ".",
-  "icons": [
-    {
-      "src": "./logo-light.png",
-      "sizes": "412x412",
-      "type": "image/png"
-    },
-    {
-      "src": "./mask.png",
-      "sizes": "512x512",
-      "purpose": "maskable"
-    }
-  ]
+    "name": "AIsistant",
+    "short_name": "AIsistant",
+    "description": "AIsistant is a link only free instant chat bot",
+    "theme_color": "#1d1d1d",
+    "background_color": "#1d1d1d",
+    "display": "standalone",
+    "start_url": ".",
+    "icons": [
+        {
+            "src": "./logo-light.png",
+            "sizes": "412x412",
+            "type": "image/png"
+        },
+        {
+            "src": "./mask.png",
+            "sizes": "512x512",
+            "purpose": "maskable"
+        }
+    ]
 }

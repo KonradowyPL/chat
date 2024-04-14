@@ -1,3 +1,5 @@
+var sortedChats = [];
+
 const displayChatList = () => {
     const chatEle = (chatId) => {
         const ele = document.createElement("div");
@@ -22,12 +24,13 @@ const displayChatList = () => {
     };
 
     while (chatsContainer.firstChild) chatsContainer.removeChild(chatsContainer.firstChild);
-
+    sortedChats = [];
     const groups = groupchats(chats);
     chatsContainer.append(
         ...Object.keys(groups).map((group) => {
             const ele = document.createElement("div");
             const groupChats = groups[group].sort((a, b) => chats[b].date - chats[a].date);
+            sortedChats.push(...groupChats);
             ele.append(Object.assign(document.createElement("span"), { innerText: group }), ...groupChats.map(chatEle));
             return ele;
         })

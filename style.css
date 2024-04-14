@@ -332,7 +332,11 @@ option {
   box-sizing: border-box;
   background-color: transparent;
   border: none;
+  outline: none;
   padding: 0;
+}
+#newChat:focus-within > .btn, #newChat:focus > .btn {
+  outline: white solid 1px;
 }
 #newChat > .btn {
   padding: 5px;
@@ -344,6 +348,9 @@ option {
   background-color: transparent;
   border: none;
   cursor: pointer;
+}
+[data-state=newChat] #newChat > .btn {
+  background-color: var(--bg-primary);
 }
 #newChat > .btn:hover, #newChat > .btn:focus {
   background-color: var(--bg-thirdary);
